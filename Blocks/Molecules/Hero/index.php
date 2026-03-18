@@ -5,41 +5,60 @@
  * 
  * Available variables (from Hero::getData):
  * 
- * @var string $tagline
- * @var string $heading
- * @var string $image_url
+ * @var string $subtitle
+ * @var string $image_id
  */
 
 // Guard: don't render if there's no content
-if (empty($heading) && empty($tagline)) {
-    return;
-}
+// if (empty($tagline)) {
+//     return;
+// }
 
-use TAW\Blocks\Button\Button;
+use TAW\Blocks\Atoms\Button\Button;
 use TAW\Helpers\Image;
+use TAW\Helpers\Svg;
 
 $button = new Button();
 
+$padding = ' py-20'; // default padding
+
+$gradient = 'linear-gradient(0deg,rgba(168, 168, 168, 1) 1.5384615384615385%,rgba(255, 255, 255, 1) 100%);';
+
+$image = 'style="--gradient: ' . $gradient . '; --image: none;"';
+
+
+if ($image_id) {
+
+    $image_url = '--image: url(' . Image::url((int) $image_id) . ');';
+
+    $image_width = Image::getDimension((int) $image_id)['width'] ?? 0;
+    $image_height = Image::getDimension((int) $image_id)['height'] ?? 0;
+
+    $image = $image_id ? 'style="--gradient: ' . $gradient . '; ' . $image_url . ' --image-width: ' . $image_width . 'px; --image-height: ' . $image_height . 'px;"' : '';
+
+    $padding = ' py-0';
+}
 ?>
 
-<section class="hero" <?php echo taw_editor_section('hero'); ?>>
-    <div class="section-container flex justify-center items-stretch gap-10 mx-auto max-w-360 w-[90%]">
-        <div class=" hero__content flex-1 flex flex-col justify-center">
-            <?php if ($tagline): ?>
-                <p class="hero__tagline"><?php echo taw_editable($tagline, 'hero', 'hero_tagline'); ?></p>
-            <?php endif; ?>
-            <?php if ($heading): ?>
-                <!-- <h1 class="hero__heading text-5xl"><?php echo esc_html($heading); ?></h1> -->
-                <h1 class="hero__heading text-5xl"><?php echo taw_editable($heading, 'hero', 'hero_heading'); ?></h1>
-            <?php endif; ?>
+<section class="ch-hero flex items-center<?php echo $padding; ?><?php echo $image_id ? ' overlay-image' : ''; ?>" <?php echo taw_editor_section('hero'); ?><?php echo $image; ?>>
+    <div class="section-container--sm">
+        <div class="hero__content">
+
+            <p class="hero__tagline">En</p>
+            <div class="logo">
+                <?php // echo Svg::inline() 
+                ?>
+                <?php echo file_get_contents(get_template_directory() . '/resources/static/svg/ch-logo.svg') ?>
+            </div>
+            <p class="text-lg my-5">Convertimos las ideas de nuestros clientes<br /> en<strong> oportunidades de negocio.</strong></p>
             <div class="flex items-center justify-start mt-2 gap-2">
-                <?php $button->render(['text' => __('Get Started', 'taw-theme'), 'url' => '/contact']); ?>
-                <?php $button->render(['text' => __('Learn More', 'taw-theme'), 'url' => '/about', 'variant' => 'secondary']); ?>
+                <?php $button->render(['text' => __('¡Contáctanos!', 'taw-theme'), 'url' => '/contacto']); ?>
             </div>
         </div>
-        <?php if ($image_url): ?>
+
+        <?php /* if ($image_url): ?>
             <div class="image w-full max-w-200">
-                <?php echo Image::render((int) $image_url, 'full', 'Hero banner', [
+                <?php echo Image::render((int) $image_id, 'full', 'Hero banner', [
                     'above_fold' => true,
                     'sizes'      => '100vw',
                     'class'      => 'hero-image w-full',
@@ -49,6 +68,6 @@ $button = new Button();
                     ),
                 ]); ?>
             </div>
-        <?php endif; ?>
+        <?php endif; */ ?>
     </div>
 </section>

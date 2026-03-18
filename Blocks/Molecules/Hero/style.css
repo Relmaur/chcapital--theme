@@ -1,9 +1,48 @@
-/* main:has(.hero) {
-  background-color: black;
-} */
+.ch-hero {
+  --vertical-offset: 170px;
+  --container-width: var(--max-container-width-sm);
 
-/* main {
-  img {
-    width: 100%;
+  min-height: var(--image-height);
+
+  &:not(.overlay-image) {
+    background-image: var(--gradient);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
   }
-} */
+
+  &.overlay-image {
+    background-image: var(--image), var(--gradient);
+    background-size:
+      auto 90%,
+      auto;
+    background-position:
+      right max(calc((100vw - var(--container-width)) / 2), 5%) top 50%,
+      0% 0%;
+    background-repeat: no-repeat, repeat;
+    background-attachment: scroll, scroll;
+    background-blend-mode: normal, normal;
+  }
+
+  .hero__content {
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    &.overlay-image {
+      background-position:
+        right 50% top calc(var(--image-height) - var(--vertical-offset) * 0.35),
+        0% 0%;
+      background-size:
+        auto 60%,
+        auto;
+    }
+
+    .hero__content {
+      margin-top: calc(var(--vertical-offset) * -1.1);
+    }
+
+    min-height: calc(var(--image-height) + var(--vertical-offset));
+  }
+}

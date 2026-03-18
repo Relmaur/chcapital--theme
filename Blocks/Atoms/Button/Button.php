@@ -1,6 +1,6 @@
 <?php
 
-namespace TAW\Blocks\Button;
+namespace TAW\Blocks\Atoms\Button;
 
 use TAW\Core\Block;
 

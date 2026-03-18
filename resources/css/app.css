@@ -2,3 +2,48 @@
 
 /* Scan all theme PHP files for Tailwind class names */
 @source "../../**/*.php";
+
+/* Brand Theme */
+:root {
+  --color-primary: #004a98;
+  --color-secondary: #003d7d;
+  --color-accent: #10b981;
+  --color-background: #ffffff;
+  --color-text: #111111;
+
+  --max-container-width: 1440px;
+  --max-container-width-sm: 1280px;
+}
+
+/* Extending Tailwind's default theme */
+@layer utilities {
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-secondary {
+    color: var(--color-secondary);
+  }
+  .text-accent {
+    color: var(--color-accent);
+  }
+  .section-container {
+    @apply max-w-[var(--max-container-width)] mx-auto w-[90%];
+  }
+  .section-container--sm {
+    @apply max-w-[var(--max-container-width-sm)] mx-auto w-[95%];
+  }
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+}

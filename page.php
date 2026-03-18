@@ -12,12 +12,11 @@
 
 use TAW\Core\BlockRegistry;
 
-BlockRegistry::queue('hero', 'pricing_table');
+BlockRegistry::queue('hero');
 
 get_header();
 ?>
 
 <?php BlockRegistry::render('hero'); ?>
-<?php BlockRegistry::render('pricing_table'); ?>
 
 <?php get_footer();
