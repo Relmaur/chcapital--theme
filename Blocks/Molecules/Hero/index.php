@@ -17,6 +17,8 @@
 use TAW\Blocks\Atoms\Button\Button;
 use TAW\Helpers\Image;
 use TAW\Helpers\Svg;
+use TAW\Support\Performance;
+
 
 $button = new Button();
 
@@ -26,10 +28,15 @@ $gradient = 'linear-gradient(0deg,rgba(168, 168, 168, 1) 1.5384615384615385%,rgb
 
 $image = 'style="--gradient: ' . $gradient . '; --image: none;"';
 
+Performance::preloadImage($image_id, 'full');
 
 if ($image_id) {
 
-    $image_url = '--image: url(' . Image::url((int) $image_id) . ');';
+    $image_url = '--image: url(' . Image::background((int) $image_id, 'full', [
+        'url_only' => true,
+    ]) . ');';
+
+    dump($image_url); // Testing
 
     $image_width = Image::getDimension((int) $image_id)['width'] ?? 0;
     $image_height = Image::getDimension((int) $image_id)['height'] ?? 0;

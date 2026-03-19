@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TAW\Blocks\Molecules\Hero;
 
-use TAW\Core\MetaBlock;
+use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;
 
 class Hero extends MetaBlock
@@ -49,12 +49,12 @@ class Hero extends MetaBlock
 
     protected function getData(int $postId): array
     {
-        $image_url = $this->getMeta($postId, 'hero_image_url') ? $this->getMeta($postId, 'hero_image_url') : '';
+        $image_id = $this->getMeta($postId, 'hero_image_url') ? $this->getMeta($postId, 'hero_image_url') : '';
 
         return [
             'heading' => $this->getMeta($postId, 'hero_heading'),
             'tagline' => $this->getMeta($postId, 'hero_tagline'),
-            'image_id' => $image_url
+            'image_id' => $image_id
         ];
     }
 }
