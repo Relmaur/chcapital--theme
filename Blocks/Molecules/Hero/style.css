@@ -1,6 +1,6 @@
 .ch-hero {
   --vertical-offset: 170px;
-  --container-width: var(--max-container-width-sm);
+  --container-width: var(--max-container-width-xs);
 
   min-height: var(--image-height);
 

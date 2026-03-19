@@ -48,7 +48,7 @@ if ($image_id) {
 ?>
 
 <section class="ch-hero flex items-center<?php echo $padding; ?><?php echo $image_id ? ' overlay-image' : ''; ?>" <?php echo taw_editor_section('hero'); ?><?php echo $image; ?>>
-    <div class="section-container--sm">
+    <div class="section-container--xs">
         <div class="hero__content">
 
             <p class="hero__tagline">En</p>

@@ -13,6 +13,7 @@
 
   --max-container-width: 1440px;
   --max-container-width-sm: 1280px;
+  --max-container-width-xs: 1024px;
 }
 
 /* Extending Tailwind's default theme */
@@ -40,6 +41,9 @@
   }
   .section-container--sm {
     @apply max-w-[var(--max-container-width-sm)] mx-auto w-[95%];
+  }
+  .section-container--xs {
+    @apply max-w-[var(--max-container-width-xs)] mx-auto w-[95%];
   }
 }
 
