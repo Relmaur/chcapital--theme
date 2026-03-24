@@ -36,7 +36,7 @@
 
 // === Body Defaults ===
 body {
-    font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
     color: #1a1a1a;
     // Prevent horizontal scroll (common CLS cause)
@@ -46,15 +46,78 @@ body {
 // === Header Shell ===
 // Just the layout structure — enough to reserve the right amount
 // of vertical space so content below doesn't shift.
-.site-header {
-    // Add your header layout here: height, padding, flexbox, etc.
+.menu {
+    display: flex;
+    flex-direction: column;
+
+    .logo svg {
+        max-width: 150px;
+    }
+
+    .logo svg path {
+        fill: var(--color-white);
+    }
 }
 
 // === Hero Section Shell ===
 // Reserve the hero's vertical space to prevent CLS.
 // Actual decorative styles (gradients, shadows) go in app.scss.
-.hero {
-    // Add your hero layout: min-height, padding, grid/flex structure
+.ch-hero {
+    --vertical-offset: 170px;
+    --container-width: var(--max-container-width-sm);
+
+    // min-height: var(--image-height);
+
+    &:not(.overlay-image) {
+        background-image: var(--gradient);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+    }
+
+    &.overlay-image {
+        background-image: var(--image), var(--gradient);
+        background-size:
+            auto 70%,
+            auto;
+        background-position:
+            right max(calc((100vw - var(--container-width)) / 2), 5%) top 50%,
+            0% 0%;
+        background-repeat: no-repeat, repeat;
+        background-attachment: scroll, scroll;
+        background-blend-mode: normal, normal;
+    }
+
+    .hero__content {
+        position: relative;
+    }
+
+    .hero__content svg {
+        width: 100%;
+        height: auto;
+    }
+
+    @media (max-width: 768px) {
+        &.overlay-image {
+            // background-position:
+            //   right 50% top calc(var(--image-height) * 1.55 - var(--vertical-offset)),
+            //   0% 0%;
+            background-position:
+                right 50% top calc(100% + var(--vertical-offset) * 0.65),
+                0% 0%;
+            background-size:
+                auto 50%,
+                auto;
+        }
+
+        .hero__content {
+            margin-top: calc(var(--vertical-offset) * -1.25);
+        }
+
+        // min-height: calc(var(--image-height) + var(--vertical-offset) * 1.25);
+        min-height: 90vh;
+    }
 }
 
 // === Utility: Screen Reader Text ===
@@ -70,3 +133,6 @@ body {
     word-wrap: normal !important;
 }
 
+[x-cloak] {
+    display: none !important;
+}

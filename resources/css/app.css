@@ -40,10 +40,10 @@
     @apply max-w-[var(--max-container-width)] mx-auto w-[90%];
   }
   .section-container--sm {
-    @apply max-w-[var(--max-container-width-sm)] mx-auto w-[95%];
+    @apply max-w-[var(--max-container-width-sm)] mx-auto w-[90%];
   }
   .section-container--xs {
-    @apply max-w-[var(--max-container-width-xs)] mx-auto w-[95%];
+    @apply max-w-[var(--max-container-width-xs)] mx-auto w-[90%];
   }
 }
 

@@ -1,5 +1,96 @@
 @use 'fonts';
 
 html {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+// Gutenberg block content typography & spacing
+.entry-content {
+    >*+* {
+        margin-top: 1em;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    h3 {
+        font-size: 1.375rem;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+    }
+
+    p,
+    li {
+        line-height: 1.75;
+        color: #374151;
+    }
+
+    a {
+        color: #2563eb;
+        text-decoration: underline;
+    }
+
+    ul {
+        list-style: disc;
+        padding-left: 1.5rem;
+    }
+
+    ol {
+        list-style: decimal;
+        padding-left: 1.5rem;
+    }
+
+    strong {
+        font-weight: 600;
+    }
+
+    blockquote {
+        border-left: 4px solid #e5e7eb;
+        padding-left: 1.25rem;
+        font-style: italic;
+        color: #6b7280;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+    }
+
+    figure {
+        margin: 0;
+    }
+
+    figcaption {
+        text-align: center;
+        font-size: 0.875rem;
+        color: #9ca3af;
+        margin-top: 0.5rem;
+    }
+
+    // Wide / full-width Gutenberg blocks break out of the prose column
+    .alignwide {
+        margin-left: calc(50% - 50vw + 5%);
+        margin-right: calc(50% - 50vw + 5%);
+        max-width: none;
+    }
+
+    .alignfull {
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        max-width: 100vw;
+        width: 100vw;
+    }
 }

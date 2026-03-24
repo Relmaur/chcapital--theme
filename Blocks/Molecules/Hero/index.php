@@ -28,7 +28,7 @@ $gradient = 'linear-gradient(0deg,rgba(168, 168, 168, 1) 1.5384615384615385%,rgb
 
 $image = 'style="--gradient: ' . $gradient . '; --image: none;"';
 
-Performance::preloadImage($image_id, 'full');
+Performance::preloadImage((int) $image_id, 'full');
 
 if ($image_id) {
 
@@ -36,7 +36,7 @@ if ($image_id) {
         'url_only' => true,
     ]) . ');';
 
-    dump($image_url); // Testing
+    // dump($image_url); // Testing
 
     $image_width = Image::getDimension((int) $image_id)['width'] ?? 0;
     $image_height = Image::getDimension((int) $image_id)['height'] ?? 0;
@@ -47,18 +47,16 @@ if ($image_id) {
 }
 ?>
 
-<section class="ch-hero flex items-center<?php echo $padding; ?><?php echo $image_id ? ' overlay-image' : ''; ?>" <?php echo taw_editor_section('hero'); ?><?php echo $image; ?>>
-    <div class="section-container--xs">
+<section class="ch-hero xl:min-h-150 flex items-center<?php echo $padding; ?><?php echo $image_id ? ' overlay-image' : ''; ?> pt-30 sm:pt-10 pb-20 sm:pb-15 border-b-3 border-b-primary" <?php echo taw_editor_section('hero'); ?><?php echo $image; ?>>
+    <div class="section-container--sm">
         <div class="hero__content">
 
-            <p class="hero__tagline">En</p>
-            <div class="logo">
-                <?php // echo Svg::inline() 
-                ?>
+            <p class="hero__tagline text-2xl text-primary text-center sm:text-left">En</p>
+            <div class="logo max-w-120 mt-4">
                 <?php echo file_get_contents(get_template_directory() . '/resources/static/svg/ch-logo.svg') ?>
             </div>
-            <p class="text-lg my-5">Convertimos las ideas de nuestros clientes<br /> en<strong> oportunidades de negocio.</strong></p>
-            <div class="flex items-center justify-start mt-2 gap-2">
+            <p class="my-5 text-2xl text-primary max-w-150 text-center sm:text-left">Convertimos las ideas de nuestros clientes en<strong> oportunidades de negocio.</strong></p>
+            <div class="flex items-center justify-center sm:justify-start mt-2 gap-2">
                 <?php $button->render(['text' => __('¡Contáctanos!', 'taw-theme'), 'url' => '/contacto']); ?>
             </div>
         </div>

@@ -23,8 +23,8 @@ Theme::performance(
             'https://fonts.gstatic.com',
         ],
         'preload_fonts'      => [
-            'resources/fonts/Roboto-Regular.woff2',
-            'resources/fonts/Roboto-Bold.woff2',
+            'resources/fonts/Montserrat-Regular.woff2',
+            'resources/fonts/Montserrat-Bold.woff2',
         ],
         'preconnect_origins' => [],
         'preload_fonts'      => [],
@@ -37,6 +37,30 @@ Theme::performance(
 );
 
 /**
+ * Route all posts under /blog/.
+ *
+ * /blog/          → home.php         (WordPress handles this natively via page_for_posts)
+ * /blog/page/N/   → home.php         (WordPress handles pagination natively)
+ * /blog/{slug}/   → single-post.php  (our custom rule — WP doesn't know about this prefix)
+ */
+add_action('init', function () {
+    add_rewrite_rule('^blog/([^/]+)/?$', 'index.php?name=$matches[1]', 'top');
+});
+
+add_filter('post_link', function (string $_permalink, WP_Post $post): string {
+    return home_url('/blog/' . $post->post_name . '/');
+}, 10, 2);
+
+// WordPress's redirect_canonical() can misfire on the posts page and redirect
+// to / when get_permalink(page_for_posts) doesn't resolve as expected.
+add_filter('redirect_canonical', function (?string $redirect_url): ?string {
+    if (is_home() && ! is_front_page()) {
+        return null;
+    }
+    return $redirect_url;
+});
+
+/**
  * Customize here:
  */
 add_action('admin_init', function () {
@@ -45,6 +69,7 @@ add_action('admin_init', function () {
 
 add_action('after_setup_theme', function () {
     add_theme_support('title-tag');
+    add_theme_support('align-wide');
     add_theme_support('post-thumbnails');
     add_theme_support('html5', [
         'search-form',

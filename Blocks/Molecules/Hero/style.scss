@@ -1,8 +1,8 @@
 .ch-hero {
   --vertical-offset: 170px;
-  --container-width: var(--max-container-width-xs);
+  --container-width: var(--max-container-width-sm);
 
-  min-height: var(--image-height);
+  // min-height: var(--image-height);
 
   &:not(.overlay-image) {
     background-image: var(--gradient);
@@ -15,7 +15,7 @@
   &.overlay-image {
     background-image: var(--image), var(--gradient);
     background-size:
-      auto 90%,
+      auto 70%,
       auto;
     background-position:
       right max(calc((100vw - var(--container-width)) / 2), 5%) top 50%,
@@ -29,20 +29,29 @@
     position: relative;
   }
 
+  .hero__content svg {
+    width: 100%;
+    height: auto;
+  }
+
   @media (max-width: 768px) {
     &.overlay-image {
+      // background-position:
+      //   right 50% top calc(var(--image-height) * 1.55 - var(--vertical-offset)),
+      //   0% 0%;
       background-position:
-        right 50% top calc(var(--image-height) - var(--vertical-offset) * 0.35),
+        right 50% top calc(100% + var(--vertical-offset) * 0.65),
         0% 0%;
       background-size:
-        auto 60%,
+        auto 50%,
         auto;
     }
 
     .hero__content {
-      margin-top: calc(var(--vertical-offset) * -1.1);
+      margin-top: calc(var(--vertical-offset) * -1.25);
     }
 
-    min-height: calc(var(--image-height) + var(--vertical-offset));
+    // min-height: calc(var(--image-height) + var(--vertical-offset) * 1.25);
+    min-height: 90vh;
   }
 }
