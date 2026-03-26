@@ -122,7 +122,7 @@
                 class="search-overlay__empty">No se encontraron resultados para "<span x-text="query"></span>".</p>
         </div>
     </div>
-    
+
     <div class="nav__bottom py-4 bg-secondary flex-1">
         <div class="section-container--sm flex gap-4 items-center justify-center sm:justify-between flex-wrap">
             <?php
@@ -138,7 +138,7 @@
                         ?>
                             <?php $icon = get_post_meta($item->wpPost()->ID, '_taw_menu_item_icon', true); ?>
                             <div class="relative group" <?php if ($item->hasChildren()): ?>x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" <?php endif; ?>>
-                                <a href="<?php echo esc_url($item->url()); ?>" class="menu__item flex items-center gap-1.5 text-white transition-colors text-xs uppercase <?php echo $item->isInActiveTrail() ? 'opacity-100' : 'opacity-85 hover:opacity-100'; ?>">
+                                <a href="<?php echo esc_url($item->url()); ?>" class="menu__item flex items-center gap-1.5 text-white transition-colors text-xs uppercase <?php echo $item->isInActiveTrail() ? 'opacity-100 font-semibold' : 'opacity-85 hover:opacity-100'; ?>">
                                     <?php if ($icon): ?>
                                         <span class="menu__item-icon text-primary w-5"><?php echo $icon; ?></span>
                                     <?php endif; ?>
@@ -155,7 +155,7 @@
                                             <?php foreach ($item->children() as $child): ?>
                                                 <?php $child_icon = get_post_meta($child->wpPost()->ID, '_taw_menu_item_icon', true); ?>
                                                 <a href="<?php echo esc_url($child->url()); ?>"
-                                                    class="menu__item flex items-center gap-2 p-2 border-sm text-sm text-gray-700 hover:bg-gray-100">
+                                                    class="menu__item flex items-center gap-2 p-2 border-sm text-sm text-gray-700 hover:bg-gray-100 <?php echo $child->isInActiveTrail() ? 'bg-gray-100' : ''; ?>">
                                                     <?php if ($child_icon): ?>
                                                         <span class="menu__item-icon text-primary w-5"><?php echo $child_icon; ?></span>
                                                     <?php endif; ?>

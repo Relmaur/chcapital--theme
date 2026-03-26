@@ -1,4 +1,5 @@
 <?php
+
 /**
  * archive.php — Template for date/category/tag/author archives.
  */
@@ -9,7 +10,10 @@ get_header();
 <div class="mx-auto max-w-360 w-[90%] py-16">
 
     <header class="mb-12">
-        <h1 class="text-4xl font-bold"><?php the_archive_title(); ?></h1>
+        <h1 class="text-4xl font-bold">
+            Categoría:
+            <span class="text-primary"><?php single_cat_title(); ?></span>
+        </h1>
         <?php the_archive_description('<p class="mt-3 text-gray-500">', '</p>'); ?>
     </header>
 
@@ -29,11 +33,11 @@ get_header();
                     <div class="p-6 flex flex-col flex-1">
                         <p class="text-xs text-gray-400 uppercase tracking-wide mb-2"><?php echo esc_html(get_the_date()); ?></p>
                         <h2 class="text-lg font-semibold leading-snug flex-1">
-                            <a href="<?php the_permalink(); ?>" class="hover:text-blue-600 transition-colors">
+                            <a href="<?php the_permalink(); ?>" class="hover:text-primary transition-colors">
                                 <?php the_title(); ?>
                             </a>
                         </h2>
-                        <p class="mt-3 text-sm text-gray-500 line-clamp-3"><?php the_excerpt(); ?></p>
+                        <p class="mt-3 text-sm text-gray-500 line-clamp-3"><?php echo wp_trim_words(get_the_excerpt(), 40, '...'); ?></p>
                     </div>
 
                 </article>

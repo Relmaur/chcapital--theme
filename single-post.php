@@ -47,19 +47,25 @@ get_header();
         <header class="mb-7">
 
             <?php if ($categories) : ?>
-                <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-blue-600">
+                <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-primary inline-block p-1 bg-primary/10 rounded w-fit">
                     <?php echo esc_html($categories[0]->name); ?>
                 </p>
             <?php endif; ?>
 
-            <h1 class="text-4xl md:text-5xl font-semibold leading-tight w-full">
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight w-full">
                 <?php the_title(); ?>
             </h1>
 
-            <p class="mt-4 text-sm text-gray-500">
-                <?php echo esc_html(get_the_date()); ?>
+            <p class="mt-6 text-sm text-gray-500 flex items-center gap-2">
+                <span class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+                        <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
+                    </svg>
+                    <?php echo esc_html(get_the_date()); ?>
+                </span>
                 &middot;
-                <?php the_author(); ?>
+                <span class="font-semibold"><?php the_author(); ?></span>
             </p>
 
         </header>
@@ -88,12 +94,7 @@ get_header();
             <?php the_content(); ?>
         </div>
 
-        <footer class="mt-12 pt-8 border-t border-gray-100">
-
-            <?php (new TAW\Blocks\Atoms\SocialMediaShare\SocialMediaShare())->render([
-                'article_url' => get_permalink(),
-                'post_id'     => get_the_ID(),
-            ]); ?>
+        <footer class="mt-8 pt-8 border-t border-gray-100">
 
             <?php
             $tags = get_the_tags($post_id);
@@ -101,7 +102,7 @@ get_header();
                 <div class="flex flex-wrap gap-2 mb-6">
                     <?php foreach ($categories as $cat) : ?>
                         <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"
-                            class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-semibold bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors no-underline">
+                            class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 transition-colors no-underline">
                             <?php echo esc_html($cat->name); ?>
                         </a>
                     <?php endforeach; ?>
@@ -114,6 +115,11 @@ get_header();
                     endif; ?>
                 </div>
             <?php endif; ?>
+
+            <?php (new TAW\Blocks\Atoms\SocialMediaShare\SocialMediaShare())->render([
+                'article_url' => get_permalink(),
+                'post_id'     => get_the_ID(),
+            ]); ?>
 
             <nav class="flex justify-between mt-6 text-sm font-medium">
                 <span><?php previous_post_link('%link', '&larr; %title'); ?></span>
@@ -144,7 +150,7 @@ get_header();
                         </div>
                     <?php endif; ?>
                     <p class="text-xs text-gray-400"><?php echo esc_html(get_the_date()); ?></p>
-                    <p class="text-sm font-semibold leading-snug text-gray-800 group-hover:text-blue-600 transition-colors">
+                    <p class="text-sm font-semibold leading-snug text-gray-800 group-hover:text-primary transition-colors">
                         <?php the_title(); ?>
                     </p>
                 </a>

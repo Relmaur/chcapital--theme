@@ -35,7 +35,7 @@ get_header();
 <div class="section-container--sm py-16">
 
     <header class="mb-12">
-        <h1 class="text-4xl font-semibold">Artículos y Perspectivas.</h1>
+        <h1 class="text-4xl font-bold">Artículos y Perspectivas.</h1>
         <p class="mt-3 text-xl">Conocimiento financiero para fundamentar cada decisión.</p>
     </header>
 
@@ -55,7 +55,7 @@ get_header();
                     <div class="overflow-hidden">
                         <?php echo Image::render($hero_thumb_id, 'large', get_the_title(), [
                             'above_fold' => true,
-                            'class'      => 'w-full h-72 aspect-640/480 md:h-full object-cover transition-transform group-hover:scale-105',
+                            'class'      => 'w-full h-72 aspect-640/380 md:h-full object-cover transition-transform group-hover:scale-105',
                             'sizes'      => '(max-width: 768px) 90vw, 50vw',
                         ]); ?>
                     </div>
@@ -63,7 +63,7 @@ get_header();
 
                 <div class="flex flex-col justify-center p-8 md:p-12">
                     <?php if ($hero_cats) : ?>
-                        <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">
+                        <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-primary inline-block p-1 bg-primary/10 rounded w-fit">
                             <?php echo esc_html($hero_cats[0]->name); ?>
                         </p>
                     <?php endif; ?>
@@ -111,7 +111,7 @@ get_header();
                         <div class="flex flex-col flex-1 p-6">
 
                             <?php if ($cats) : ?>
-                                <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-accent">
+                                <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-primary inline-block p-1 bg-primary/10 rounded w-fit">
                                     <?php echo esc_html($cats[0]->name); ?>
                                 </p>
                             <?php endif; ?>

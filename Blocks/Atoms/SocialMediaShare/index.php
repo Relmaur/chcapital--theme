@@ -7,6 +7,9 @@
  * @var int $post_id
  */
 
+$share_url   = urlencode($article_url);
+$share_title = urlencode(get_the_title($post_id));
+
 $share_links = [
     [
         'label' => __('Copiar enlace', 'taw-theme'),
@@ -50,7 +53,7 @@ $share_links = [
     ?>
         <<?php echo $tag; ?> <?php echo $href; ?> <?php echo $link['attrs']; ?>
             title="<?php echo esc_attr($link['label']); ?>"
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-medium text-gray-600 hover:border-blue-300 hover:text-blue-700 hover:bg-blue-50 transition-all no-underline cursor-pointer">
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-xs font-medium text-gray-600 hover:border-blue-300 hover:text-primary hover:bg-blue-50 transition-all no-underline cursor-pointer">
             <?php echo $link['icon']; ?>
             <span><?php echo esc_html($link['label']); ?></span>
         </<?php echo $tag; ?>>
