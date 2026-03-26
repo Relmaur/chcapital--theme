@@ -70,6 +70,38 @@
                 <div x-show="loading" class="search-overlay__spinner" aria-hidden="true"></div>
             </div>
 
+            <!-- Suggested pages -->
+            <?php
+            $suggested_query = new WP_Query([
+                'post_type'      => 'page',
+                'post_status'    => 'publish',
+                'posts_per_page' => 3,
+                'orderby'        => 'rand',
+            ]);
+            $suggested_pages = array_map(fn($p) => [
+                'url'   => get_permalink($p->ID),
+                'title' => $p->post_title,
+            ], $suggested_query->posts);
+            wp_reset_postdata();
+            ?>
+            <?php if (!empty($suggested_pages)): ?>
+            <div class="search-overlay__suggested" x-show="!query.trim()">
+                <p class="search-overlay__suggested-label">Tal vez te interese</p>
+                <ul class="search-overlay__suggested-list">
+                    <?php foreach ($suggested_pages as $page): ?>
+                        <li>
+                            <a href="<?php echo esc_url($page['url']); ?>" class="search-overlay__result-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="search-overlay__suggested-icon">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                </svg>
+                                <span class="search-overlay__result-title"><?php echo esc_html($page['title']); ?></span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
+
             <!-- Results -->
             <ul x-show="results.length > 0" class="search-overlay__results">
                 <template x-for="result in results" :key="result.id">

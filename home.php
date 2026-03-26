@@ -73,7 +73,7 @@ get_header();
                     </h2>
 
                     <p class="mt-4 text-sm text-gray-500 line-clamp-3">
-                        <?php the_excerpt(); ?>
+                        <?php echo esc_html(wp_trim_words(get_the_excerpt(), 28, '...')); ?>
                     </p>
 
                     <p class="mt-6 text-xs text-gray-400">
@@ -123,7 +123,7 @@ get_header();
                             </h2>
 
                             <p class="mt-3 text-sm text-gray-500 line-clamp-2">
-                                <?php the_excerpt(); ?>
+                                <?php echo esc_html(wp_trim_words(get_the_excerpt(), 18, '...')); ?>
                             </p>
 
                             <p class="mt-4 text-xs text-gray-400">

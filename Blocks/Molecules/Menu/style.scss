@@ -388,6 +388,33 @@
 
 /* ── Search Overlay ─────────────────────────────────────────── */
 
+.search-overlay__suggested {
+    border-top: 1px solid #e5e7eb;
+    padding: 0.75rem 0 0.25rem;
+}
+
+.search-overlay__suggested-label {
+    padding: 0 1.5rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.search-overlay__suggested-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.search-overlay__suggested-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+    color: var(--color-primary, #2563eb);
+}
+
 .search-overlay__empty {
     padding: 1.25rem 1.5rem;
     font-size: 0.9375rem;
