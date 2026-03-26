@@ -4,7 +4,7 @@
 use TAW\Core\Block\BlockRegistry;
 
 // 1. Declare which blocks this page needs (BEFORE get_header)
-BlockRegistry::queue('hero', 'changing_numbers');
+BlockRegistry::queue('hero', 'changing_numbers', 'legales', 'link_list--financiera', 'link_list--fideicomisos');
 
 // Example
 // BlockRegistry::queue('hero', 'stats', 'testimonials', 'cta');
@@ -35,13 +35,17 @@ get_header();
     </div>
 </section>
 
-<?php BlockRegistry::render('changing_numbers'); ?>
+<?php
 
-<section class="ch-section">
-    <div class="section-container--sm">
-        <h2 class="section-title left-[50%] translate-x-[-50%]">Legales</h2>
-        <?php (new TAW\Blocks\Molecules\Legales\Legales())->render(); ?>
-    </div>
-</section>
+BlockRegistry::render('link_list--financiera');
+
+BlockRegistry::render('link_list--fideicomisos');
+
+BlockRegistry::render('changing_numbers');
+
+BlockRegistry::render('legales');
+
+
+?>
 
 <?php get_footer(); ?>

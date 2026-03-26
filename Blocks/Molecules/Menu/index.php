@@ -44,8 +44,9 @@
         role="dialog"
         aria-modal="true"
         aria-label="Search"
+        style="display:none"
         x-cloak>
-        <div class="search-overlay__panel">
+        <div class="search-overlay__panel" x-show="open" x-cloak>
             <div class="search-overlay__header">
                 <label for="taw-search-input" class="search-overlay__label">¿Qué estás buscando?</label>
                 <button class="search-overlay__close" @click="closeSearch()" aria-label="Cerrar búsqueda">

@@ -15,13 +15,18 @@ class TwoColumns extends MetaBlock
     {
         new Metabox([
             'id'     => 'taw_two_columns',
-            'title'  => __( 'TwoColumns Section', 'taw-theme' ),
+            'title'  => __('TwoColumns Section', 'taw-theme'),
             'screen' => 'page',
             'fields' => [
                 [
                     'id'    => 'two_columns_heading',
-                    'label' => __( 'Heading', 'taw-theme' ),
+                    'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
+                ],
+                [
+                    'id'    => 'two_columns_content',
+                    'label' => __('Content', 'taw-theme'),
+                    'type'  => 'textarea',
                 ],
             ],
         ]);
@@ -31,6 +36,7 @@ class TwoColumns extends MetaBlock
     {
         return [
             'heading' => $this->getMeta($postId, 'two_columns_heading'),
+            'content' => $this->getMeta($postId, 'two_columns_content'),
         ];
     }
 }

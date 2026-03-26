@@ -13,7 +13,14 @@ class Link extends Block
     protected function defaults(): array
     {
         return [
-            'text' => '',
+            'type' => 'default',
+            'link' => [
+                'url' => '',
+                'text' => '',
+                'target' => '_self',
+                'icon' => '',
+                'blurb_background' => '',
+            ],
         ];
     }
 }
