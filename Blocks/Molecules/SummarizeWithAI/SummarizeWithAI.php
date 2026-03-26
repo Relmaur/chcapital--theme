@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TAW\Blocks\Atoms\SummarizeWithAI;
+namespace TAW\Blocks\Molecules\SummarizeWithAI;
 
 use TAW\Core\Block\Block;
 

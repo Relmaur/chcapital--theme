@@ -26,7 +26,7 @@ $footerText    = OptionsPage::get('footer_text') ?: __('Todos los derechos reser
                     <?php echo file_get_contents(get_template_directory() . '/resources/static/svg/ch-logo.svg'); ?>
                 </a>
 
-                <?php echo (new TAW\Blocks\Atoms\SocialMedia\SocialMedia())->render(); ?>
+                <?php echo (new TAW\Blocks\Molecules\SocialMedia\SocialMedia())->render(); ?>
 
                 <?php if ($companyAddr) : ?>
                     <div class="footer-brand__address text-white/70 text-sm leading-relaxed">

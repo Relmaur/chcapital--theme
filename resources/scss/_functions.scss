@@ -1,0 +1,30 @@
+@use 'sass:math';
+
+// fluid($min, $min-vw, $max-vw, $max, $base)
+//
+// Returns a CSS clamp() that scales linearly between $min rem and $max rem
+// across the viewport range [$min-vw px … $max-vw px].
+//
+// Usage:
+//   font-size: fluid(1, 320, 1920, 4);
+//   padding:   fluid(1.5, 320, 1440, 3);
+//
+// Arguments:
+//   $min     — minimum value in rem
+//   $min-vw  — viewport width (px) at which $min applies
+//   $max-vw  — viewport width (px) at which $max applies
+//   $max     — maximum value in rem
+//   $base    — root font-size assumption in px (default 16)
+
+@function fluid($min, $min-vw, $max-vw, $max, $base: 16) {
+    $min-vw-rem: math.div($min-vw, $base);
+    $max-vw-rem: math.div($max-vw, $base);
+
+    // rise over run: how many rem per 1rem of viewport width
+    $slope: math.div($max - $min, $max-vw-rem - $min-vw-rem);
+
+    // y-intercept in rem (value when viewport = 0)
+    $intercept: $min - $slope * $min-vw-rem;
+
+    @return clamp(#{$min}rem, #{$intercept}rem + #{$slope * 100}vw, #{$max}rem);
+}

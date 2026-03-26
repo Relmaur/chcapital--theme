@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TAW\Blocks\Molecules\Hero;
+namespace TAW\Blocks\Sections\Hero;
 
 use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;

@@ -14,6 +14,8 @@
   --max-container-width: 1440px;
   --max-container-width-sm: 1280px;
   --max-container-width-xs: 1024px;
+
+  --image-shadow: 5px 5px 0 0 var(--color-primary);
 }
 
 /* Extending Tailwind's default theme */
@@ -45,10 +47,13 @@
   .section-container--xs {
     @apply max-w-[var(--max-container-width-xs)] mx-auto w-[90%];
   }
+
+  .section-title {
+    @apply relative inline-block text-4xl w-fit font-semibold mb-10 before:content-[''] before:block before:w-12 before:h-1 before:bg-primary before:absolute before:-bottom-2 before:left-0;
+  }
 }
 
 @theme {
-
   --breakpoint-menu: 1180px;
 
   --color-primary: var(--color-primary);

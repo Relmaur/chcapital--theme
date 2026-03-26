@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TAW\Blocks\Atoms\SocialMedia;
+namespace TAW\Blocks\Molecules\SocialMedia;
 
 use TAW\Core\Block\Block;
 use TAW\Core\OptionsPage\OptionsPage;

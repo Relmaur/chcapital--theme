@@ -3,9 +3,9 @@
 use TAW\Core\OptionsPage\OptionsPage;
 
 new OptionsPage([
-    'id'         => 'taw_settings',
-    'title'      => __('TAW Settings', 'taw-theme'),
-    'menu_title' => __('TAW Settings', 'taw-theme'),
+    'id'         => 'theme_settings',
+    'title'      => __('Theme Settings', 'taw-theme'),
+    'menu_title' => __('Theme Settings', 'taw-theme'),
     'icon'       => 'dashicons-screenoptions',
     'position'   => 2,
     'fields'     => [

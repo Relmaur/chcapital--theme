@@ -31,7 +31,7 @@ use TAW\Blocks\Molecules\Menu\Menu;
         <?php (new Menu())->render(); ?>
 
         <div class="social-media absolute top-[calc(100%+0.75rem)] right-3 w-auto p-2 bg-white rounded shadow-lg opacity-25 hover:opacity-100 transition-opacity border border-gray-100">
-            <?php echo (new TAW\Blocks\Atoms\SocialMedia\SocialMedia())->render([
+            <?php echo (new TAW\Blocks\Molecules\SocialMedia\SocialMedia())->render([
                 'icon_color' => 'text-primary',
             ]); ?>
         </div>

@@ -70,7 +70,7 @@ get_header();
 
         </header>
 
-        <?php (new TAW\Blocks\Atoms\SocialMediaShare\SocialMediaShare())->render([
+        <?php (new TAW\Blocks\Molecules\SocialMediaShare\SocialMediaShare())->render([
             'article_url' => get_permalink(),
             'post_id'     => get_the_ID(),
         ]); ?>
@@ -85,7 +85,7 @@ get_header();
             </div>
         <?php endif; ?>
 
-        <?php (new TAW\Blocks\Atoms\SummarizeWithAI\SummarizeWithAI())->render([
+        <?php (new TAW\Blocks\Molecules\SummarizeWithAI\SummarizeWithAI())->render([
             'article_url' => get_permalink(),
             'prompt' => __('Por favor sumariza este artículo y resalta los puntos clave', 'taw-theme'),
         ]); ?>
@@ -116,7 +116,7 @@ get_header();
                 </div>
             <?php endif; ?>
 
-            <?php (new TAW\Blocks\Atoms\SocialMediaShare\SocialMediaShare())->render([
+            <?php (new TAW\Blocks\Molecules\SocialMediaShare\SocialMediaShare())->render([
                 'article_url' => get_permalink(),
                 'post_id'     => get_the_ID(),
             ]); ?>

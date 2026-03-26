@@ -1,10 +1,19 @@
 @use 'fonts';
+@use 'functions' as *;
 
 main {
     padding-top: var(--header-height, 0px);
 
     @media(max-width: 767px) {
         padding-top: calc(var(--header-height, 0px) + 1.5rem);
+    }
+
+    .ch-section {
+        padding: fluid(4, 320, 1920, 5) 0;
+    }
+
+    .ch-section+.ch-section {
+        padding-top: 0;
     }
 }
 
