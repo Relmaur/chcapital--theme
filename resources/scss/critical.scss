@@ -43,6 +43,12 @@ body {
     overflow-x: hidden;
 }
 
+// === Main content offset ===
+// Compensates for the fixed header so the first section is never hidden beneath it.
+.site-main {
+    padding-top: var(--header-height, 0px);
+}
+
 // === Header Shell ===
 // Just the layout structure — enough to reserve the right amount
 // of vertical space so content below doesn't shift.

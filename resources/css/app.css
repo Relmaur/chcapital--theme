@@ -48,6 +48,9 @@
 }
 
 @theme {
+
+  --breakpoint-menu: 1180px;
+
   --color-primary: var(--color-primary);
   --color-secondary: var(--color-secondary);
 }

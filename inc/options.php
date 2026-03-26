@@ -16,10 +16,13 @@ new OptionsPage([
         ['id' => 'footer_text',   'label' => __('Footer Copyright', 'taw-theme'),  'type' => 'textarea'],
         ['id' => 'social_facebook',  'label' => __('Facebook URL', 'taw-theme'),   'type' => 'url'],
         ['id' => 'social_instagram', 'label' => __('Instagram URL', 'taw-theme'),  'type' => 'url'],
+        ['id' => 'social_twitter',   'label' => __('X (Twitter) URL', 'taw-theme'), 'type' => 'url'],
+        ['id' => 'social_linkedin',  'label' => __('LinkedIn URL', 'taw-theme'),   'type' => 'url'],
+        ['id' => 'social_youtube',   'label' => __('YouTube URL', 'taw-theme'),    'type' => 'url'],
     ],
     'tabs' => [
         ['id' => 'general', 'label' => __('General', 'taw-theme'), 'fields' => ['company_name', 'company_phone', 'company_email', 'company_address']],
         ['id' => 'footer',  'label' => __('Footer', 'taw-theme'),  'fields' => ['footer_text']],
-        ['id' => 'social',  'label' => __('Social', 'taw-theme'),  'fields' => ['social_facebook', 'social_instagram']],
+        ['id' => 'social',  'label' => __('Social', 'taw-theme'),  'fields' => ['social_facebook', 'social_instagram', 'social_twitter', 'social_linkedin', 'social_youtube']],
     ],
 ]);

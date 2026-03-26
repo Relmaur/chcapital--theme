@@ -1,4 +1,5 @@
 <?php
+
 /**
  * home.php — Blog posts index.
  *
@@ -34,7 +35,8 @@ get_header();
 <div class="section-container--sm py-16">
 
     <header class="mb-12">
-        <h1 class="text-4xl font-bold text-primary"><?php esc_html_e('Blog', 'taw-theme'); ?></h1>
+        <h1 class="text-4xl font-semibold">Artículos y Perspectivas.</h1>
+        <p class="mt-3 text-xl">Conocimiento financiero para fundamentar cada decisión.</p>
     </header>
 
     <?php if (have_posts()) : ?>
@@ -53,7 +55,7 @@ get_header();
                     <div class="overflow-hidden">
                         <?php echo Image::render($hero_thumb_id, 'large', get_the_title(), [
                             'above_fold' => true,
-                            'class'      => 'w-full h-72 md:h-full object-cover transition-transform group-hover:scale-105',
+                            'class'      => 'w-full h-72 aspect-640/480 md:h-full object-cover transition-transform group-hover:scale-105',
                             'sizes'      => '(max-width: 768px) 90vw, 50vw',
                         ]); ?>
                     </div>

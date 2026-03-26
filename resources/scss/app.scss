@@ -1,11 +1,143 @@
 @use 'fonts';
 
+main {
+    padding-top: var(--header-height, 0px);
+}
+
+// ── Site Footer ──────────────────────────────────────────────────
+
+.footer-brand__logo svg {
+    max-width: 130px;
+    height: auto;
+
+    path {
+        fill: #fff;
+    }
+}
+
+.footer-heading {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0;
+}
+
+.footer-contact__link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover {
+        color: #fff;
+    }
+}
+
+.footer-nav__link {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover,
+    &.is-active {
+        color: #fff;
+    }
+}
+
+.footer-bottom__copy {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+.footer-social__link {
+    color: rgba(255, 255, 255, 0.65);
+    transition: color 0.15s, transform 0.15s;
+    display: flex;
+
+    &:hover {
+        color: #fff;
+        transform: translateY(-2px);
+    }
+}
+
+// ────────────────────────────────────────────────────────────────
+
 html {
     font-family: 'Montserrat', sans-serif;
 }
 
 [x-cloak] {
     display: none !important;
+}
+
+// WordPress posts pagination
+.navigation.pagination {
+    .screen-reader-text {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.375rem;
+    }
+
+    .page-numbers {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.25rem;
+        height: 2.25rem;
+        padding: 0 0.625rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        color: #374151;
+        background: transparent;
+        border: 1px solid #e5e7eb;
+        transition: background 150ms, color 150ms, border-color 150ms;
+
+        &:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+        }
+
+        &.current {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: #fff;
+            pointer-events: none;
+        }
+
+        &.dots {
+            border-color: transparent;
+            pointer-events: none;
+        }
+
+        &.prev,
+        &.next {
+            font-weight: 600;
+            padding: 0 0.875rem;
+        }
+    }
 }
 
 // Gutenberg block content typography & spacing

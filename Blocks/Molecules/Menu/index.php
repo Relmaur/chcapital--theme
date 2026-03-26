@@ -5,6 +5,9 @@
  *
  * @var string $text
  */
+
+// Add menu-specific metaboxes
+
 ?>
 
 <div class="menu flex flex-col" x-data="Menu">
@@ -87,8 +90,8 @@
                 class="search-overlay__empty">No se encontraron resultados para "<span x-text="query"></span>".</p>
         </div>
     </div>
-    <div class="nav__bottom py-3 bg-secondary flex-1">
-        <div class="section-container--sm flex gap-4 items-center justify-center sm:justify-between">
+    <div class="nav__bottom py-4 bg-secondary flex-1">
+        <div class="section-container--sm flex gap-4 items-center justify-center sm:justify-between flex-wrap">
             <?php
 
             use TAW\Core\Menu\Menu;
@@ -97,10 +100,15 @@
             ?>
             <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Primary Menu', 'taw-theme'); ?>">
                 <?php if ($menu && $menu->hasItems()): ?>
-                    <nav class="hidden sm:flex items-center gap-4">
-                        <?php foreach ($menu->items() as $item): ?>
+                    <nav class="hidden sm:flex items-center gap-x-8 gap-y-3 flex-wrap">
+                        <?php foreach ($menu->items() as $item): // dump($item); 
+                        ?>
+                            <?php $icon = get_post_meta($item->wpPost()->ID, '_taw_menu_item_icon', true); ?>
                             <div class="relative group" <?php if ($item->hasChildren()): ?>x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" <?php endif; ?>>
-                                <a href="<?php echo esc_url($item->url()); ?>" class="flex items-center gap-1 text-white transition-colors <?php echo $item->isInActiveTrail() ? 'opacity-100' : 'opacity-85 hover:opacity-100'; ?>">
+                                <a href="<?php echo esc_url($item->url()); ?>" class="menu__item flex items-center gap-1.5 text-white transition-colors text-xs uppercase <?php echo $item->isInActiveTrail() ? 'opacity-100' : 'opacity-85 hover:opacity-100'; ?>">
+                                    <?php if ($icon): ?>
+                                        <span class="menu__item-icon text-primary w-5"><?php echo $icon; ?></span>
+                                    <?php endif; ?>
                                     <?php echo esc_html($item->title()); ?>
                                     <?php if ($item->hasChildren()): ?>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-3 mt-px transition-transform duration-200 group-hover:rotate-180">
@@ -109,13 +117,19 @@
                                     <?php endif; ?>
                                 </a>
                                 <?php if ($item->hasChildren()): ?>
-                                    <div x-show="open" x-transition class="absolute top-full left-0 mt-1 bg-white shadow-xl rounded-lg py-2 min-w-48 z-50">
-                                        <?php foreach ($item->children() as $child): ?>
-                                            <a href="<?php echo esc_url($child->url()); ?>"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                                                <?php echo esc_html($child->title()); ?>
-                                            </a>
-                                        <?php endforeach; ?>
+                                    <div x-show="open" x-transition class="submenu absolute top-full left-0 pt-6 z-50 min-w-68">
+                                        <div class="bg-white shadow-xl rounded-md p-3 border border-gray-200">
+                                            <?php foreach ($item->children() as $child): ?>
+                                                <?php $child_icon = get_post_meta($child->wpPost()->ID, '_taw_menu_item_icon', true); ?>
+                                                <a href="<?php echo esc_url($child->url()); ?>"
+                                                    class="menu__item flex items-center gap-2 p-2 border-sm text-sm text-gray-700 hover:bg-gray-100">
+                                                    <?php if ($child_icon): ?>
+                                                        <span class="menu__item-icon text-primary w-5"><?php echo $child_icon; ?></span>
+                                                    <?php endif; ?>
+                                                    <?php echo esc_html($child->title()); ?>
+                                                </a>
+                                            <?php endforeach; ?>
+                                        </div>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -208,10 +222,12 @@
             <ul class="mobile-drawer-panel__nav">
                 <?php foreach ($menu->items() as $item): ?>
                     <li x-data="{ subOpen: false }" class="mobile-drawer-panel__item">
+                        <?php $mobile_icon = get_post_meta($item->wpPost()->ID, '_taw_menu_item_icon', true); ?>
                         <?php if ($item->hasChildren()): ?>
                             <div class="mobile-drawer-panel__row">
                                 <a href="<?php echo esc_url($item->url()); ?>"
-                                    class="mobile-drawer-panel__link <?php echo $item->isInActiveTrail() ? 'is-active' : ''; ?>">
+                                    class="mobile-drawer-panel__link flex items-center gap-2 <?php echo $item->isInActiveTrail() ? 'is-active' : ''; ?>">
+                                    <?php if ($mobile_icon): ?><span class="menu__item-icon"><?php echo $mobile_icon; ?></span><?php endif; ?>
                                     <?php echo esc_html($item->title()); ?>
                                 </a>
                                 <button
@@ -234,9 +250,15 @@
                                 x-transition:leave-end="opacity-0 -translate-y-1"
                                 class="mobile-drawer-panel__submenu">
                                 <?php foreach ($item->children() as $child): ?>
+                                    <?php $child_mobile_icon = get_post_meta($child->wpPost()->ID, '_taw_menu_item_icon', true); ?>
                                     <li>
                                         <a href="<?php echo esc_url($child->url()); ?>"
-                                            class="mobile-drawer-panel__sublink <?php echo $child->isActive() ? 'is-active' : ''; ?>">
+                                            class="mobile-drawer-panel__sublink flex items-center gap-2 <?php echo $child->isActive() ? 'is-active' : ''; ?>">
+                                            <?php if ($child_mobile_icon): ?>
+                                                <span class="menu__item-icon w-6">
+                                                    <?php echo $child_mobile_icon; ?>
+                                                </span>
+                                            <?php endif; ?>
                                             <?php echo esc_html($child->title()); ?>
                                         </a>
                                     </li>
@@ -244,7 +266,14 @@
                             </ul>
                         <?php else: ?>
                             <a href="<?php echo esc_url($item->url()); ?>"
-                                class="mobile-drawer-panel__link <?php echo $item->isInActiveTrail() ? 'is-active' : ''; ?>">
+                                class="mobile-drawer-panel__link flex items-center gap-2 <?php echo $item->isInActiveTrail() ? 'is-active' : ''; ?>">
+                                <?php if ($mobile_icon): ?>
+                                    <span class="menu__item-icon w-6">
+                                        <?php echo $mobile_icon; ?>
+                                    </span>
+                                <?php endif; ?>
+                                <?php // dump($mobile_icon) 
+                                ?>
                                 <?php echo esc_html($item->title()); ?>
                             </a>
                         <?php endif; ?>
