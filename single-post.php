@@ -1,4 +1,5 @@
 <?php
+
 /**
  * single-post.php — Template for individual blog posts.
  *
@@ -27,7 +28,7 @@ $related = null;
 if ($categories) {
     $related = new WP_Query([
         'post_type'           => 'post',
-        'posts_per_page'      => 4,
+        'posts_per_page'      => 3,
         'post__not_in'        => [$post_id],
         'category__in'        => array_column($categories, 'term_id'),
         'orderby'             => 'rand',
@@ -43,7 +44,7 @@ get_header();
 
     <article id="post-<?php the_ID(); ?>" <?php post_class('min-w-0 flex-1'); ?>>
 
-        <header class="mb-10">
+        <header class="mb-7">
 
             <?php if ($categories) : ?>
                 <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-blue-600">
@@ -63,8 +64,13 @@ get_header();
 
         </header>
 
+        <?php (new TAW\Blocks\Atoms\SocialMediaShare\SocialMediaShare())->render([
+            'article_url' => get_permalink(),
+            'post_id'     => get_the_ID(),
+        ]); ?>
+
         <?php if ($thumbnail_id) : ?>
-            <div class="mb-10">
+            <div class="mb-7">
                 <?php echo Image::render($thumbnail_id, 'full', get_the_title(), [
                     'above_fold' => true,
                     'class'      => 'w-full rounded-xl object-cover max-h-[480px]',
@@ -73,12 +79,42 @@ get_header();
             </div>
         <?php endif; ?>
 
+        <?php (new TAW\Blocks\Atoms\SummarizeWithAI\SummarizeWithAI())->render([
+            'article_url' => get_permalink(),
+            'prompt' => __('Por favor sumariza este artículo y resalta los puntos clave', 'taw-theme'),
+        ]); ?>
+
         <div class="entry-content">
             <?php the_content(); ?>
         </div>
 
         <footer class="mt-12 pt-8 border-t border-gray-100">
-            <?php the_tags('<p class="text-sm text-gray-400">' . __('Tagged: ', 'taw-theme'), ', ', '</p>'); ?>
+
+            <?php (new TAW\Blocks\Atoms\SocialMediaShare\SocialMediaShare())->render([
+                'article_url' => get_permalink(),
+                'post_id'     => get_the_ID(),
+            ]); ?>
+
+            <?php
+            $tags = get_the_tags($post_id);
+            if ($categories || $tags) : ?>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <?php foreach ($categories as $cat) : ?>
+                        <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"
+                            class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-semibold bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors no-underline">
+                            <?php echo esc_html($cat->name); ?>
+                        </a>
+                    <?php endforeach; ?>
+                    <?php if ($tags) : foreach ($tags as $tag) : ?>
+                            <a href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>"
+                                class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors no-underline">
+                                #<?php echo esc_html($tag->name); ?>
+                            </a>
+                    <?php endforeach;
+                    endif; ?>
+                </div>
+            <?php endif; ?>
+
             <nav class="flex justify-between mt-6 text-sm font-medium">
                 <span><?php previous_post_link('%link', '&larr; %title'); ?></span>
                 <span><?php next_post_link('%link', '%title &rarr;'); ?></span>
@@ -89,7 +125,7 @@ get_header();
 
     <?php if ($related && $related->have_posts()) : ?>
 
-        <aside class="hidden lg:flex flex-col gap-6 w-64 shrink-0 sticky top-8">
+        <aside class="hidden lg:flex flex-col gap-6 w-64 shrink-0 sticky top-[calc(var(--header-height)_+_1.5rem)]">
 
             <h2 class="text-xs font-semibold uppercase tracking-widest text-gray-400">
                 <?php esc_html_e('También te puede interesar', 'taw-theme'); ?>

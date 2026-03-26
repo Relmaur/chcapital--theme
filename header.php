@@ -27,7 +27,7 @@ use TAW\Blocks\Molecules\Menu\Menu;
 
     <!-- <a class="skip-link screen-reader-text" href="#content"><?php esc_html_e('Skip to content', 'taw-theme'); ?></a> -->
 
-    <header id="masthead" class="site-header fixed top-0 left-0 w-full z-50" role="banner">
+    <header id="masthead" class="site-header fixed top-0 left-0 w-full z-50 border-b border-b-primary" role="banner">
         <?php (new Menu())->render(); ?>
     </header><!-- #masthead -->
 
