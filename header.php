@@ -29,6 +29,11 @@ use TAW\Blocks\Molecules\Menu\Menu;
 
     <header id="masthead" class="site-header fixed top-0 left-0 w-full z-50 border-b border-b-primary" role="banner">
         <?php (new Menu())->render(); ?>
+
+        <div class="social-media absolute top-[calc(100%+0.75rem)] right-[50%] translate-x-[50%] sm:translate-x-0 sm:right-3 w-auto p-2 bg-primary rounded shadow-lg opacity-25 hover:opacity-100 transition-opacity">
+            <?php echo (new TAW\Blocks\Atoms\SocialMedia\SocialMedia())->render(); ?>
+        </div>
+
     </header><!-- #masthead -->
 
     <main id="content" class="site-main" role="main">

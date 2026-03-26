@@ -2,6 +2,10 @@
 
 main {
     padding-top: var(--header-height, 0px);
+
+    @media(max-width: 767px) {
+        padding-top: calc(var(--header-height, 0px) + 1.5rem);
+    }
 }
 
 // ── Site Footer ──────────────────────────────────────────────────
@@ -54,17 +58,6 @@ main {
     font-size: 0.8125rem;
     color: rgba(255, 255, 255, 0.6);
     margin: 0;
-}
-
-.footer-social__link {
-    color: rgba(255, 255, 255, 0.65);
-    transition: color 0.15s, transform 0.15s;
-    display: flex;
-
-    &:hover {
-        color: #fff;
-        transform: translateY(-2px);
-    }
 }
 
 // ────────────────────────────────────────────────────────────────

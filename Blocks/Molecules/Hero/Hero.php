@@ -13,7 +13,6 @@ class Hero extends MetaBlock
 
     protected function registerMetaboxes(): void
     {
-
         new Metabox([
             'id'     => 'taw_hero',
             'title'  => __('Hero Section', 'taw-theme'),
@@ -26,35 +25,44 @@ class Hero extends MetaBlock
                     'id'       => 'hero_subtitle',
                     'label'    => __('Subtitle', 'taw-theme'),
                     'type'     => 'text',
-                    'width'    => '100',
                     'required' => true,
-                    'editor'   => [      // ← Editable with settings
-                        'max_length' => 200,
-                    ],
-                    'width' => '80'
+                    'editor'   => ['max_length' => 200],
+                    'width'    => '100',
                 ],
                 [
-                    'id'    => 'hero_image_url',
-                    'label' => __('Hero Image', 'taw-theme'),
-                    'type'  => 'image',
-                    'width' => '100',
-                    'editor' => [      // ← Editable with settings
-                        'preview_size' => 'medium',
+                    'id'     => 'hero_slides',
+                    'label'  => __('Background Slides', 'taw-theme'),
+                    'type'   => 'repeater',
+                    'button' => __('Add Slide', 'taw-theme'),
+                    'fields' => [
+                        [
+                            'id'    => 'slide_image',
+                            'label' => __('Image', 'taw-theme'),
+                            'type'  => 'image',
+                            'width' => '100',
+                        ],
                     ],
-                    'width' => '20'
-                ]
+                ],
             ],
         ]);
     }
 
     protected function getData(int $postId): array
     {
-        $image_id = $this->getMeta($postId, 'hero_image_url') ? $this->getMeta($postId, 'hero_image_url') : '';
+        $slides_raw = Metabox::get_repeater($postId, 'hero_slides');
+        $slides = [];
+
+        foreach ($slides_raw as $row) {
+            $id = (int) ($row['slide_image'] ?? 0);
+            if ($id) {
+                $slides[] = $id;
+            }
+        }
 
         return [
             'heading' => $this->getMeta($postId, 'hero_heading'),
             'tagline' => $this->getMeta($postId, 'hero_tagline'),
-            'image_id' => $image_id
+            'slides'  => $slides,
         ];
     }
 }

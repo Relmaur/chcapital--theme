@@ -122,6 +122,7 @@
                 class="search-overlay__empty">No se encontraron resultados para "<span x-text="query"></span>".</p>
         </div>
     </div>
+    
     <div class="nav__bottom py-4 bg-secondary flex-1">
         <div class="section-container--sm flex gap-4 items-center justify-center sm:justify-between flex-wrap">
             <?php
