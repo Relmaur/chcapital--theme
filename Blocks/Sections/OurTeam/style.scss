@@ -24,7 +24,7 @@
 
     &__grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 2rem;
     }
 
@@ -48,7 +48,7 @@
     }
 
     &__photo-wrap {
-        aspect-ratio: 3 / 4;
+        aspect-ratio: 3 / 2;
         overflow: hidden;
         background: var(--color-primary, #004a98);
     }

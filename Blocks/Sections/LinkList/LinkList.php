@@ -24,6 +24,9 @@ class LinkList extends MetaBlock
             'id'     => 'taw_link_list' . $s,
             'title' => 'Link List' . ($s ? ' (' . ucfirst($this->variation) . ')' : ''),
             'screen' => 'page',
+            'show_on' => static function (\WP_Post $post): bool {
+                return (int) $post->ID === (int) get_option('page_on_front');
+            },
             'fields' => [
                 [
                     'id'    => 'link_list_section_id' . $s,

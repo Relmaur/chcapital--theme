@@ -16,6 +16,8 @@
   --max-container-width-sm: 1280px;
   --max-container-width-xs: 1024px;
 
+  --general-gradient: linear-gradient(0deg,rgba(168,168,168,1) 1.5%,rgba(255,255,255,1) 100%);
+
   --image-shadow: 5px 5px 0 0 var(--color-primary);
 }
 

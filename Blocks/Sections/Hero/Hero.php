@@ -16,7 +16,7 @@ class Hero extends MetaBlock
         new Metabox([
             'id'     => 'taw_hero',
             'title'  => __('Hero Section', 'taw-theme'),
-            'screen' => 'page',
+            // 'screens' => ['front-page.php'],
             'show_on' => static function (\WP_Post $post): bool {
                 return (int) $post->ID === (int) get_option('page_on_front');
             },

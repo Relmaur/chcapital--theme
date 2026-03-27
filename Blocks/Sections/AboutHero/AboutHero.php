@@ -6,6 +6,7 @@ namespace TAW\Blocks\Sections\AboutHero;
 
 use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;
+use TAW\Helpers\Image;
 
 class AboutHero extends MetaBlock
 {
@@ -13,14 +14,25 @@ class AboutHero extends MetaBlock
 
     protected function registerMetaboxes(): void
     {
+        // Inject preload tag into <head> for LCP — runs before wp_head fires
+        // because blocks are queued before get_header().
+        if (!is_admin()) {
+            add_action('wp_head', function () {
+                $image_id = (int) $this->getMeta(get_the_ID(), 'about_hero_image');
+                if ($image_id) {
+                    echo Image::preload_tag($image_id, 'full'); // phpcs:ignore
+                }
+            }, 2);
+        }
+
         new Metabox([
             'id'     => 'taw_about_hero',
             'title'  => __('About Hero Section', 'taw-theme'),
-            'screen' => 'page',
-            'show_on' => static function (\WP_Post $post): bool {
-                return get_page_template_slug($post->ID) === 'page-about-us.php'
-                    || in_array($post->post_name, ['nosotros', 'about-us'], true);
-            },
+            'screens' => ['page-nosotros.php'],
+            // 'show_on' => static function (\WP_Post $post): bool {
+            //     return get_page_template_slug($post->ID) === 'page-nosotros.php'
+            //         || in_array($post->post_name, ['nosotros', 'about-us'], true);
+            // },
             'fields' => [
                 [
                     'id'    => 'about_hero_heading',

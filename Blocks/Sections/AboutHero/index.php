@@ -9,11 +9,18 @@
  */
 
 use TAW\Helpers\Image;
-
-$bg_url = $image_id ? Image::background($image_id, 'full', ['url_only' => true]) : null;
 ?>
-<section class="about-hero ch-section border-b-5 border-b-primary"
-    style="<?php echo $bg_url ? 'background-image: url(' . esc_url($bg_url) . ');' : ''; ?>">
+<section class="about-hero border-b-5 border-b-primary">
+
+    <?php if ($image_id) : ?>
+        <div class="about-hero__bg" aria-hidden="true">
+            <?php echo Image::render($image_id, 'full', '', [
+                'above_fold' => true,
+                'class'      => 'about-hero__bg-img',
+                'sizes'      => '100vw',
+            ]); ?>
+        </div>
+    <?php endif; ?>
 
     <div class="about-hero__overlay"></div>
 
@@ -26,7 +33,7 @@ $bg_url = $image_id ? Image::background($image_id, 'full', ['url_only' => true])
             </ol>
         </nav>
 
-        <h1 class="about-hero__heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+        <h1 class="about-hero__heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-primary">
             <?php echo esc_html($heading); ?>
         </h1>
 
@@ -37,9 +44,9 @@ $bg_url = $image_id ? Image::background($image_id, 'full', ['url_only' => true])
         <?php endif; ?>
 
         <div class="about-hero__divider mt-10 flex items-center gap-3">
-            <span class="h-px w-16 bg-current opacity-30"></span>
-            <span class="about-hero__ornament w-2 h-2 rounded-full bg-current opacity-50"></span>
-            <span class="h-px w-16 bg-current opacity-30"></span>
+            <span class="h-px w-16 bg-white"></span>
+            <span class="about-hero__ornament w-2 h-2 rounded-full bg-white"></span>
+            <span class="h-px w-16 bg-white"></span>
         </div>
     </div>
 

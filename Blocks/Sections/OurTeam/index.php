@@ -43,13 +43,13 @@ use TAW\Helpers\Image;
 
                         <div class="our-team__info">
                             <?php if ($name) : ?>
-                                <h3 class="our-team__name"><?php echo esc_html($name); ?></h3>
+                                <h3 class="our-team__name"><?php echo wp_kses_post($name); ?></h3>
                             <?php endif; ?>
                             <?php if ($position) : ?>
-                                <p class="our-team__position"><?php echo esc_html($position); ?></p>
+                                <p class="our-team__position"><?php echo wp_kses_post($position); ?></p>
                             <?php endif; ?>
                             <?php if ($bio) : ?>
-                                <p class="our-team__bio"><?php echo esc_html($bio); ?></p>
+                                <p class="our-team__bio"><?php echo wp_kses_post($bio); ?></p>
                             <?php endif; ?>
                         </div>
                     </article>

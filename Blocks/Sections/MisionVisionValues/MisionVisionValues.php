@@ -76,10 +76,13 @@ class MisionVisionValues extends MetaBlock
     protected function getData(int $postId): array
     {
         $default_values = [
-            ['value_title' => __('Integridad', 'taw-theme'),     'value_text' => __('Actuamos con honestidad y ética en cada decisión y operación financiera.', 'taw-theme')],
-            ['value_title' => __('Confianza', 'taw-theme'),      'value_text' => __('Construimos relaciones sólidas basadas en el cumplimiento de nuestros compromisos.', 'taw-theme')],
-            ['value_title' => __('Innovación', 'taw-theme'),     'value_text' => __('Desarrollamos soluciones financieras que se adaptan a las necesidades cambiantes del mercado.', 'taw-theme')],
-            ['value_title' => __('Compromiso', 'taw-theme'),     'value_text' => __('Ponemos el éxito de nuestros clientes en el centro de todo lo que hacemos.', 'taw-theme')],
+            ['value_title' => __('Colaborativo', 'taw-theme'),     'value_text' => __('Actuamos con honestidad y ética en cada decisión y operación financiera.', 'taw-theme')],
+            ['value_title' => __('Asertivo', 'taw-theme'),      'value_text' => __('Construimos relaciones sólidas basadas en el cumplimiento de nuestros compromisos.', 'taw-theme')],
+            ['value_title' => __('Perseverante', 'taw-theme'),     'value_text' => __('Desarrollamos soluciones financieras que se adaptan a las necesidades cambiantes del mercado.', 'taw-theme')],
+            ['value_title' => __('Integro', 'taw-theme'),     'value_text' => __('Ponemos el éxito de nuestros clientes en el centro de todo lo que hacemos.', 'taw-theme')],
+            ['value_title' => __('Trascendente', 'taw-theme'),     'value_text' => __('Ponemos el éxito de nuestros clientes en el centro de todo lo que hacemos.', 'taw-theme')],
+            ['value_title' => __('Auténtico', 'taw-theme'),     'value_text' => __('Ponemos el éxito de nuestros clientes en el centro de todo lo que hacemos.', 'taw-theme')],
+            ['value_title' => __('Leal', 'taw-theme'),     'value_text' => __('Ponemos el éxito de nuestros clientes en el centro de todo lo que hacemos.', 'taw-theme')],
         ];
 
         $values = Metabox::get_repeater($postId, 'mvv_values');

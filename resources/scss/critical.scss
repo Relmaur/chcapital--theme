@@ -148,6 +148,47 @@ body {
     }
 }
 
+// === About Hero Section Shell ===
+// Reserves vertical space and positions the background <img> so it never
+// participates in document flow — prevents CLS before style.scss loads.
+.about-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    align-items: center;
+
+    &__bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    &__bg-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    &__overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    .section-container--sm {
+        position: relative;
+        z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+        min-height: 45vh;
+    }
+}
+
 // === Utility: Screen Reader Text ===
 .screen-reader-text {
     clip: rect(1px, 1px, 1px, 1px);

@@ -7,25 +7,55 @@
     min-height: 55vh;
     display: flex;
     align-items: center;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: white;
+
+    // Background image rendered as <img> for LCP/preload scanner
+    &__bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    &__bg-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
 
     &__overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(
-            135deg,
-            rgba(0, 74, 152, 0.92) 0%,
-            rgba(0, 40, 90, 0.85) 100%
-        );
-        z-index: 0;
+        background: linear-gradient(0deg, rgba(0, 74, 152, 0.75) 60%, rgba(255, 255, 255, 0) 100%);
+        z-index: 1;
     }
 
-    // When no background image — use solid brand gradient
-    &:not([style*="background-image"]) {
-        background: linear-gradient(135deg, var(--color-primary, #004a98) 0%, #002860 100%);
+    // Content must sit above both bg and overlay
+    .section-container--sm {
+        z-index: 2;
+    }
+
+    // When a background image is present
+    &:has(.about-hero__bg) {
+        .about-hero__breadcrumb {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .about-hero__heading {
+            color: white;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-hero__subtitle {
+            color: rgba(255, 255, 255, 0.88);
+        }
+    }
+
+    // When no background image — gradient fallback, hide overlay
+    &:not(:has(.about-hero__bg)) {
+        background: var(--general-gradient);
 
         .about-hero__overlay {
             display: none;
@@ -33,25 +63,15 @@
     }
 
     &__breadcrumb {
-        color: rgba(255, 255, 255, 0.8);
 
         a {
             color: inherit;
             text-decoration: none;
 
             &:hover {
-                color: white;
+                // color: white;
             }
         }
-    }
-
-    &__heading {
-        color: white;
-        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    &__subtitle {
-        color: rgba(255, 255, 255, 0.88);
     }
 
     &__ornament {

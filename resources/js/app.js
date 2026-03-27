@@ -6,6 +6,10 @@ import '../scss/app.scss'; // Custom SCSS (fonts, etc.)
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
 
+// 3. Expose createMarquee globally so any block script can call it without imports
+import { createMarquee } from './marquee.js';
+window.createMarquee = createMarquee;
+
 Alpine.plugin(collapse);
 
 // 3. Expose Alpine globally so block scripts can register components via Alpine.data()

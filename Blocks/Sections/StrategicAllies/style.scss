@@ -1,11 +1,6 @@
 /**
- * StrategicAllies Block Styles — Infinite Marquee
+ * StrategicAllies Block Styles — JS-driven marquee
  */
-
-@keyframes allies-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-}
 
 .strategic-allies {
     &__header {
@@ -25,12 +20,20 @@
         line-height: 1.6;
     }
 
-    // Outer container — clips the scrolling track and adds fade edges
-    &__track-wrap {
+    // Outer container — clips the track and adds fade edges
+    &__marquee {
         position: relative;
         overflow: hidden;
+        cursor: grab;
 
-        // Fade edges for a polished look
+        &.is-dragging {
+            cursor: grabbing;
+
+            // Prevent text/image selection while dragging
+            user-select: none;
+        }
+
+        // Fade edges
         &::before,
         &::after {
             content: '';
@@ -53,23 +56,14 @@
         }
     }
 
-    // Moving track: contains two identical strips side-by-side
-    &__track {
-        display: flex;
-        width: max-content;
-        animation: allies-scroll 28s linear infinite;
-
-        &:hover {
-            animation-play-state: paused;
-        }
-    }
-
-    // Each strip is half the track — identical content duplicated
-    &__strip {
+    // JS applies translateX to this element
+    .marquee-wrapper {
         display: flex;
         align-items: center;
         gap: 3rem;
         padding: 0.5rem 1.5rem;
+        width: max-content;
+        will-change: transform;
     }
 
     &__logo {
@@ -82,10 +76,15 @@
         filter: grayscale(1);
         opacity: 0.6;
         transition: filter 0.3s ease, opacity 0.3s ease;
+        pointer-events: none; // Prevent logos from interfering with drag
 
-        &:hover {
-            filter: grayscale(0);
-            opacity: 1;
+        .strategic-allies__marquee:not(.is-dragging) & {
+            pointer-events: auto;
+
+            &:hover {
+                filter: grayscale(0);
+                opacity: 1;
+            }
         }
     }
 
@@ -93,6 +92,9 @@
         max-height: 3rem;
         width: auto;
         object-fit: contain;
+        // Prevent native browser drag on images
+        -webkit-user-drag: none;
+        user-drag: none;
     }
 
     // Placeholder when no logos are uploaded
@@ -108,28 +110,6 @@
             font-weight: 600;
             color: var(--color-gray-600, #4b5563);
             white-space: nowrap;
-        }
-    }
-
-    // Respect reduced motion preference
-    @media (prefers-reduced-motion: reduce) {
-        &__track {
-            animation: none;
-        }
-
-        &__track-wrap::before,
-        &__track-wrap::after {
-            display: none;
-        }
-
-        &__strip {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        // Hide the duplicate strip
-        &__strip:nth-child(2) {
-            display: none;
         }
     }
 }

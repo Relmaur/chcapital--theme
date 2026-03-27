@@ -77,20 +77,26 @@ class OurTeam extends MetaBlock
         $default_members = [
             [
                 'member_image'    => 0,
-                'member_name'     => 'Alfredo Chumacero',
-                'member_position' => __('Fundador y Director General', 'taw-theme'),
-                'member_bio'      => __('Con más de 25 años de experiencia en el sector financiero mexicano, Alfredo ha liderado CH Capital desde sus inicios con visión, integridad y un profundo compromiso con los clientes.', 'taw-theme'),
+                'member_name'     => 'Miguel Pacheco<br />Pérez-Tello',
+                'member_position' => __('Director Fiduciario', 'taw-theme'),
+                'member_bio'      => __('Con más de 25 años de experiencia en el sector financiero mexicano, Miguel ha liderado CH Capital desde sus inicios con visión, integridad y un profundo compromiso con los clientes.', 'taw-theme'),
             ],
             [
                 'member_image'    => 0,
-                'member_name'     => 'María González',
-                'member_position' => __('Directora de Operaciones', 'taw-theme'),
+                'member_name'     => 'Volga Del Riego',
+                'member_position' => __('Directora Comercial', 'taw-theme'),
                 'member_bio'      => __('Especialista en gestión de riesgos y optimización de procesos financieros. Su liderazgo garantiza la excelencia operativa en cada servicio que ofrecemos.', 'taw-theme'),
             ],
             [
                 'member_image'    => 0,
-                'member_name'     => 'Carlos Herrera',
-                'member_position' => __('Director de Fideicomisos', 'taw-theme'),
+                'member_name'     => 'Rocío González',
+                'member_position' => __('Directora de Tesorería y oficial de cumplimiento', 'taw-theme'),
+                'member_bio'      => __('Abogada financiera con especialización en derecho corporativo y fiduciario. Responsable de estructurar soluciones de fideicomiso a la medida de cada cliente.', 'taw-theme'),
+            ],
+            [
+                'member_image'    => 0,
+                'member_name'     => 'Eric Alfaro',
+                'member_position' => __('Contraloría', 'taw-theme'),
                 'member_bio'      => __('Abogado financiero con especialización en derecho corporativo y fiduciario. Responsable de estructurar soluciones de fideicomiso a la medida de cada cliente.', 'taw-theme'),
             ],
         ];

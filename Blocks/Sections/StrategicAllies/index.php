@@ -1,7 +1,7 @@
 <?php
 
 /**
- * StrategicAllies Component Template — Infinite Marquee
+ * StrategicAllies Component Template — JS Marquee
  *
  * @var string $heading
  * @var string $subheading
@@ -10,13 +10,9 @@
 
 use TAW\Helpers\Image;
 
-// Need at least 1 logo to render; use placeholder logos if none set
 $has_logos = !empty($logos);
 
-// Placeholder items for when no logos are set in the CMS
-$placeholder_names = [
-    'Banamex', 'BBVA', 'Banorte', 'Santander', 'HSBC', 'Inbursa',
-];
+$placeholder_names = ['Banamex', 'BBVA', 'Banorte', 'Santander', 'HSBC', 'Inbursa', 'Scotia', 'Afirme'];
 ?>
 <section class="strategic-allies ch-section">
     <div class="section-container--sm">
@@ -28,33 +24,31 @@ $placeholder_names = [
         </header>
     </div>
 
-    <div class="strategic-allies__track-wrap" aria-label="<?php echo esc_attr($heading); ?>">
-        <div class="strategic-allies__track" aria-hidden="true">
+    <!--
+        .strategic-allies__marquee  → createMarquee({ element })
+        .marquee-wrapper            → the element that gets translateX applied
+        Items are cloned by the JS — do NOT duplicate them in PHP.
+    -->
+    <div class="strategic-allies__marquee" aria-label="<?php echo esc_attr($heading); ?>">
+        <div class="marquee-wrapper">
 
-            <?php
-            // Render the set twice for the seamless infinite loop
-            for ($pass = 0; $pass < 2; $pass++) :
-            ?>
-                <div class="strategic-allies__strip">
-                    <?php if ($has_logos) : ?>
-                        <?php foreach ($logos as $item) :
-                            $logo_id = (int) ($item['ally_logo'] ?? 0);
-                            $name    = esc_attr($item['ally_name'] ?? '');
-                            if (!$logo_id) continue;
-                        ?>
-                            <div class="strategic-allies__logo">
-                                <?php echo Image::render($logo_id, 'medium', $name, ['class' => 'strategic-allies__img']); ?>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <?php foreach ($placeholder_names as $label) : ?>
-                            <div class="strategic-allies__logo strategic-allies__logo--placeholder">
-                                <span><?php echo esc_html($label); ?></span>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-            <?php endfor; ?>
+            <?php if ($has_logos) : ?>
+                <?php foreach ($logos as $item) :
+                    $logo_id = (int) ($item['ally_logo'] ?? 0);
+                    $name    = esc_attr($item['ally_name'] ?? '');
+                    if (!$logo_id) continue;
+                ?>
+                    <div class="strategic-allies__logo">
+                        <?php echo Image::render($logo_id, 'medium', $name, ['class' => 'strategic-allies__img']); ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <?php foreach ($placeholder_names as $label) : ?>
+                    <div class="strategic-allies__logo strategic-allies__logo--placeholder">
+                        <span><?php echo esc_html($label); ?></span>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
         </div>
     </div>

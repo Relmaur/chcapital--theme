@@ -27,7 +27,7 @@
         &--vision {
             background: white;
             color: inherit;
-            border: 2px solid var(--color-gray-200, #e5e7eb);
+            border: 1px solid var(--color-gray-200, #e5e7eb);
             box-shadow: 0 4px 24px rgba(0, 74, 152, 0.07);
         }
 
@@ -92,8 +92,8 @@
 
     &__values-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.5rem;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.5rem;
     }
 
     &__value {
@@ -113,7 +113,7 @@
     }
 
     &__value-number {
-        font-size: 2rem;
+        font-size: 3rem;
         font-weight: 800;
         color: var(--color-primary, #004a98);
         opacity: 0.15;
@@ -129,7 +129,7 @@
     }
 
     &__value-text {
-        font-size: 0.875rem;
+        font-size: 0.75rem;
         line-height: 1.6;
         color: var(--color-gray-600, #4b5563);
         margin: 0;

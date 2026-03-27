@@ -47,7 +47,9 @@
                     <?php foreach ($values as $i => $value) : ?>
                         <div class="mvv__value">
                             <span class="mvv__value-number" aria-hidden="true">
-                                <?php echo str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT); ?>
+                                <?php // echo str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT); 
+                                ?>
+                                <?php echo esc_html(mb_strtoupper(mb_substr($value['value_title'] ?? '', 0, 1))); ?>
                             </span>
                             <h3 class="mvv__value-title"><?php echo esc_html($value['value_title'] ?? ''); ?></h3>
                             <p class="mvv__value-text"><?php echo esc_html($value['value_text'] ?? ''); ?></p>

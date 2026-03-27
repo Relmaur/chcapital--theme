@@ -65,6 +65,7 @@ $is_animated = count($all_slides) > 1;
             <div class="flex items-center justify-center sm:justify-start mt-2 gap-2">
                 <?php $button->render(['text' => __('¡Contáctanos!', 'taw-theme'), 'url' => '/contacto']); ?>
             </div>
+            <?php /* ?>
             <p class="mt-5 text-center sm:text-left w-full">Explora:</p>
             <div class="links mt-5 flex justify-center sm:flex-col gap-2 sm:border-primary">
                 <a href="#financiera" class="flex items-center gap-1 py-1 px-2 bg-gray-100/50 rounded w-fit text-primary">
@@ -84,6 +85,7 @@ $is_animated = count($all_slides) > 1;
                     Fideicomisos
                 </a>
             </div>
+            <?php */ ?>
         </div>
     </div>
 
