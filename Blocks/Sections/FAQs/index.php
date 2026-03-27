@@ -31,7 +31,7 @@ if (empty($items)) return;
             <?php foreach ($items as $index => $item): ?>
                 <?php if (empty($item['question'])) continue; ?>
                 <div
-                    class="faqs__item"
+                    class="faqs__item hover:bg-gray-100 px-4 transition"
                     x-data="{ id: <?php echo $index; ?> }"
                 >
                     <button

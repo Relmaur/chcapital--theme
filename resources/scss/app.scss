@@ -29,6 +29,18 @@ main {
         position: relative;
         overflow: hidden;
 
+        // &::before {
+        //     content: '';
+        //     position: absolute;
+        //     width: 100%;
+        //     max-width: 300px;
+        //     top: 0;
+        //     left: 0;
+        //     transform: translateY(-50%);
+        //     height: 5px;
+        //     background: var(--color-primary);
+        // }
+
         div[class|="section-container"] {
             position: relative;
             z-index: 1;
@@ -276,6 +288,7 @@ html {
         max-width: 100%;
         height: auto;
         border-radius: 0.5rem;
+        margin: 1.5rem auto;
     }
 
     figure {

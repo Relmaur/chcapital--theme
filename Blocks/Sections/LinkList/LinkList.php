@@ -26,9 +26,9 @@ class LinkList extends MetaBlock
             'screen' => 'page',
             'fields' => [
                 [
-                    'id' => 'link_list_section_id' . $s,
+                    'id'    => 'link_list_section_id' . $s,
                     'label' => __('Section ID', 'taw-theme'),
-                    'type' => 'text',
+                    'type'  => 'text',
                     'description' => __('Optional unique ID for this section (without #). Useful for anchor links and styling.', 'taw-theme'),
                     'width' => '100',
                 ],
@@ -36,6 +36,15 @@ class LinkList extends MetaBlock
                     'id'    => 'link_list_heading' . $s,
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
+                ],
+                [
+                    'id'    => 'link_list_link_type' . $s,
+                    'label' => __('Link Type', 'taw-theme'),
+                    'type'  => 'select',
+                    'options' => [
+                        'icon' => __('Icon', 'taw-theme'),
+                        'blurb' => __('Blurb', 'taw-theme'),
+                    ],
                 ],
                 [
                     'id'     => 'link_list' . $s,
