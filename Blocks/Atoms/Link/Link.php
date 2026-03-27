@@ -14,12 +14,13 @@ class Link extends Block
     {
         return [
             'type' => 'default',
+            'blurb_background' => '',
+            'icon' => '',
+            'classes' => '',
             'link' => [
                 'url' => '',
                 'text' => '',
                 'target' => '_self',
-                'icon' => '',
-                'blurb_background' => '',
             ],
         ];
     }

@@ -12,3 +12,19 @@ window.Alpine = Alpine;
 // (both ES modules and classic defer) have executed, so every block script
 // has had a chance to call Alpine.data() inside its alpine:init listener.
 document.addEventListener('DOMContentLoaded', () => Alpine.start());
+
+// All anchor links must be smoothly scrolled to, even if the browser doesn't support CSS scroll-behavior: smooth
+// (e.g. Safari on macOS). This is needed for the "Learn More" link in the Hero block, and any future anchor links.
+document.addEventListener('DOMContentLoaded', () => {
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+});

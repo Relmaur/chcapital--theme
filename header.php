@@ -30,7 +30,7 @@ use TAW\Blocks\Molecules\Menu\Menu;
     <header id="masthead" class="site-header fixed top-0 left-0 w-full z-50 border-b border-b-primary" role="banner">
         <?php (new Menu())->render(); ?>
 
-        <div class="social-media absolute top-[calc(100%+0.75rem)] right-3 w-auto p-2 bg-white rounded shadow-lg opacity-25 hover:opacity-100 transition-opacity border border-gray-100">
+        <div class="social-media absolute top-[calc(100%+0.75rem)] right-3 w-auto p-2 bg-white rounded shadow-lg opacity-25 hover:opacity-100 transition-opacity border border-gray-100 sm:block hidden">
             <?php echo (new TAW\Blocks\Molecules\SocialMedia\SocialMedia())->render([
                 'icon_color' => 'text-primary',
             ]); ?>

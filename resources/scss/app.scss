@@ -1,6 +1,10 @@
 @use 'fonts';
 @use 'functions' as *;
 
+:root {
+    --section-vertical-padding: #{fluid(4, 320, 1920, 5)};
+}
+
 main {
     padding-top: var(--header-height, 0px);
 
@@ -9,11 +13,15 @@ main {
     }
 
     .ch-section {
-        padding: fluid(4, 320, 1920, 5) 0;
+        padding: var(--section-vertical-padding) 0;
     }
 
     .ch-section+.ch-section {
-        padding-top: 0;
+        // padding-top: 0;
+    }
+
+    .ch-section {
+        scroll-margin-top: calc(var(--header-height, 0px) + var(--section-vertical-padding));
     }
 }
 
