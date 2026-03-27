@@ -32,7 +32,7 @@ foreach ($slides as $image_id) {
 $is_animated = count($all_slides) > 1;
 ?>
 <section
-    class="ch-hero xl:min-h-150 flex items-center has-bg pt-30 sm:pt-10 pb-20 sm:pb-15 border-b-5 border-b-primary"
+    class="ch-hero xl:min-h-150 flex items-center pt-(--header-height) sm:pt-0 has-bg pb-20 sm:pb-15 border-b-5 border-b-primary"
     <?php echo taw_editor_section('hero'); ?>>
 
     <div class="ch-hero__bg"
@@ -65,7 +65,8 @@ $is_animated = count($all_slides) > 1;
             <div class="flex items-center justify-center sm:justify-start mt-2 gap-2">
                 <?php $button->render(['text' => __('¡Contáctanos!', 'taw-theme'), 'url' => '/contacto']); ?>
             </div>
-            <div class="links mt-5 flex justify-center sm:flex-col gap-2 sm:pl-5 sm:border-l sm:border-primary">
+            <p class="mt-5 text-center sm:text-left w-full">Explora:</p>
+            <div class="links mt-5 flex justify-center sm:flex-col gap-2 sm:border-primary">
                 <a href="#financiera" class="flex items-center gap-1 py-1 px-2 bg-gray-100/50 rounded w-fit text-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />

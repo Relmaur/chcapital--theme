@@ -9,21 +9,88 @@ main {
     padding-top: var(--header-height, 0px);
 
     @media(max-width: 767px) {
-        padding-top: calc(var(--header-height, 0px) + 1.5rem);
+        // padding-top: calc(var(--header-height, 0px) + 1.5rem);
     }
 
     .ch-section {
         padding: var(--section-vertical-padding) 0;
     }
 
-    .ch-section+.ch-section.colored {
-        // padding-bottom: 0;
+    .ch-section:not(:has(+ .ch-section.colored)) {
+        border-bottom: 1px solid var(--color-gray-200);
     }
 
     .ch-section {
         scroll-margin-top: calc(var(--header-height, 0px) + var(--section-vertical-padding));
     }
+
+    // ── Ornaments — light sections only ──────────────────────────
+    .ch-section:not(.colored) {
+        position: relative;
+        overflow: hidden;
+
+        div[class|="section-container"] {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-ornament {
+            opacity: 0.3;
+
+            @media(max-width: 767px) {
+                opacity: 0.25;
+            }
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────
 }
+
+// ── Section ornament dots ─────────────────────────────────────────
+
+@keyframes dot-pulse {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.45;
+        transform: scale(var(--scale, 2));
+    }
+}
+
+.section-ornament {
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1.5rem);
+    grid-template-rows: repeat(var(--rows), 1.5rem);
+    pointer-events: none;
+    z-index: 0;
+
+    &--tr {
+        top: -0.5rem;
+        right: -0.5rem;
+    }
+
+    &--bl {
+        bottom: -0.5rem;
+        left: -0.5rem;
+    }
+}
+
+.section-ornament__dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    margin: auto;
+    animation: dot-pulse var(--dur, 3s) var(--delay, 0s) ease-in-out infinite;
+}
+
+// ─────────────────────────────────────────────────────────────────
 
 // ── Site Footer ──────────────────────────────────────────────────
 

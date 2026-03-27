@@ -32,10 +32,10 @@ if ($first_thumb_id) {
 get_header();
 ?>
 
-<div class="section-container--sm py-16">
+<div class="section-container--sm py-16 ch-section">
 
     <header class="mb-12">
-        <h1 class="text-4xl font-bold">Artículos y Perspectivas.</h1>
+        <h1 class="text-4xl font-bold section-title">Artículos y Perspectivas.</h1>
         <p class="mt-3 text-xl">Conocimiento financiero para fundamentar cada decisión.</p>
     </header>
 
@@ -49,7 +49,7 @@ get_header();
         ?>
 
         <article <?php post_class('mb-14 group'); ?>>
-            <a href="<?php the_permalink(); ?>" class="grid md:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-md no-underline bg-white hover:shadow-lg transition-shadow">
+            <a href="<?php the_permalink(); ?>" class="border border-gray-100 grid md:grid-cols-2 gap-0 rounded-2xl overflow-hidden no-underline bg-white hover:shadow-lg transition-shadow">
 
                 <?php if ($hero_thumb_id) : ?>
                     <div class="overflow-hidden">
@@ -82,7 +82,6 @@ get_header();
                         <?php the_author(); ?>
                     </p>
                 </div>
-
             </a>
         </article>
 
@@ -91,14 +90,14 @@ get_header();
             <?php
             // ── Remaining posts grid ───────────────────────────────────────
             ?>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
 
                 <?php while (have_posts()) : the_post();
                     $thumb_id = get_post_thumbnail_id();
                     $cats     = get_the_category();
                 ?>
 
-                    <article <?php post_class('group bg-white rounded-xl shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow'); ?>>
+                    <article <?php post_class('group bg-white rounded-xl overflow-hidden flex flex-col hover:shadow-md transition-shadow border border-gray-100 '); ?>>
 
                         <?php if ($thumb_id) : ?>
                             <a href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true" class="block overflow-hidden shrink-0">
@@ -144,8 +143,8 @@ get_header();
 
         <div class="mt-14">
             <?php the_posts_pagination([
-                'prev_text' => __('&larr; Newer', 'taw-theme'),
-                'next_text' => __('Older &rarr;', 'taw-theme'),
+                'prev_text' => __('&larr; Nuevos', 'taw-theme'),
+                'next_text' => __('Anteriores &rarr;', 'taw-theme'),
             ]); ?>
         </div>
 

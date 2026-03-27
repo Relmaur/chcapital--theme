@@ -18,7 +18,7 @@ get_header();
 
 <?php BlockRegistry::render('hero'); ?>
 
-<section class="ch-section border-b border-b-gray-200">
+<section class="ch-section">
     <div class="section-container--sm flex items-center gap-10 md:flex-row flex-col">
         <div class="image flex-1 rounded-lg overflow-hidden aspect-video">
             <img class="rounded-lg object-cover w-full h-full" src="https://placehold.co/1000x1000" alt="">

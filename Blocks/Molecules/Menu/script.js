@@ -6,12 +6,42 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('Menu', () => ({
         open: false,
         mobileOpen: false,
+        topHidden: false,
         query: '',
         results: [],
         loading: false,
         _timer: null,
+        _lastScrollY: 0,
+        _scrollTicking: false,
 
         init() {
+            this._lastScrollY = window.scrollY;
+            this._onScroll = () => {
+                if (this._scrollTicking) return;
+                this._scrollTicking = true;
+                requestAnimationFrame(() => {
+                    if (window.innerWidth >= 640) {
+                        this._scrollTicking = false;
+                        return;
+                    }
+                    const current    = window.scrollY;
+                    const delta      = current - this._lastScrollY;
+                    const nearBottom = current + window.innerHeight >= document.documentElement.scrollHeight - 60;
+
+                    if (!nearBottom) {
+                        if (delta > 5 && current > 60) {
+                            this.topHidden = true;
+                        } else if (delta < -5) {
+                            this.topHidden = false;
+                        }
+                    }
+
+                    this._lastScrollY   = current;
+                    this._scrollTicking = false;
+                });
+            };
+            window.addEventListener('scroll', this._onScroll, { passive: true });
+
             this.$watch('open', (val) => {
                 if (val) {
                     this.$nextTick(() => this.$refs.searchInput?.focus());

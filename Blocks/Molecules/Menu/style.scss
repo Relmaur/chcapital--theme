@@ -2,6 +2,22 @@
  * Menu Block Styles
  */
 
+/* ── Hide nav top on scroll down (mobile only) ───────────────── */
+
+@media (max-width: 639px) {
+    .nav__top {
+        max-height: 200px;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu.is-top-hidden .nav__top {
+        max-height: 0;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+
 .menu {
     display: flex;
     flex-direction: column;

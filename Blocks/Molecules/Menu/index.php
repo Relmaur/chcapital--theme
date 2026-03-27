@@ -10,7 +10,7 @@
 
 ?>
 
-<div class="menu flex flex-col" x-data="Menu">
+<div class="menu flex flex-col" x-data="Menu" :class="{ 'is-top-hidden': topHidden }">
     <div class="nav__top py-3 bg-primary flex-1">
         <div class="site-branding section-container--sm flex flex-col sm:flex-row items-center justify-between">
             <div class="logo">
@@ -124,7 +124,7 @@
         </div>
     </div>
 
-    <div class="nav__bottom py-4 bg-secondary flex-1">
+    <div class="nav__bottom py-2 sm:py-4 bg-secondary flex-1">
         <div class="section-container--sm flex gap-4 items-center justify-center sm:justify-between flex-wrap">
             <?php
 

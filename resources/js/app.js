@@ -16,6 +16,35 @@ window.Alpine = Alpine;
 // has had a chance to call Alpine.data() inside its alpine:init listener.
 document.addEventListener('DOMContentLoaded', () => Alpine.start());
 
+// ── Section ornament dots ─────────────────────────────────────────
+
+function createOrnament(position, cols, rows) {
+    const wrap = document.createElement('div');
+    wrap.className = `section-ornament section-ornament--${position}`;
+    wrap.setAttribute('aria-hidden', 'true');
+    wrap.style.setProperty('--cols', cols);
+    wrap.style.setProperty('--rows', rows);
+
+    for (let i = 0; i < cols * rows; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'section-ornament__dot';
+        dot.style.setProperty('--dur',   `${(Math.random() * 3 + 2).toFixed(2)}s`);
+        dot.style.setProperty('--delay', `${(Math.random() * 5).toFixed(2)}s`);
+        dot.style.setProperty('--scale', `${(Math.random() * 0.8 + 1.6).toFixed(2)}`);
+        wrap.appendChild(dot);
+    }
+    return wrap;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.ch-section:not(.colored)').forEach(section => {
+        section.appendChild(createOrnament('tr', 8, 8));
+        section.appendChild(createOrnament('bl', 5, 5));
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────
+
 // All anchor links must be smoothly scrolled to, even if the browser doesn't support CSS scroll-behavior: smooth
 // (e.g. Safari on macOS). This is needed for the "Learn More" link in the Hero block, and any future anchor links.
 document.addEventListener('DOMContentLoaded', () => {

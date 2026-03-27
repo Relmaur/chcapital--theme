@@ -11,7 +11,7 @@
 if (empty($heading)) return;
 ?>
 
-<section <?php echo $section_id ? 'id="' . esc_attr($section_id) . '"' : ''; ?> class="ch-section link_list border-b border-b-gray-200">
+<section <?php echo $section_id ? 'id="' . esc_attr($section_id) . '"' : ''; ?> class="ch-section link_list ">
     <div class="section-container--sm mx-auto px-4">
 
         <h2 class="section-title">
