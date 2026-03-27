@@ -4,6 +4,9 @@ import '../scss/app.scss'; // Custom SCSS (fonts, etc.)
 
 // 2. Import Alpine
 import Alpine from 'alpinejs';
+import collapse from '@alpinejs/collapse';
+
+Alpine.plugin(collapse);
 
 // 3. Expose Alpine globally so block scripts can register components via Alpine.data()
 window.Alpine = Alpine;

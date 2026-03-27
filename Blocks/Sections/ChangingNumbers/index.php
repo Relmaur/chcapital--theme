@@ -8,10 +8,10 @@
  */
 ?>
 
-<section class="ch-section bg-primary">
+<section class="ch-section bg-primary colored">
     <div class="section-container--sm">
         <?php if (!empty($title)) : ?>
-            <h2 class="section-title text-white left-[50%] -translate-x-1/2"><?php echo esc_html($title); ?></h2>
+            <h2 class="section-title text-white left-[50%] -translate-x-1/2 text-center"><?php echo esc_html($title); ?></h2>
         <?php endif; ?>
         <div class="changing_numbers flex flex-wrap items-center gap-15 justify-center">
             <?php foreach ($numbers as $item) : ?>

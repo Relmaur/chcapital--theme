@@ -1,0 +1,57 @@
+/**
+ * FAQs Block Styles
+ */
+
+.faqs {
+    position: relative;
+
+    &__list {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        border-top: 1px solid var(--color-gray-200, #e5e7eb);
+    }
+
+    &__item {
+        border-bottom: 1px solid var(--color-gray-200, #e5e7eb);
+    }
+
+    &__trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1.25rem 0;
+        text-align: left;
+        font-size: 1rem;
+        font-weight: 600;
+        color: inherit;
+        background: none;
+        border: none;
+        cursor: pointer;
+        gap: 1rem;
+
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        transition: transform 0.25s ease;
+    }
+
+    &__body {
+        overflow: hidden;
+    }
+
+    &__answer {
+        padding-bottom: 1.25rem;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--color-gray-600, #4b5563);
+    }
+}

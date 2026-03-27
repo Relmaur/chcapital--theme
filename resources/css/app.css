@@ -49,7 +49,7 @@
   }
 
   .section-title {
-    @apply relative inline-block text-4xl w-fit font-semibold mb-10 before:content-[''] before:block before:w-12 before:h-1 before:bg-primary before:absolute before:-bottom-2 before:left-0;
+    @apply relative inline-block text-4xl w-fit font-bold mb-10 before:content-[''] before:block before:w-12 before:h-1 before:bg-primary before:absolute before:-bottom-2 before:left-0;
   }
 }
 

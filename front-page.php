@@ -4,7 +4,7 @@
 use TAW\Core\Block\BlockRegistry;
 
 // 1. Declare which blocks this page needs (BEFORE get_header)
-BlockRegistry::queue('hero', 'changing_numbers', 'legales', 'link_list--financiera', 'link_list--fideicomisos');
+BlockRegistry::queue('hero', 'changing_numbers', 'legales', 'link_list--financiera', 'link_list--fideicomisos', 'faqs');
 
 // Example
 // BlockRegistry::queue('hero', 'stats', 'testimonials', 'cta');
@@ -44,6 +44,8 @@ BlockRegistry::render('link_list--fideicomisos');
 BlockRegistry::render('changing_numbers');
 
 BlockRegistry::render('legales');
+
+BlockRegistry::render('faqs');
 
 ?>
 

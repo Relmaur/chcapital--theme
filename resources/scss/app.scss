@@ -16,8 +16,8 @@ main {
         padding: var(--section-vertical-padding) 0;
     }
 
-    .ch-section+.ch-section {
-        // padding-top: 0;
+    .ch-section+.ch-section.colored {
+        // padding-bottom: 0;
     }
 
     .ch-section {
