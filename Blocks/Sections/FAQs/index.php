@@ -12,7 +12,7 @@
 if (empty($items)) return;
 ?>
 
-<section <?php echo $section_id ? 'id="' . esc_attr($section_id) . '"' : ''; ?> class="ch-section faqs">
+<section <?php echo $section_id ? 'id="' . esc_attr($section_id) . '"' : ''; ?> class="ch-section faqs bg-lightgray">
     <div class="section-container--sm mx-auto px-4">
 
         <?php if ($heading): ?>

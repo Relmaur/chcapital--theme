@@ -7,6 +7,7 @@
 :root {
   --color-primary: #004a98;
   --color-secondary: #003d7d;
+  --color-lightgray: #f8fafc;
   --color-accent: #10b981;
   --color-background: #ffffff;
   --color-text: #111111;
@@ -58,4 +59,5 @@
 
   --color-primary: var(--color-primary);
   --color-secondary: var(--color-secondary);
+  --color-lightgray: var(--color-lightgray);
 }

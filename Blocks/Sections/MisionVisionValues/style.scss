@@ -1,0 +1,153 @@
+/**
+ * MisionVisionValues Block Styles
+ */
+
+.mvv {
+    &__top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+    }
+
+    &__card {
+        position: relative;
+        padding: 2.5rem;
+        border-radius: 1rem;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        &--mision {
+            background: var(--color-primary, #004a98);
+            color: white;
+        }
+
+        &--vision {
+            background: white;
+            color: inherit;
+            border: 2px solid var(--color-gray-200, #e5e7eb);
+            box-shadow: 0 4px 24px rgba(0, 74, 152, 0.07);
+        }
+
+        // Decorative corner accent
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -1.5rem;
+            right: -1.5rem;
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+            opacity: 0.08;
+            background: currentColor;
+        }
+    }
+
+    &__card-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        flex-shrink: 0;
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .mvv__card--vision & {
+            color: var(--color-primary, #004a98);
+        }
+    }
+
+    &__card-heading {
+        font-size: 1.375rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    &__card-text {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        margin: 0;
+
+        .mvv__card--mision & {
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .mvv__card--vision & {
+            color: var(--color-gray-600, #4b5563);
+        }
+    }
+
+    // Values section
+    &__values {
+        border-top: 1px solid var(--color-gray-200, #e5e7eb);
+        padding-top: 3.5rem;
+    }
+
+    &__values-heading {
+        margin-bottom: 2.5rem;
+    }
+
+    &__values-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+
+    &__value {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        background: #f8fafc;
+        border: 1px solid var(--color-gray-200, #e5e7eb);
+        transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+        &:hover {
+            box-shadow: 0 8px 30px rgba(0, 74, 152, 0.1);
+            transform: translateY(-2px);
+        }
+    }
+
+    &__value-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--color-primary, #004a98);
+        opacity: 0.15;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+    }
+
+    &__value-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--color-primary, #004a98);
+    }
+
+    &__value-text {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: var(--color-gray-600, #4b5563);
+        margin: 0;
+    }
+
+    @media (max-width: 1024px) {
+        &__values-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        &__top {
+            grid-template-columns: 1fr;
+        }
+
+        &__values-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+}
