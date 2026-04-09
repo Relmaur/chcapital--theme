@@ -65,13 +65,37 @@ class WhoAreWe extends MetaBlock
 
     protected function getData(int $postId): array
     {
+        $default_services = [
+            [
+                'name' => 'Crédito PYME',
+                'description' => 'Descripción breve del servicio 1 que ofrecemos a nuestros clientes.',
+                'url' => '#',
+            ],
+            [
+                'name' => 'Crédito personal',
+                'description' => 'Descripción breve del servicio 2 que ofrecemos a nuestros clientes.',
+                'url' => '#',
+            ],
+            [
+                'name' => 'Fideicomisos de Garantía',
+                'description' => 'Descripción breve del servicio 3 que ofrecemos a nuestros clientes.',
+                'url' => '#',
+            ],
+            [
+                'name' => 'Servicio Escrow',
+                'description' => 'Descripción breve del servicio 4 que ofrecemos a nuestros clientes.',
+                'url' => '#',
+            ],
+        ];
+
         return [
             'heading'      => $this->getMeta($postId, 'who_heading') ?: __('¿Quiénes Somos?', 'taw-theme'),
-            'content'      => $this->getMeta($postId, 'who_content') ?: __('<p>En CH Capital somos una institución financiera mexicana con más de dos décadas de experiencia. Nos especializamos en brindar soluciones de crédito, arrendamiento y servicios fiduciarios a empresas y personas que buscan hacer realidad sus proyectos con respaldo sólido y asesoría cercana.</p><p>Nuestra filosofía se basa en tres pilares: transparencia, confianza y resultados. Cada producto financiero que ofrecemos está diseñado con el cliente en el centro, garantizando claridad en cada etapa del proceso.</p>', 'taw-theme'),
+            'content'      => $this->getMeta($postId, 'who_content') ?: __('<p>Somos una <strong>Sociedad Financiera de Objeto Múltiple</strong>, regulada y supervisada por la Comisión Nacional Bancaria y de Valores <strong>(CNBV)</strong>, la Comisión Nacional para la Defensa de los Usuarios de Servicios Financieros <strong>(CONDUSEF)</strong> y el Buró de Entidades Financieras. En <strong>CH Capital</strong> ofrecemos servicios que transforman las ideas de nuestros clientes en oportunidades de negocio. Somos más accesibles, más ágiles y más eficientes en la respuesta que damos a nuestros clientes, y creamos soluciones personalizadas, a la medida de las necesidades que se nos plantean.</p>', 'taw-theme'),
             'image_id'     => (int) $this->getMeta($postId, 'who_image'),
             'author_name'  => $this->getMeta($postId, 'who_author_name') ?: 'Alfredo Chumacero',
             'author_title' => $this->getMeta($postId, 'who_author_title') ?: __('Fundador', 'taw-theme'),
             'author_quote' => $this->getMeta($postId, 'who_author_quote') ?: __('Convertimos las ideas de nuestros clientes en oportunidades de negocio reales y sostenibles.', 'taw-theme'),
+            'services'     => $default_services,
         ];
     }
 }
