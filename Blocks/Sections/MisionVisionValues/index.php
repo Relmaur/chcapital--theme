@@ -45,14 +45,14 @@
                 <h2 class="mvv__values-heading section-title"><?php _e('Nuestros Valores', 'taw-theme'); ?></h2>
                 <div class="mvv__values-grid group">
                     <?php foreach ($values as $i => $value) : ?>
-                        <div class="mvv__value overflow-y-hidden hover:pointer">
+                        <div class="overflow-y-hidden mvv__value hover:pointer">
                             <span class="mvv__value-number" aria-hidden="true">
                                 <?php // echo str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT); 
                                 ?>
                                 <?php echo esc_html(mb_strtoupper(mb_substr($value['value_title'] ?? '', 0, 1))); ?>
                             </span>
                             <h3 class="mvv__value-title"><?php echo esc_html($value['value_title'] ?? ''); ?></h3>
-                            <p class="mvv__value-text h-auto sm:group-hover:h-auto sm:h-0 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"><?php echo esc_html($value['value_text'] ?? ''); ?></p>
+                            <p class="h-auto transition-opacity mvv__value-text"><?php echo esc_html($value['value_text'] ?? ''); ?></p>
                         </div>
                     <?php endforeach; ?>
                 </div>
