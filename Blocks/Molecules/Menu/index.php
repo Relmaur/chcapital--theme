@@ -156,7 +156,7 @@
             ); ?>">
                 <?php if ($menu && $menu->hasItems()): ?>
                     <nav class="flex-wrap items-center hidden sm:flex gap-x-8 gap-y-3">
-                        <?php foreach ($menu->items() as $item):<?php
+                        <?php foreach ($menu->items() as $item):
                             // dump($item);
                             ?>
                             <?php $icon = get_post_meta(
