@@ -15,6 +15,7 @@
     "vite-plugin-full-reload": "^1.2.0"
   },
   "dependencies": {
-    "@alpinejs/collapse": "^3.15.8"
+    "@alpinejs/collapse": "^3.15.8",
+    "cssstudio": "^0.5.0"
   }
 }

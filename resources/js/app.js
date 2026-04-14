@@ -1,3 +1,8 @@
+// CSS Studio — dev only
+if (process.env.NODE_ENV === "development") {
+  import("cssstudio").then(({ startStudio }) => startStudio());
+}
+
 // 1. Import Styles (so Vite knows to compile them)
 import '../css/app.css';   // Tailwind v4 utilities
 import '../scss/app.scss'; // Custom SCSS (fonts, etc.)
