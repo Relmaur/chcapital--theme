@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace TAW\Blocks\Sections\Hero;
+namespace TAW\Blocks\Sections\HeroHome;
 
 use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;
 
-class Hero extends MetaBlock
+class HeroHome extends MetaBlock
 {
-    protected string $id = 'hero';
+    protected string $id = 'hero_home';
 
     protected function registerMetaboxes(): void
     {

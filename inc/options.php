@@ -19,10 +19,12 @@ new OptionsPage([
         ['id' => 'social_twitter',   'label' => __('X (Twitter) URL', 'taw-theme'), 'type' => 'url'],
         ['id' => 'social_linkedin',  'label' => __('LinkedIn URL', 'taw-theme'),   'type' => 'url'],
         ['id' => 'social_youtube',   'label' => __('YouTube URL', 'taw-theme'),    'type' => 'url'],
+        ['id' => 'css_studio_enabled', 'label' => __('Enable CSS Studio', 'taw-theme'), 'type' => 'checkbox'],
     ],
     'tabs' => [
         ['id' => 'general', 'label' => __('General', 'taw-theme'), 'fields' => ['company_name', 'company_phone', 'company_email', 'company_address']],
         ['id' => 'footer',  'label' => __('Footer', 'taw-theme'),  'fields' => ['footer_text']],
         ['id' => 'social',  'label' => __('Social', 'taw-theme'),  'fields' => ['social_facebook', 'social_instagram', 'social_twitter', 'social_linkedin', 'social_youtube']],
+        ['id' => 'devtools', 'label' => __('Developer Tools', 'taw-theme'), 'fields' => ['css_studio_enabled']],
     ],
 ]);

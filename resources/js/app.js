@@ -1,6 +1,6 @@
-// CSS Studio — dev only
-if (process.env.NODE_ENV === "development") {
-  import("cssstudio").then(({ startStudio }) => startStudio());
+// CSS Studio — dev only, toggled via Theme Settings → Developer Tools
+if (process.env.NODE_ENV === 'development' && window.tawConfig?.cssStudioEnabled) {
+  import('cssstudio').then(({ startStudio }) => startStudio());
 }
 
 // 1. Import Styles (so Vite knows to compile them)

@@ -10,7 +10,7 @@ use TAW\Core\Block\BlockRegistry;
 
 // 1. Queue all blocks for this page BEFORE get_header()
 BlockRegistry::queue(
-    'about_hero',
+    'hero_standard',
     'who_are_we',
     'mision_vision_values',
     'our_team',
@@ -22,7 +22,7 @@ BlockRegistry::queue(
 get_header();
 ?>
 
-<?php BlockRegistry::render('about_hero'); ?>
+<?php BlockRegistry::render('hero_standard'); ?>
 
 <?php BlockRegistry::render('who_are_we'); ?>
 

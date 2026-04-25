@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace TAW\Blocks\Sections\AboutHero;
+namespace TAW\Blocks\Sections\HeroStandard;
 
 use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;
 use TAW\Helpers\Image;
 
-class AboutHero extends MetaBlock
+class HeroStandard extends MetaBlock
 {
-    protected string $id = 'about_hero';
+    protected string $id = 'hero_standard';
 
     protected function registerMetaboxes(): void
     {
@@ -26,8 +26,8 @@ class AboutHero extends MetaBlock
         }
 
         new Metabox([
-            'id'     => 'taw_about_hero',
-            'title'  => __('About Hero Section', 'taw-theme'),
+            'id'     => 'taw_hero_standard',
+            'title'  => __('Standard Hero Section', 'taw-theme'),
             'screens' => ['page-nosotros.php'],
             // 'show_on' => static function (\WP_Post $post): bool {
             //     return get_page_template_slug($post->ID) === 'page-nosotros.php'
@@ -35,20 +35,20 @@ class AboutHero extends MetaBlock
             // },
             'fields' => [
                 [
-                    'id'    => 'about_hero_heading',
+                    'id'    => 'hero_standard_heading',
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
                     'width' => '100',
                 ],
                 [
-                    'id'    => 'about_hero_subtitle',
+                    'id'    => 'hero_standard_subtitle',
                     'label' => __('Subtitle', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 3,
                     'width' => '100',
                 ],
                 [
-                    'id'    => 'about_hero_image',
+                    'id'    => 'hero_standard_image',
                     'label' => __('Background Image', 'taw-theme'),
                     'type'  => 'image',
                     'width' => '100',
@@ -60,9 +60,9 @@ class AboutHero extends MetaBlock
     protected function getData(int $postId): array
     {
         return [
-            'heading'  => $this->getMeta($postId, 'about_hero_heading') ?: __('Conoce CH Capital', 'taw-theme'),
-            'subtitle' => $this->getMeta($postId, 'about_hero_subtitle') ?: __('Más de dos décadas construyendo confianza, crecimiento y oportunidades en el sector financiero mexicano.', 'taw-theme'),
-            'image_id' => (int) $this->getMeta($postId, 'about_hero_image'),
+            'heading'  => $this->getMeta($postId, 'hero_standard_heading') ?: __('Conoce CH Capital', 'taw-theme'),
+            'subtitle' => $this->getMeta($postId, 'hero_standard_subtitle') ?: __('Más de dos décadas construyendo confianza, crecimiento y oportunidades en el sector financiero mexicano.', 'taw-theme'),
+            'image_id' => (int) $this->getMeta($postId, 'hero_standard_image'),
         ];
     }
 }

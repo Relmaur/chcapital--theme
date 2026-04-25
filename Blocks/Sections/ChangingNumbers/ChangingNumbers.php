@@ -68,7 +68,7 @@ class ChangingNumbers extends MetaBlock
 
     protected function getData(int $postId): array
     {
-        $rows = Metabox::get_repeater($postId, 'changing_numbers_items');
+        $rows = $this->getRepeater($postId, 'changing_numbers_items');
 
         if (empty($rows)) {
             $rows = [
