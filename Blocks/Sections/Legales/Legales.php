@@ -18,7 +18,8 @@ class Legales extends MetaBlock
             'title'  => __('Legales Section', 'taw-theme'),
             'screen' => 'page',
             'show_on' => static function (\WP_Post $post): bool {
-                return (int) $post->ID === (int) get_option('page_on_front');
+                return (int) $post->ID === (int) get_option('page_on_front')
+                    || get_page_template_slug($post->ID) === 'page-credito-pyme.php';
             },
             'fields' => [
                 [

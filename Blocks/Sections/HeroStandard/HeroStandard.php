@@ -18,7 +18,7 @@ class HeroStandard extends MetaBlock
         // because blocks are queued before get_header().
         if (!is_admin()) {
             add_action('wp_head', function () {
-                $image_id = (int) $this->getMeta(get_the_ID(), 'about_hero_image');
+                $image_id = (int) $this->getMeta(get_the_ID(), 'hero_standard_image');
                 if ($image_id) {
                     echo Image::preload_tag($image_id, 'full'); // phpcs:ignore
                 }
@@ -28,7 +28,7 @@ class HeroStandard extends MetaBlock
         new Metabox([
             'id'     => 'taw_hero_standard',
             'title'  => __('Standard Hero Section', 'taw-theme'),
-            'screens' => ['page-nosotros.php'],
+            'screens' => ['page-nosotros.php', 'page-credito-pyme.php'],
             // 'show_on' => static function (\WP_Post $post): bool {
             //     return get_page_template_slug($post->ID) === 'page-nosotros.php'
             //         || in_array($post->post_name, ['nosotros', 'about-us'], true);
