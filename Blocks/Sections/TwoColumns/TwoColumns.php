@@ -16,7 +16,7 @@ class TwoColumns extends MetaBlock
         new Metabox([
             'id'     => 'taw_two_columns',
             'title'  => __('TwoColumns Section', 'taw-theme'),
-            'screen' => 'page',
+            'screen' => [],
             'fields' => [
                 [
                     'id'    => 'two_columns_heading',

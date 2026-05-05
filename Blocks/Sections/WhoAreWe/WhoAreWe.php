@@ -16,7 +16,7 @@ class WhoAreWe extends MetaBlock
         new Metabox([
             'id'     => 'taw_who_are_we',
             'title'  => __('Who Are We Section', 'taw-theme'),
-            'screen' => 'page',
+            'screen' => ['page-nosotros.php'],
             'show_on' => static function (\WP_Post $post): bool {
                 return get_page_template_slug($post->ID) === 'page-about-us.php'
                     || in_array($post->post_name, ['nosotros', 'about-us'], true);

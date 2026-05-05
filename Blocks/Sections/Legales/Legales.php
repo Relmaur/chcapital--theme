@@ -16,11 +16,7 @@ class Legales extends MetaBlock
         new Metabox([
             'id'     => 'taw_legales',
             'title'  => __('Legales Section', 'taw-theme'),
-            'screen' => 'page',
-            'show_on' => static function (\WP_Post $post): bool {
-                return (int) $post->ID === (int) get_option('page_on_front')
-                    || get_page_template_slug($post->ID) === 'page-credito-pyme.php';
-            },
+            'screen' => ['front-page.php', 'page-credito-pyme.php', 'page-arrendamiento-puro.php'],
             'fields' => [
                 [
                     'id'    => 'legales_heading',

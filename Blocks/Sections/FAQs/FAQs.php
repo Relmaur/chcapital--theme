@@ -16,10 +16,7 @@ class FAQs extends MetaBlock
         new Metabox([
             'id'     => 'taw_faqs',
             'title'  => 'FAQs',
-            'screen' => 'page',
-            'show_on' => static function (\WP_Post $post): bool {
-                return (int) $post->ID === (int) get_option('page_on_front');
-            },
+            'screens' => ['front-page.php', 'page-fideicomisos.php'],
             'fields' => [
                 [
                     'id'          => 'faqs_section_id',

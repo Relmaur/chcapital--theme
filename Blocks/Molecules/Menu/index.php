@@ -6,6 +6,108 @@
  */
 
 // Add menu-specific metaboxes
+
+$render_menu_icon = static function ($raw_icon): string {
+    if (!is_string($raw_icon) || trim($raw_icon) === '') {
+        return '';
+    }
+
+    $decoded_icon = wp_unslash($raw_icon);
+    for ($i = 0; $i < 2; $i++) {
+        $decoded_icon = html_entity_decode($decoded_icon, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    $allowed_svg_tags = [
+        'svg' => [
+            'xmlns' => true,
+            'viewbox' => true,
+            'fill' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+            'stroke-linecap' => true,
+            'stroke-linejoin' => true,
+            'stroke-miterlimit' => true,
+            'class' => true,
+            'width' => true,
+            'height' => true,
+            'role' => true,
+            'aria-hidden' => true,
+            'focusable' => true,
+            'preserveaspectratio' => true,
+        ],
+        'g' => [
+            'fill' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+            'clip-path' => true,
+            'transform' => true,
+        ],
+        'path' => [
+            'd' => true,
+            'fill' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+            'stroke-linecap' => true,
+            'stroke-linejoin' => true,
+            'stroke-miterlimit' => true,
+            'fill-rule' => true,
+            'clip-rule' => true,
+            'transform' => true,
+        ],
+        'circle' => [
+            'cx' => true,
+            'cy' => true,
+            'r' => true,
+            'fill' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+            'transform' => true,
+        ],
+        'rect' => [
+            'x' => true,
+            'y' => true,
+            'width' => true,
+            'height' => true,
+            'rx' => true,
+            'ry' => true,
+            'fill' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+            'transform' => true,
+        ],
+        'line' => [
+            'x1' => true,
+            'y1' => true,
+            'x2' => true,
+            'y2' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+        ],
+        'polyline' => [
+            'points' => true,
+            'fill' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+        ],
+        'polygon' => [
+            'points' => true,
+            'fill' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+        ],
+        'ellipse' => [
+            'cx' => true,
+            'cy' => true,
+            'rx' => true,
+            'ry' => true,
+            'fill' => true,
+            'stroke' => true,
+            'stroke-width' => true,
+        ],
+    ];
+
+    return wp_kses($decoded_icon, $allowed_svg_tags);
+};
 ?>
 
 <div class="flex flex-col menu" x-data="Menu" :class="{ 'is-top-hidden': topHidden }">
@@ -173,7 +275,7 @@
     ? "opacity-100 font-semibold"
     : "opacity-85 hover:opacity-100"; ?>">
                                     <?php if ($icon): ?>
-                                        <span class="w-5 menu__item-icon text-primary"><?php echo $icon; ?></span>
+                                        <span class="w-5 menu__item-icon text-primary"><?php echo $render_menu_icon($icon); ?></span>
                                     <?php endif; ?>
                                     <?php echo esc_html($item->title()); ?>
                                     <?php if ($item->hasChildren()): ?>
@@ -201,7 +303,7 @@
                                                         ? "bg-gray-100"
                                                         : ""; ?>">
                                                     <?php if ($child_icon): ?>
-                                                        <span class="w-5 menu__item-icon text-primary"><?php echo $child_icon; ?></span>
+                                                        <span class="w-5 menu__item-icon text-primary"><?php echo $render_menu_icon($child_icon); ?></span>
                                                     <?php endif; ?>
                                                     <?php echo esc_html(
                                                         $child->title(),
@@ -336,7 +438,7 @@
                                         : ""; ?>">
                                     <?php if (
                                         $mobile_icon
-                                    ): ?><span class="menu__item-icon"><?php echo $mobile_icon; ?></span><?php endif; ?>
+                                    ): ?><span class="menu__item-icon"><?php echo $render_menu_icon($mobile_icon); ?></span><?php endif; ?>
                                     <?php echo esc_html($item->title()); ?>
                                 </a>
                                 <button
@@ -374,7 +476,7 @@
                                                 : ""; ?>">
                                             <?php if ($child_mobile_icon): ?>
                                                 <span class="w-6 menu__item-icon">
-                                                    <?php echo $child_mobile_icon; ?>
+                                                    <?php echo $render_menu_icon($child_mobile_icon); ?>
                                                 </span>
                                             <?php endif; ?>
                                             <?php echo esc_html(
@@ -393,7 +495,7 @@
                                     : ""; ?>">
                                 <?php if ($mobile_icon): ?>
                                     <span class="w-6 menu__item-icon">
-                                        <?php echo $mobile_icon; ?>
+                                        <?php echo $render_menu_icon($mobile_icon); ?>
                                     </span>
                                 <?php endif; ?>
                                 <?php

@@ -16,7 +16,7 @@ class LogoList extends MetaBlock
         new Metabox([
             'id'     => 'taw_logo_list_about',
             'title'  => __('Logo List Section', 'taw-theme'),
-            'screen' => 'page',
+            'screen' => ['page-nosotros.php'],
             'show_on' => static function (\WP_Post $post): bool {
                 return get_page_template_slug($post->ID) === 'page-about-us.php'
                     || in_array($post->post_name, ['nosotros', 'about-us'], true);

@@ -37,7 +37,7 @@ class ContentBlock extends MetaBlock
         return match ($variation) {
             'benefits' => [
                 'label'   => 'Section — Lo que ofrecemos',
-                'screens' => ['page-credito-pyme.php'],
+                'screens' => ['page-credito-pyme.php', 'page-arrendamiento-puro.php'],
                 'bg'      => '',
                 'defaults' => [
                     'heading'    => 'Lo que ofrecemos',
@@ -54,7 +54,7 @@ class ContentBlock extends MetaBlock
 
             'characteristics' => [
                 'label'   => 'Section — Características del Crédito',
-                'screens' => ['page-credito-pyme.php'],
+                'screens' => ['page-credito-pyme.php', 'page-arrendamiento-puro.php'],
                 'bg'      => 'bg-lightgray',
                 'defaults' => [
                     'heading'    => 'Características del Crédito',
@@ -73,7 +73,7 @@ class ContentBlock extends MetaBlock
 
             'steps' => [
                 'label'   => 'Section — ¿Cómo solicitarlo?',
-                'screens' => ['page-credito-pyme.php'],
+                'screens' => ['page-credito-pyme.php', 'page-arrendamiento-puro.php'],
                 'bg'      => '',
                 'defaults' => [
                     'heading'    => '¿Cómo solicitarlo?',

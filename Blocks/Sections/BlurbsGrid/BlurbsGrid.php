@@ -16,7 +16,7 @@ class BlurbsGrid extends MetaBlock
         new Metabox([
             'id'      => 'taw_blurbs_grid',
             'title'   => __('Blurbs Grid Section', 'taw-theme'),
-            'screens' => ['page'],
+            'screens' => ['page-fideicomisos.php'],
             'fields'  => [
                 [
                     'id'    => 'blurbs_heading',
