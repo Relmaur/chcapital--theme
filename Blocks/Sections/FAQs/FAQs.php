@@ -29,17 +29,20 @@ class FAQs extends MetaBlock
                     'id'    => 'faqs_heading',
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
+                    'width' => '50'
                 ],
                 [
                     'id'    => 'faqs_subheading',
                     'label' => __('Subheading', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 3,
+                    'width' => '50'
                 ],
                 [
                     'id'     => 'faqs_items',
                     'label'  => __('FAQ Items', 'taw-theme'),
                     'type'   => 'repeater',
+                    'layout' => 'tabbed_horizontal',
                     'button' => __('Add FAQ', 'taw-theme'),
                     'fields' => [
                         [
@@ -51,7 +54,7 @@ class FAQs extends MetaBlock
                         [
                             'id'    => 'answer',
                             'label' => __('Answer', 'taw-theme'),
-                            'type'  => 'textarea',
+                            'type'  => 'wysiwyg',
                             'rows'  => 4,
                             'width' => '100',
                         ],

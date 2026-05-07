@@ -10,7 +10,7 @@
 
 use TAW\Core\Form\Form;
 ?>
-<section class="contact-cta ch-section bg-primary colored">
+<section class="contact-cta ch-section" style="--background-url: url('<?php echo get_site_url() ?>/wp-content/uploads/2026/05/ch-contact-us-bg-image.webp')">
     <div class="section-container--sm">
         <div class="contact-cta__inner">
 

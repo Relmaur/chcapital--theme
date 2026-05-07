@@ -106,16 +106,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.4.8",
+            "version": "v7.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707"
+                "reference": "d7d2b64a45a89d607865927b176fa51c33ddbb58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707",
-                "reference": "1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707",
+                "url": "https://api.github.com/repos/symfony/console/zipball/d7d2b64a45a89d607865927b176fa51c33ddbb58",
+                "reference": "d7d2b64a45a89d607865927b176fa51c33ddbb58",
                 "shasum": ""
             },
             "require": {
@@ -180,7 +180,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.4.8"
+                "source": "https://github.com/symfony/console/tree/v7.4.9"
             },
             "funding": [
                 {
@@ -200,7 +200,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-30T13:54:39+00:00"
+            "time": "2026-04-22T15:21:55+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -784,16 +784,16 @@
         },
         {
             "name": "taw/core",
-            "version": "v1.14.71",
+            "version": "v1.14.72",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Relmaur/taw-core.git",
-                "reference": "44a17b124da74d0a7122c5a331de9876c3d60c67"
+                "reference": "e412ff8962e031d96bcdabafe29c9307f89c18f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Relmaur/taw-core/zipball/44a17b124da74d0a7122c5a331de9876c3d60c67",
-                "reference": "44a17b124da74d0a7122c5a331de9876c3d60c67",
+                "url": "https://api.github.com/repos/Relmaur/taw-core/zipball/e412ff8962e031d96bcdabafe29c9307f89c18f2",
+                "reference": "e412ff8962e031d96bcdabafe29c9307f89c18f2",
                 "shasum": ""
             },
             "require": {
@@ -825,10 +825,10 @@
             ],
             "description": "TAW Theme Framework — block system, metabox engine, Vite asset pipeline for WordPress",
             "support": {
-                "source": "https://github.com/Relmaur/taw-core/tree/v1.14.71",
+                "source": "https://github.com/Relmaur/taw-core/tree/v1.14.72",
                 "issues": "https://github.com/Relmaur/taw-core/issues"
             },
-            "time": "2026-04-26T00:22:38+00:00"
+            "time": "2026-05-05T01:19:02+00:00"
         }
     ],
     "packages-dev": [],

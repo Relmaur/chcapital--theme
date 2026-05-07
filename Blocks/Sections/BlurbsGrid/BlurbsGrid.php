@@ -36,6 +36,7 @@ class BlurbsGrid extends MetaBlock
                     'label'  => __('Blurbs', 'taw-theme'),
                     'type'   => 'repeater',
                     'button' => __('Add Blurb', 'taw-theme'),
+                    'layout' => 'tabbed_horizontal',
                     'fields' => [
                         [
                             'id'    => 'image',

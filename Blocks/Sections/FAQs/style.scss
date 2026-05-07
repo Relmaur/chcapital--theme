@@ -53,5 +53,12 @@
         font-size: 0.95rem;
         line-height: 1.7;
         color: var(--color-gray-600, #4b5563);
+
+        ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
     }
 }

@@ -62,9 +62,9 @@ if (empty($items)) return;
                         x-show="active === id"
                         x-collapse
                     >
-                        <p class="faqs__answer">
-                            <?php echo nl2br(esc_html($item['answer'])); ?>
-                        </p>
+                        <div class="faqs__answer">
+                            <?php echo wp_kses_post($item['answer']); ?>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>

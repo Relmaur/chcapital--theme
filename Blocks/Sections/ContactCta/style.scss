@@ -3,11 +3,33 @@
  */
 
 .contact-cta {
+    background-image: var(--background-url);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    position: relative;
+
+    div[class|="section-container"] {
+        position: relative;
+        z-index: 3;
+    }
+
+    &::before {
+        position: absolute;
+        content: "";
+        inset: 0;
+        background: color-mix(in srgb, var(--color-primary, #004a98) 70%, transparent);
+        z-index: 1;
+    }
+
     &__inner {
         display: grid;
         grid-template-columns: 1fr 1.6fr;
         gap: 4rem;
         align-items: start;
+        position: relative;
+        z-index: 3;
     }
 
     &__headline {
