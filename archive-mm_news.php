@@ -23,7 +23,7 @@ $news_items = get_posts([
 ?>
 
 <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-<section class="hero-standard bg-primary border-b-4 border-white/20">
+<section class="hero-standard border-b-4 border-white/20" style="background: linear-gradient(to bottom, var(--color-primary) 0%, var(--color-secondary) 100%);">
     <div class="section-container--sm relative z-10 flex flex-col items-center text-center py-20 text-white">
         <nav class="mb-6" aria-label="<?php esc_attr_e('Breadcrumb', 'taw-theme'); ?>">
             <ol class="flex items-center justify-center gap-2 text-sm opacity-70">
