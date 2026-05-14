@@ -1,8 +1,8 @@
 /**
- * AboutHero Block Styles
+ * HeroStandard Block Styles
  */
 
-.about-hero {
+.hero-standard {
     position: relative;
     min-height: 55vh;
     display: flex;
@@ -38,26 +38,26 @@
     }
 
     // When a background image is present
-    &:has(.about-hero__bg) {
-        .about-hero__breadcrumb {
+    &:has(.hero-standard__bg) {
+        .hero-standard__breadcrumb {
             color: rgba(255, 255, 255, 0.8);
         }
 
-        .about-hero__heading {
+        .hero-standard__heading {
             color: white;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .about-hero__subtitle {
+        .hero-standard__subtitle {
             color: rgba(255, 255, 255, 0.88);
         }
     }
 
     // When no background image — gradient fallback, hide overlay
-    &:not(:has(.about-hero__bg)) {
+    &:not(:has(.hero-standard__bg)) {
         background: var(--general-gradient);
 
-        .about-hero__overlay {
+        .hero-standard__overlay {
             display: none;
         }
     }
@@ -79,7 +79,7 @@
     }
 
     @media (max-width: 768px) {
-        min-height: 45vh;
+        min-height: 65vh;
 
         &__heading {
             font-size: 2.25rem;

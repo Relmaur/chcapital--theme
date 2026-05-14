@@ -16,7 +16,7 @@ class ContactCta extends MetaBlock
         new Metabox([
             'id'      => 'taw_contact_cta',
             'title'   => __('Contact CTA Section', 'taw-theme'),
-            'screens' => ['page-credito-pyme.php', 'page-arrendamiento-puro.php', 'page-fideicomisos.php'],
+            'screens' => ['page-credito-pyme.php', 'page-arrendamiento-puro.php', 'page-fideicomisos.php', 'page-credito-de-nomina.php', 'page-escrow.php'],
             'fields'  => [
                 [
                     'id'    => 'contact_cta_heading',

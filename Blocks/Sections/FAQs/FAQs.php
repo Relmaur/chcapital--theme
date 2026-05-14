@@ -16,7 +16,7 @@ class FAQs extends MetaBlock
         new Metabox([
             'id'     => 'taw_faqs',
             'title'  => 'FAQs',
-            'screens' => ['front-page.php', 'page-fideicomisos.php'],
+            'screens' => ['front-page.php', 'page-fideicomisos.php', 'page-credito-de-nomina.php', 'page-escrow.php'],
             'fields' => [
                 [
                     'id'          => 'faqs_section_id',

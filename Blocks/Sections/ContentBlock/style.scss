@@ -1,11 +1,58 @@
 /**
  * ContentBlock Styles
  *
+ * layout = single      → centred single-column section
+ * layout = two_columns → two-column grid: content + image
+ *
  * UL items → benefit/spec cards
  * OL items → numbered steps with connector line
  */
 
 .content-block {
+
+    // ── Two-column layout ─────────────────────────────────────────────────────
+
+    &__grid {
+        display: grid;
+        align-items: center;
+        gap: 3.5rem;
+
+        &--img-left,
+        &--img-right {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 900px) {
+            &--img-left,
+            &--img-right {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            // On mobile, image always comes after text (natural DOM order)
+            &--img-left .content-block__image {
+                order: 1;
+            }
+
+            &--img-left .content-block__text-col {
+                order: 0;
+            }
+        }
+    }
+
+    &__image {
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.75rem;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 8px 32px rgba(0, 74, 152, 0.10);
+        }
+    }
+
+    // ── Shared content styles (UL / OL / p) ──────────────────────────────────
+
     &__content {
         // --- Shared list reset ---
         ul,
@@ -26,6 +73,12 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
+        }
+
+        // In two-column layout the content column is already narrow — single
+        // column of cards reads better than a cramped auto-fit grid.
+        .content-block__text-col & ul {
+            grid-template-columns: 1fr;
         }
 
         ul li {
@@ -61,8 +114,6 @@
         ol {
             counter-reset: steps-counter;
             max-width: 680px;
-            // margin-left: auto;
-            // margin-right: auto;
         }
 
         ol li {

@@ -124,9 +124,9 @@ add_action('after_setup_theme', function () {
     ]);
 });
 
-add_action('after_setup_theme', function () {
+add_action('init', function () {
     load_theme_textdomain('taw-theme', get_template_directory() . '/languages');
-}, 1);
+});
 
 // add_action('wp_nav_menu_item_custom_fields', function($item_id) {
 //     error_log('wp_nav_menu_item_custom_fields fired for item: ' . $item_id);
