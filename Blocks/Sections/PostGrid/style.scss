@@ -1,0 +1,304 @@
+/**
+ * PostGrid Block Styles
+ */
+
+.post-grid {
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+
+        @media (min-width: 640px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (min-width: 1024px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+    }
+
+    &__more-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--color-primary, #004a98);
+        font-weight: 600;
+        font-size: 0.9375rem;
+        border: 2px solid var(--color-primary, #004a98);
+        border-radius: 9999px;
+        padding: 0.75rem 2rem;
+        text-decoration: none;
+        transition: background-color 0.2s ease, color 0.2s ease;
+
+        svg {
+            width: 1.125rem;
+            height: 1.125rem;
+            transition: transform 0.2s ease;
+        }
+
+        &:hover {
+            background-color: var(--color-primary, #004a98);
+            color: white;
+
+            svg {
+                transform: translateX(4px);
+            }
+        }
+    }
+}
+
+// ── Post Card (shared) ───────────────────────────────────────────────
+
+.post-card {
+    position: relative;
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0, 74, 152, 0.08);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+        box-shadow: 0 8px 32px rgba(0, 74, 152, 0.15);
+        transform: translateY(-3px);
+    }
+
+    // ── Image area ───────────────────────────────────────────────────
+
+    &__image {
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    &__thumb {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+
+    &:hover &__thumb {
+        transform: scale(1.04);
+    }
+
+    &__thumb-placeholder {
+        width: 100%;
+        height: 100%;
+        background: var(--color-lightgray, #f8fafc);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &--guide svg {
+            width: 3rem;
+            height: 3rem;
+            color: var(--color-primary, #004a98);
+            opacity: 0.25;
+        }
+    }
+
+    // ── Play button (video cards) ────────────────────────────────────
+
+    &__play {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.32);
+        transition: background 0.3s ease;
+
+        svg {
+            width: 3.5rem;
+            height: 3.5rem;
+            color: white;
+            filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45));
+            transition: transform 0.2s ease;
+        }
+    }
+
+    &:hover &__play {
+        background: rgba(0, 61, 125, 0.6);
+
+        svg {
+            transform: scale(1.12);
+        }
+    }
+
+    // ── Taxonomy badge ───────────────────────────────────────────────
+
+    &__badge {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        z-index: 2;
+        background: var(--color-primary, #004a98);
+        color: white;
+        font-size: 0.625rem;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        pointer-events: none;
+    }
+
+    // ── Body ─────────────────────────────────────────────────────────
+
+    &__body {
+        padding: 1.25rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    &__title {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--color-text, #111);
+        margin: 0;
+        line-height: 1.45;
+    }
+
+    &__cta {
+        margin-top: auto;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-primary, #004a98);
+    }
+
+    &__count {
+        font-size: 0.8125rem;
+        color: #6b7280;
+    }
+
+    &__download {
+        margin-top: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-primary, #004a98);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        svg {
+            width: 1rem;
+            height: 1rem;
+            flex-shrink: 0;
+        }
+
+        &:hover {
+            color: var(--color-secondary, #003d7d);
+        }
+    }
+
+    // ── Gallery card: PhotoSwipe image fills the card ────────────────
+
+    &--gallery {
+        a.lightbox-image {
+            display: block;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            cursor: zoom-in;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.4s ease;
+            }
+        }
+
+        &:hover a.lightbox-image img {
+            transform: scale(1.04);
+        }
+    }
+}
+
+// ── Video Modal ──────────────────────────────────────────────────────
+
+.video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.88);
+        cursor: pointer;
+    }
+
+    &__container {
+        position: relative;
+        z-index: 1;
+        width: 90vw;
+        max-width: 900px;
+    }
+
+    &__close {
+        position: absolute;
+        top: -2.75rem;
+        right: 0;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: white;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.75;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+
+        svg {
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+
+        &:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+    }
+
+    &__player {
+        position: relative;
+        padding-bottom: 56.25%; // 16:9
+        height: 0;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        background: black;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+
+        iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    }
+}

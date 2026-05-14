@@ -13,6 +13,7 @@ use TAW\Support\ViteLoader;
 require_once get_template_directory() . '/vendor/autoload.php';
 
 require_once get_template_directory() . '/inc/options.php';
+require_once get_template_directory() . '/inc/multimedia-cpts.php';
 
 Theme::boot();
 
