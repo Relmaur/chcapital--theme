@@ -273,6 +273,7 @@ class ContentBlock extends MetaBlock
         new Metabox([
             'id'      => 'taw_content_block_' . $v,
             'title'   => __($c['label'], 'taw-theme'),
+            'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screens' => $c['screens'],
             'fields'  => [
                 [

@@ -16,6 +16,7 @@ require_once get_template_directory() . '/inc/options.php';
 
 Theme::boot();
 
+
 // Block script.js files use ES module syntax (import/export).
 // BaseBlock::enqueueDevAssets() calls wp_enqueue_script() directly and bypasses
 // ViteLoader::enqueueAsset(), so block handles never land in $moduleHandles.
@@ -50,6 +51,8 @@ Theme::performance(
         'preload_hero_image' => true,
     ]
 );
+
+
 
 /**
  * CSS Studio — inject tawConfig so app.js can check the toggle.

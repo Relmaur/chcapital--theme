@@ -7,6 +7,7 @@
  * @var string $heading
  * @var string $subheading
  * @var array  $items
+ * @var string $layout
  */
 
 if (empty($items)) return;
@@ -27,7 +28,7 @@ if (empty($items)) return;
             </p>
         <?php endif; ?>
 
-        <div class="faqs__list" x-data="{ active: null }">
+        <div class="faqs__list <?php echo $layout === 'two_columns' ? 'faqs__list--two-columns' : ''; ?>" x-data="{ active: null }">
             <?php foreach ($items as $index => $item): ?>
                 <?php if (empty($item['question'])) continue; ?>
                 <div

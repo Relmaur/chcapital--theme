@@ -16,6 +16,7 @@ class ChangingNumbers extends MetaBlock
         new Metabox([
             'id'     => 'taw_changing_numbers',
             'title'  => __('Changing Numbers', 'taw-theme'),
+            'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screen' => 'page',
             'show_on' => static function (\WP_Post $post): bool {
                 return (int) $post->ID === (int) get_option('page_on_front');

@@ -16,6 +16,7 @@ class MisionVisionValues extends MetaBlock
         new Metabox([
             'id'     => 'taw_mvv',
             'title'  => __('Misión, Visión y Valores', 'taw-theme'),
+            'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screen' => ['page-nosotros.php'],
             'show_on' => static function (\WP_Post $post): bool {
                 return get_page_template_slug($post->ID) === 'page-about-us.php'

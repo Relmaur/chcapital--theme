@@ -16,6 +16,7 @@ class Testimonials extends MetaBlock
         new Metabox([
             'id'      => 'taw_testimonials',
             'title'   => __('Testimonials Section', 'taw-theme'),
+            'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screens' => ['page-credito-de-nomina.php', 'page-credito-pyme.php'],
             'fields'  => [
                 [

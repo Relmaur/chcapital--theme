@@ -16,6 +16,7 @@ class FAQs extends MetaBlock
         new Metabox([
             'id'     => 'taw_faqs',
             'title'  => 'FAQs',
+            'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screens' => ['front-page.php', 'page-fideicomisos.php', 'page-credito-de-nomina.php', 'page-escrow.php'],
             'fields' => [
                 [
@@ -37,6 +38,15 @@ class FAQs extends MetaBlock
                     'type'  => 'textarea',
                     'rows'  => 3,
                     'width' => '50'
+                ],
+                [
+                    'id' => 'faqs_layout',
+                    'label' => __('Layout', 'taw-theme'),
+                    'type' => 'select',
+                    'options' => [
+                        'single' => 'Single',
+                        'two_columns' => 'Two Columns',
+                    ]
                 ],
                 [
                     'id'     => 'faqs_items',
@@ -87,6 +97,7 @@ class FAQs extends MetaBlock
             'section_id'  => Metabox::get($postId, 'faqs_section_id'),
             'heading'     => $this->getMeta($postId, 'faqs_heading'),
             'subheading'  => $this->getMeta($postId, 'faqs_subheading'),
+            'layout'      => $this->getMeta($postId, 'faqs_layout') ?: 'single',
             'items'       => $items ?: $default_faqs,
         ];
     }

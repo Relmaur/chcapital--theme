@@ -16,6 +16,7 @@ class ImageGallery extends MetaBlock
         new Metabox([
             'id'      => 'taw_image_gallery',
             'title'   => __('Image Gallery Section', 'taw-theme'),
+            'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screens' => ['page-credito-pyme.php', 'page-arrendamiento-puro.php'],
             'fields'  => [
                 [
