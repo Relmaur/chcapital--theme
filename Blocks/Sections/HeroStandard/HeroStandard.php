@@ -29,7 +29,7 @@ class HeroStandard extends MetaBlock
             'id'     => 'taw_hero_standard',
             'title'  => __('Standard Hero Section', 'taw-theme'),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-            'screens' => ['page-nosotros.php', 'page-credito-pyme.php', 'page-fideicomisos.php', 'page-arrendamiento-puro.php', 'page-credito-de-nomina.php', 'page-escrow.php', 'page-multimedia.php'], // only show on specific templates
+            'screens' => ['page-nosotros.php', 'page-credito-pyme.php', 'page-fideicomisos.php', 'page-arrendamiento-puro.php', 'page-credito-de-nomina.php', 'page-escrow.php', 'page-multimedia.php', 'page-contacto.php'], // only show on specific templates
             // 'show_on' => static function (\WP_Post $post): bool {
             //     return get_page_template_slug($post->ID) === 'page-nosotros.php'
             //         || in_array($post->post_name, ['nosotros', 'about-us'], true);

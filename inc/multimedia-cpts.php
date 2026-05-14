@@ -115,7 +115,7 @@ add_action('init', static function (): void {
         'id'      => 'taw_mm_video_meta',
         'title'   => __('Detalles del Video', 'taw-theme'),
         'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-        'show_on' => static fn(\WP_Post $post): bool => $post->post_type === 'mm_video',
+        'screens' => ['mm_video'],
         'fields'  => [
             [
                 'id'          => 'video_url',
@@ -138,7 +138,7 @@ add_action('init', static function (): void {
         'id'      => 'taw_mm_news_meta',
         'title'   => __('Detalles de la Noticia', 'taw-theme'),
         'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-        'show_on' => static fn(\WP_Post $post): bool => $post->post_type === 'mm_news',
+        'screens' => ['mm_news'],
         'fields'  => [
             [
                 'id'          => 'news_url',
@@ -160,7 +160,7 @@ add_action('init', static function (): void {
         'id'      => 'taw_mm_gallery_meta',
         'title'   => __('Imágenes de la Galería', 'taw-theme'),
         'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-        'show_on' => static fn(\WP_Post $post): bool => $post->post_type === 'mm_gallery',
+        'screens' => ['mm_gallery'],
         'fields'  => [
             [
                 'id'     => 'gallery_images',
@@ -189,7 +189,7 @@ add_action('init', static function (): void {
         'id'      => 'taw_mm_guide_meta',
         'title'   => __('Detalles de la Guía', 'taw-theme'),
         'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-        'show_on' => static fn(\WP_Post $post): bool => $post->post_type === 'mm_guide',
+        'screens' => ['mm_guide'],
         'fields'  => [
             [
                 'id'          => 'guide_pdf_url',

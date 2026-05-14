@@ -1,0 +1,173 @@
+/**
+ * ContactForm Block Styles
+ */
+
+.contact-form {
+    &__inner {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+
+        @media (min-width: 768px) {
+            grid-template-columns: 1fr 1.4fr;
+            gap: 5rem;
+            align-items: start;
+        }
+    }
+
+    // ── Info column ──────────────────────────────────────────────────
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    &__heading {
+        font-size: clamp(1.875rem, 4vw, 2.75rem);
+        font-weight: 800;
+        color: var(--color-primary, #004a98);
+        line-height: 1.15;
+        margin: 0;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 3rem;
+            height: 4px;
+            background: var(--color-primary, #004a98);
+            margin-top: 0.75rem;
+            border-radius: 2px;
+        }
+    }
+
+    &__subheading {
+        font-size: 1rem;
+        color: #4b5563;
+        line-height: 1.7;
+        margin: 0;
+        max-width: 38ch;
+    }
+
+    // ── Contact detail list ──────────────────────────────────────────
+
+    &__details {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    &__detail {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    &__detail-icon {
+        flex-shrink: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.625rem;
+        background: rgba(0, 74, 152, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.125rem;
+
+        svg {
+            width: 1.125rem;
+            height: 1.125rem;
+            color: var(--color-primary, #004a98);
+        }
+    }
+
+    &__detail-label {
+        display: block;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 0.2rem;
+    }
+
+    &__detail-value {
+        display: block;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: #111827;
+        text-decoration: none;
+        transition: color 0.15s ease;
+
+        &--address p {
+            margin: 0;
+            line-height: 1.55;
+        }
+    }
+
+    a.contact-form__detail-value:hover {
+        color: var(--color-primary, #004a98);
+    }
+
+    // ── Social links ─────────────────────────────────────────────────
+
+    &__social {
+        padding-top: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    &__social-label {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin: 0 0 0.875rem;
+    }
+
+    &__social-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.625rem;
+    }
+
+    &__social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.625rem;
+        background: rgba(0, 74, 152, 0.08);
+        color: var(--color-primary, #004a98);
+        text-decoration: none;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+        svg {
+            width: 1.125rem;
+            height: 1.125rem;
+        }
+
+        &:hover {
+            background: var(--color-primary, #004a98);
+            color: white;
+            transform: translateY(-2px);
+        }
+    }
+
+    // ── Form column ──────────────────────────────────────────────────
+
+    &__form-wrap {
+        background: var(--color-lightgray, #f8fafc);
+        border-radius: 1.25rem;
+        padding: 2.5rem;
+        box-shadow: 0 4px 24px rgba(0, 74, 152, 0.06);
+
+        @media (max-width: 480px) {
+            padding: 1.5rem;
+        }
+    }
+}

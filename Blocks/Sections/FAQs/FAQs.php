@@ -17,7 +17,7 @@ class FAQs extends MetaBlock
             'id'     => 'taw_faqs',
             'title'  => 'FAQs',
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-            'screens' => ['front-page.php', 'page-fideicomisos.php', 'page-credito-de-nomina.php', 'page-escrow.php'],
+            'screens' => ['front-page.php', 'page-fideicomisos.php', 'page-credito-de-nomina.php', 'page-escrow.php', 'page-contacto.php'],
             'fields' => [
                 [
                     'id'          => 'faqs_section_id',
