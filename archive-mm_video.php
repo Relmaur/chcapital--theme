@@ -77,8 +77,10 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
             <h2 class="section-title"><?php echo esc_html($term->name); ?></h2>
             <div class="post-grid__grid">
                 <?php foreach ($videos as $video) :
-                    $embed_url = multimedia_get_embed_url((string) get_post_meta($video->ID, '_taw_video_url', true));
+                    $raw_url   = (string) get_post_meta($video->ID, '_taw_video_url', true);
+                    $embed_url = multimedia_get_embed_url($raw_url);
                     $thumb_id  = (int) get_post_meta($video->ID, '_taw_video_thumbnail', true);
+                    $yt_thumb  = TAW\Blocks\Sections\PostGrid\PostGrid::youtubeThumbUrl($raw_url);
                 ?>
                 <button
                     class="post-card post-card--video"
@@ -89,7 +91,9 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
                     <div class="post-card__image">
                         <?php if ($thumb_id) :
                             echo Image::render($thumb_id, 'large', esc_attr($video->post_title), ['class' => 'post-card__thumb']);
-                        else : ?>
+                        elseif ($yt_thumb) : ?>
+                            <img src="<?php echo esc_url($yt_thumb); ?>" alt="<?php echo esc_attr($video->post_title); ?>" class="post-card__thumb" loading="lazy">
+                        <?php else : ?>
                             <div class="post-card__thumb-placeholder"></div>
                         <?php endif; ?>
                         <div class="post-card__play" aria-hidden="true">
@@ -122,8 +126,10 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
         <div class="section-container--sm">
             <div class="post-grid__grid">
                 <?php foreach ($all_videos as $video) :
-                    $embed_url = multimedia_get_embed_url((string) get_post_meta($video->ID, '_taw_video_url', true));
+                    $raw_url   = (string) get_post_meta($video->ID, '_taw_video_url', true);
+                    $embed_url = multimedia_get_embed_url($raw_url);
                     $thumb_id  = (int) get_post_meta($video->ID, '_taw_video_thumbnail', true);
+                    $yt_thumb  = TAW\Blocks\Sections\PostGrid\PostGrid::youtubeThumbUrl($raw_url);
                 ?>
                 <button
                     class="post-card post-card--video"
@@ -134,7 +140,9 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
                     <div class="post-card__image">
                         <?php if ($thumb_id) :
                             echo Image::render($thumb_id, 'large', esc_attr($video->post_title), ['class' => 'post-card__thumb']);
-                        else : ?>
+                        elseif ($yt_thumb) : ?>
+                            <img src="<?php echo esc_url($yt_thumb); ?>" alt="<?php echo esc_attr($video->post_title); ?>" class="post-card__thumb" loading="lazy">
+                        <?php else : ?>
                             <div class="post-card__thumb-placeholder"></div>
                         <?php endif; ?>
                         <div class="post-card__play" aria-hidden="true">

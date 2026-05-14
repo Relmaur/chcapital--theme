@@ -113,6 +113,7 @@ class PostGrid extends MetaBlock
                 $terms   = wp_get_post_terms($post->ID, 'mm_video_type', ['fields' => 'names']);
                 return $base + [
                     'thumbnail_id' => (int) get_post_meta($post->ID, '_taw_video_thumbnail', true),
+                    'thumb_url'    => self::youtubeThumbUrl($raw_url),
                     'embed_url'    => \multimedia_get_embed_url($raw_url),
                     'terms'        => is_array($terms) ? $terms : [],
                 ];
@@ -140,6 +141,14 @@ class PostGrid extends MetaBlock
             default:
                 return $base;
         }
+    }
+
+    public static function youtubeThumbUrl(string $url): string
+    {
+        if (preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/', $url, $m)) {
+            return 'https://img.youtube.com/vi/' . $m[1] . '/hqdefault.jpg';
+        }
+        return '';
     }
 
     private function parseGalleryImages(int $postId): array

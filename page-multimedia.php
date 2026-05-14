@@ -12,6 +12,11 @@
  */
 
 use TAW\Core\Block\BlockRegistry;
+use TAW\Blocks\Atoms\LightboxImage\LightboxImage;
+
+add_action('wp_enqueue_scripts', static function (): void {
+    (new LightboxImage())->enqueueAssets();
+});
 
 BlockRegistry::queue(
     'hero_standard',

@@ -9,8 +9,11 @@
  */
 
 use TAW\Blocks\Atoms\LightboxImage\LightboxImage;
+use TAW\Core\Block\BlockRegistry;
+use TAW\Core\Metabox\Metabox;
 
-// Enqueue PhotoSwipe assets early so they land in <head>
+// Queue PostGrid assets (CSS/JS) and PhotoSwipe before <head> closes
+BlockRegistry::queue('post_grid--galerias');
 add_action('wp_enqueue_scripts', static function (): void {
     (new LightboxImage())->enqueueAssets();
 });
@@ -56,50 +59,81 @@ $galleries = get_posts([
 <?php if (!empty($galleries)) :
     $lb = new LightboxImage();
     foreach ($galleries as $gallery) :
-        $raw    = get_post_meta($gallery->ID, '_taw_gallery_images', true);
+        $raw    = Metabox::get($gallery->ID, 'gallery_images');
         $rows   = is_string($raw) && !empty($raw)
             ? (json_decode($raw, true) ?: [])
             : (is_array($raw) ? $raw : []);
 
         if (empty($rows)) continue;
 ?>
-<section class="post-grid ch-section">
-    <div class="section-container--sm">
+        <section class="post-grid ch-section">
+            <div class="section-container--sm">
 
-        <h2 class="section-title"><?php echo esc_html($gallery->post_title); ?></h2>
+                <h2 class="section-title"><?php echo esc_html($gallery->post_title); ?></h2>
+                <?php if ($date = Metabox::get($gallery->ID, 'gallery_date')) : ?>
+                    <?php
+                    $dt = new \DateTime($date);
+                    $timezone = wp_timezone_string();
+                    if ($timezone === '' || preg_match('/^[+-]\d{2}:\d{2}$/', $timezone)) {
+                        $timezone = 'UTC';
+                    }
 
-        <!-- data-pswp-gallery scopes PhotoSwipe navigation to this entry only -->
-        <div class="post-grid__grid" data-pswp-gallery>
-            <?php foreach ($rows as $row) :
-                $id = (int) ($row['image'] ?? 0);
-                if (!$id) continue;
-                $full = wp_get_attachment_image_src($id, 'full');
-            ?>
-                <?php $lb->render([
-                    'image_id'        => $id,
-                    'alt'             => '',
-                    'caption'         => (string) ($row['caption'] ?? ''),
-                    'display_size'    => 'large',
-                    'full_url'        => $full ? $full[0] : '',
-                    'full_width'      => $full ? (int) $full[1] : 0,
-                    'full_height'     => $full ? (int) $full[2] : 0,
-                    'is_gallery_item' => true,
-                ]); ?>
-            <?php endforeach; ?>
-        </div>
+                    $formatter = new \IntlDateFormatter(
+                        'es_MX',
+                        \IntlDateFormatter::NONE,
+                        \IntlDateFormatter::NONE,
+                        $timezone,
+                        \IntlDateFormatter::GREGORIAN,
+                        'LLLL, yyyy'
+                    );
+                    $formatted = $formatter->format($dt);
+                    if ($formatted === false) {
+                        $formatted = wp_date('F, Y', $dt->getTimestamp(), wp_timezone());
+                    }
+                    ?>
+                    <div class="date flex items-center gap-2 mt-2 text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                            <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+                            <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
+                        </svg>
 
-    </div>
-</section>
-<?php
+                        <p class="text-gray-500"><?php echo esc_html(mb_convert_case((string) $formatted, MB_CASE_TITLE, 'UTF-8')); ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <!-- data-pswp-gallery scopes PhotoSwipe navigation to this entry only -->
+                <div class="post-grid__grid" data-pswp-gallery>
+                    <?php foreach ($rows as $row) :
+                        $id = (int) ($row['image'] ?? 0);
+                        if (!$id) continue;
+                        $full = wp_get_attachment_image_src($id, 'full');
+                    ?>
+                        <?php $lb->render([
+                            'image_id'        => $id,
+                            'alt'             => '',
+                            'caption'         => (string) ($row['caption'] ?? ''),
+                            'display_size'    => 'large',
+                            'full_url'        => $full ? $full[0] : '',
+                            'full_width'      => $full ? (int) $full[1] : 0,
+                            'full_height'     => $full ? (int) $full[2] : 0,
+                            'is_gallery_item' => true,
+                            'class' => 'relative post-card--gallery ratio-16-9'
+                        ]); ?>
+                    <?php endforeach; ?>
+                </div>
+
+            </div>
+        </section>
+    <?php
     endforeach;
 else : ?>
-<section class="post-grid ch-section">
-    <div class="section-container--sm">
-        <p class="text-gray-500 text-center mt-10">
-            <?php esc_html_e('Próximamente publicaremos nuevas galerías.', 'taw-theme'); ?>
-        </p>
-    </div>
-</section>
+    <section class="post-grid ch-section">
+        <div class="section-container--sm">
+            <p class="text-gray-500 text-center mt-10">
+                <?php esc_html_e('Próximamente publicaremos nuevas galerías.', 'taw-theme'); ?>
+            </p>
+        </div>
+    </section>
 <?php endif; ?>
 
 <?php get_footer(); ?>

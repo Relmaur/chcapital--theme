@@ -214,9 +214,14 @@
     // ── Gallery card: PhotoSwipe image fills the card ────────────────
 
     &--gallery {
+
+        &,
+        a.lightbox-image {
+            aspect-ratio: 16 / 9;
+        }
+
         a.lightbox-image {
             display: block;
-            aspect-ratio: 16 / 9;
             overflow: hidden;
             cursor: zoom-in;
 

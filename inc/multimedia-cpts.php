@@ -99,7 +99,7 @@ add_action('init', static function (): void {
             'search_items'  => __('Buscar tipos', 'taw-theme'),
             'all_items'     => __('Todos los tipos', 'taw-theme'),
         ],
-        'hierarchical'      => false,
+        'hierarchical'      => true,
         'show_in_rest'      => true,
         'show_admin_column' => true,
         'rewrite'           => ['slug' => 'multimedia/videos/tipo', 'with_front' => false],
@@ -124,6 +124,11 @@ add_action('init', static function (): void {
                 'width'       => '100',
                 'placeholder' => 'https://www.youtube.com/watch?v=...',
                 'description' => __('YouTube o Vimeo.', 'taw-theme'),
+            ],
+            [
+                'id' => 'video_description',
+                'label' => __('Descripción', 'taw-theme'),
+                'type' => 'wysiwyg',
             ],
             [
                 'id'    => 'video_thumbnail',
@@ -166,6 +171,7 @@ add_action('init', static function (): void {
                 'id'     => 'gallery_images',
                 'label'  => __('Imágenes', 'taw-theme'),
                 'type'   => 'repeater',
+                'layout' => 'tabbed_horizontal',
                 'button' => __('Agregar Imagen', 'taw-theme'),
                 'fields' => [
                     [
@@ -182,6 +188,11 @@ add_action('init', static function (): void {
                     ],
                 ],
             ],
+            [
+                'id' => 'gallery_date',
+                'label' => __('Fecha del Evento', 'taw-theme'),
+                'type' => 'datepicker',
+            ]
         ],
     ]);
 
@@ -206,7 +217,6 @@ add_action('init', static function (): void {
             ],
         ],
     ]);
-
 }, 20);
 
 // ── Noindex individual CPT posts ─────────────────────────────────────

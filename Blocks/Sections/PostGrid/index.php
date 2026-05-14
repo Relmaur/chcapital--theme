@@ -19,7 +19,6 @@ if (empty($items)) return;
 
 if ($post_type === 'mm_gallery') {
     $lb = new LightboxImage();
-    $lb->enqueueAssets();
 }
 ?>
 <section
@@ -47,6 +46,8 @@ if ($post_type === 'mm_gallery') {
                 <div class="post-card__image">
                     <?php if ($item['thumbnail_id']) : ?>
                         <?php echo Image::render($item['thumbnail_id'], 'large', esc_attr($item['title']), ['class' => 'post-card__thumb']); ?>
+                    <?php elseif (!empty($item['thumb_url'])) : ?>
+                        <img src="<?php echo esc_url($item['thumb_url']); ?>" alt="<?php echo esc_attr($item['title']); ?>" class="post-card__thumb" loading="lazy">
                     <?php else : ?>
                         <div class="post-card__thumb-placeholder"></div>
                     <?php endif; ?>
