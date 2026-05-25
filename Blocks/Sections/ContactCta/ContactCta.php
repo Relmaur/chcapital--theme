@@ -14,26 +14,28 @@ class ContactCta extends MetaBlock
 
     public static function boot(): void
     {
-        Form::register([
-            'id'           => 'contact_inquiry',
-            'submit_label' => __('Enviar mensaje', 'taw-theme'),
-            'email'        => [
-                'to_self' => [
-                    'subject'  => __('Nueva consulta desde el sitio web', 'taw-theme'),
-                    'template' => 'contact-self',
+        add_action('init', static function () {
+            Form::register([
+                'id'           => 'contact_inquiry',
+                'submit_label' => __('Enviar mensaje', 'taw-theme'),
+                'email'        => [
+                    'to_self' => [
+                        'subject'  => __('Nueva consulta desde el sitio web', 'taw-theme'),
+                        'template' => 'contact-self',
+                    ],
                 ],
-            ],
-            'messages' => [
-                'success' => __('¡Gracias! Nos pondremos en contacto contigo pronto.', 'taw-theme'),
-            ],
-            'fields' => [
-                ['id' => 'name',    'label' => __('Nombre', 'taw-theme'),             'type' => 'text',     'required' => true],
-                ['id' => 'company', 'label' => __('Empresa', 'taw-theme'),            'type' => 'text',     'required' => false],
-                ['id' => 'phone',   'label' => __('Teléfono', 'taw-theme'),           'type' => 'tel',      'required' => true],
-                ['id' => 'email',   'label' => __('Correo electrónico', 'taw-theme'), 'type' => 'email',    'required' => true],
-                ['id' => 'message', 'label' => __('Mensaje', 'taw-theme'),            'type' => 'textarea', 'required' => false],
-            ],
-        ]);
+                'messages' => [
+                    'success' => __('¡Gracias! Nos pondremos en contacto contigo pronto.', 'taw-theme'),
+                ],
+                'fields' => [
+                    ['id' => 'name',    'label' => __('Nombre', 'taw-theme'),             'type' => 'text',     'required' => true],
+                    ['id' => 'company', 'label' => __('Empresa', 'taw-theme'),            'type' => 'text',     'required' => false],
+                    ['id' => 'phone',   'label' => __('Teléfono', 'taw-theme'),           'type' => 'tel',      'required' => true],
+                    ['id' => 'email',   'label' => __('Correo electrónico', 'taw-theme'), 'type' => 'email',    'required' => true],
+                    ['id' => 'message', 'label' => __('Mensaje', 'taw-theme'),            'type' => 'textarea', 'required' => false],
+                ],
+            ]);
+        });
     }
 
     protected function registerMetaboxes(): void
