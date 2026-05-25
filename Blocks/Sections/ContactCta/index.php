@@ -16,7 +16,7 @@ use TAW\Core\Form\Form;
 
             <div class="contact-cta__headline">
                 <?php if ($heading) : ?>
-                    <h2 class="section-title contact-cta__heading"><?php echo esc_html($heading); ?></h2>
+                    <h2 class="section-title--white contact-cta__heading"><?php echo esc_html($heading); ?></h2>
                 <?php endif; ?>
 
                 <?php if ($subheading) : ?>

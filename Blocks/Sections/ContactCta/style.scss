@@ -19,7 +19,7 @@
         position: absolute;
         content: "";
         inset: 0;
-        background: color-mix(in srgb, var(--color-primary, #004a98) 70%, transparent);
+        background: color-mix(in srgb, var(--color-primary, #004a98) 80%, transparent);
         z-index: 1;
     }
 

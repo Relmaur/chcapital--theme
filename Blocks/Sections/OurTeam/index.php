@@ -14,7 +14,7 @@ use TAW\Helpers\Image;
     <div class="section-container--sm">
 
         <header class="our-team__header">
-            <h2 class="section-title"><?php echo esc_html($heading); ?></h2>
+            <h2 class="section-title text-center"><?php echo esc_html($heading); ?></h2>
             <?php if ($subheading) : ?>
                 <p class="our-team__subheading"><?php echo esc_html($subheading); ?></p>
             <?php endif; ?>

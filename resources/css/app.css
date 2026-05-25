@@ -16,7 +16,11 @@
   --max-container-width-sm: 1280px;
   --max-container-width-xs: 1024px;
 
-  --general-gradient: linear-gradient(0deg,rgba(168,168,168,1) 1.5%,rgba(255,255,255,1) 100%);
+  --general-gradient: linear-gradient(
+    0deg,
+    rgba(168, 168, 168, 1) 1.5%,
+    rgba(255, 255, 255, 1) 100%
+  );
 
   --image-shadow: 5px 5px 0 0 var(--color-primary);
 }
@@ -53,6 +57,13 @@
 
   .section-title {
     @apply relative inline-block text-4xl w-fit font-bold mb-10 before:content-[''] before:block before:w-12 before:h-1 before:bg-primary before:absolute before:-bottom-2 before:left-0;
+  }
+  .section-title--white {
+    @apply relative inline-block text-4xl w-fit font-bold mb-10 before:content-[''] before:block before:w-12 before:h-1 before:bg-white before:absolute before:-bottom-2 before:left-0;
+  }
+  .section-title.text-center,
+  .section-title--white.text-center {
+    @apply before:left-1/2 before:-translate-x-1/2;
   }
 }
 

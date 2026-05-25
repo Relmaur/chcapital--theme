@@ -17,7 +17,7 @@ $has_items         = !empty($items);
     <div class="section-container--sm">
 
         <header class="logo-list__header">
-            <h2 class="section-title"><?php echo esc_html($heading); ?></h2>
+            <h2 class="section-title text-center"><?php echo esc_html($heading); ?></h2>
             <?php if ($subheading) : ?>
                 <p class="logo-list__subheading"><?php echo esc_html($subheading); ?></p>
             <?php endif; ?>

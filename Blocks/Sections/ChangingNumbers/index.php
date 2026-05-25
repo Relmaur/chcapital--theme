@@ -11,7 +11,7 @@
 <section class="ch-section bg-primary colored">
     <div class="section-container--sm">
         <?php if (!empty($title)) : ?>
-            <h2 class="section-title text-white left-[50%] -translate-x-1/2 text-center"><?php echo esc_html($title); ?></h2>
+            <h2 class="section-title--white text-white left-[50%] -translate-x-1/2 text-center"><?php echo esc_html($title); ?></h2>
         <?php endif; ?>
         <p class="mb-10 text-center text-white max-w-200 mx-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem voluptatum harum dolorem, ea quae eius nulla sed rem ipsum consequuntur nobis id dolores quis libero atque voluptatem laborum saepe ad.</p>
         <div class="changing_numbers flex flex-wrap items-center gap-15 justify-center">

@@ -17,7 +17,7 @@ $placeholder_names = ['Banamex', 'BBVA', 'Banorte', 'Santander', 'HSBC', 'Inburs
 <section class="strategic-allies ch-section">
     <div class="section-container--sm">
         <header class="strategic-allies__header">
-            <h2 class="section-title"><?php echo esc_html($heading); ?></h2>
+            <h2 class="section-title text-center"><?php echo esc_html($heading); ?></h2>
             <?php if ($subheading) : ?>
                 <p class="strategic-allies__subheading"><?php echo esc_html($subheading); ?></p>
             <?php endif; ?>
