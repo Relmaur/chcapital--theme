@@ -132,28 +132,7 @@ $social_icons = [
 
             <!-- ── Form ──────────────────────────────────────────── -->
             <div class="contact-form__form-wrap">
-                <?php
-                (new Form([
-                    'id'           => 'contact_page_form',
-                    'submit_label' => __('Enviar mensaje', 'taw-theme'),
-                    'email'        => [
-                        'to_self' => [
-                            'subject'  => __('Nueva consulta desde Contacto', 'taw-theme'),
-                            'template' => 'contact-self',
-                        ],
-                    ],
-                    'messages' => [
-                        'success' => __('¡Gracias! Nos pondremos en contacto contigo pronto.', 'taw-theme'),
-                    ],
-                    'fields' => [
-                        ['id' => 'name',    'label' => __('Nombre completo', 'taw-theme'),    'type' => 'text',     'required' => true,  'width' => '50'],
-                        ['id' => 'company', 'label' => __('Empresa', 'taw-theme'),            'type' => 'text',     'required' => false, 'width' => '50'],
-                        ['id' => 'phone',   'label' => __('Teléfono', 'taw-theme'),           'type' => 'tel',      'required' => true,  'width' => '50'],
-                        ['id' => 'email',   'label' => __('Correo electrónico', 'taw-theme'), 'type' => 'email',    'required' => true,  'width' => '50'],
-                        ['id' => 'message', 'label' => __('¿En qué podemos ayudarte?', 'taw-theme'), 'type' => 'textarea', 'required' => false, 'width' => '100'],
-                    ],
-                ]))->render();
-                ?>
+                <?php Form::display('contact_page_form'); ?>
             </div><!-- /.contact-form__form-wrap -->
 
         </div><!-- /.contact-form__inner -->

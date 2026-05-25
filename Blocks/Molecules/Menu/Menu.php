@@ -13,7 +13,8 @@ class Menu extends Block
 
     public static function boot(): void
     {
-        error_log('Menu::boot() called');
+        // error_log('Menu::boot() called');
+        
         new Metabox([
             'id'    => 'menu_item_icon',
             'title' => 'Menu Item Icon',
