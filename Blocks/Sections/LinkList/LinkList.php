@@ -83,7 +83,7 @@ class LinkList extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $s = $this->variation ? '_' . $this->variation : '';
 

@@ -331,7 +331,7 @@ class ContentBlock extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $v = $this->variation;
         $c = self::varConfig($v);

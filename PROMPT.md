@@ -82,7 +82,7 @@ Files to create:
   - namespace TAW\Blocks\{Name}
   - extends MetaBlock, $id = '{snake_id}'
   - registerMetaboxes(): registers one Metabox, screen: 'page'
-  - getData(int $postId): returns array of extracted meta values
+  - getData(int|false $postId): returns array of extracted meta values
     (use getMeta($postId, '{name}_heading') etc.)
 - `Blocks/{Name}/index.php`
   - PHPDoc block listing all @var variables

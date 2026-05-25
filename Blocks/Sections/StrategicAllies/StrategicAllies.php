@@ -59,7 +59,7 @@ class StrategicAllies extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $logos = Metabox::get_repeater($postId, 'allies_logos');
 

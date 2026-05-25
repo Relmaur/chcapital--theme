@@ -71,7 +71,7 @@ class ContactForm extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $social_keys = ['facebook', 'instagram', 'twitter', 'linkedin', 'youtube'];
         $social      = [];

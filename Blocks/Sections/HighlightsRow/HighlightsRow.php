@@ -96,7 +96,7 @@ class HighlightsRow extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $rows = $this->getRepeater($postId, 'highlights_items');
 

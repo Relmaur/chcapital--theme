@@ -74,7 +74,7 @@ class MisionVisionValues extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $default_values = [
             ['value_title' => __('Colaborativo', 'taw-theme'),     'value_text' => __('Actuamos con honestidad y ética en cada decisión y operación financiera.', 'taw-theme')],

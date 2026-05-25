@@ -77,7 +77,7 @@ class BlurbsGrid extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $rows = $this->getRepeater($postId, 'blurbs_items');
 

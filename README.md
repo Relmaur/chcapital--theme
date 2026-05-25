@@ -109,7 +109,7 @@ class Hero extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         return [
             'heading'   => $this->getMeta($postId, 'hero_heading'),
@@ -483,7 +483,7 @@ foreach ($teamMembers as $member) {
 Inside a `MetaBlock` you can also use the convenience wrappers (which delegate to `Metabox::get*`):
 
 ```php
-protected function getData(int $postId): array
+protected function getData(int|false $postId): array
 {
     return [
         'heading'   => $this->getMeta($postId, 'hero_heading'),

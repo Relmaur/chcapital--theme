@@ -58,7 +58,7 @@ class HeroStandard extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         return [
             'heading'  => $this->getMeta($postId, 'hero_standard_heading') ?: __('Conoce CH Capital', 'taw-theme'),

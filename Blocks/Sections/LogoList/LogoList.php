@@ -66,7 +66,7 @@ class LogoList extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $items = Metabox::get_repeater($postId, 'logo_list_about_items');
 

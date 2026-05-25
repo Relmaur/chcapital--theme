@@ -63,7 +63,7 @@ class ImageGallery extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $rows = $this->getRepeater($postId, 'gallery_images');
 

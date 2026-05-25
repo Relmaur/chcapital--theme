@@ -70,7 +70,7 @@ class ContactCta extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         return [
             'heading'    => $this->getMeta($postId, 'contact_cta_heading') ?: __('Queremos ser parte de tus proyectos', 'taw-theme'),

@@ -435,7 +435,7 @@ BaseBlock (abstract)
 | Class | Role |
 |---|---|
 | `TAW\Core\Block\BaseBlock` | Reflection-based auto-discovery of component directory, asset enqueuing (CSS/JS), template rendering via `extract()` |
-| `TAW\Core\Block\MetaBlock` | Extends BaseBlock. Registers metaboxes in constructor, provides `getData(int $postId)` and `render(?int $postId)` |
+| `TAW\Core\Block\MetaBlock` | Extends BaseBlock. Registers metaboxes in constructor, provides `getData(int|false $postId)` and `render(?int $postId)` |
 | `TAW\Core\Block\Block` | Extends BaseBlock. Defines `defaults()` for props, provides `render(array $props)` |
 | `TAW\Core\Block\BlockRegistry` | Static registry for MetaBlocks. Supports `register()`, `queue()`, `render()`, `enqueueQueuedAssets()` |
 | `TAW\Core\Block\BlockLoader` | Auto-discovers all MetaBlock classes by scanning `Blocks/*/` directories |
@@ -563,7 +563,7 @@ class Features extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         return [
             'heading' => $this->getMeta($postId, 'features_heading'),
@@ -1265,7 +1265,7 @@ BlockRegistry::queue('post-header', 'related-posts');
 
 ### Accessing meta in MetaBlock::getData()
 ```php
-protected function getData(int $postId): array
+protected function getData(int|false $postId): array
 {
     return [
         'heading'   => $this->getMeta($postId, 'my_heading'),

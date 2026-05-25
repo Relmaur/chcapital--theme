@@ -46,7 +46,7 @@ class Legales extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $links = Metabox::get_repeater($postId, 'legales_links');
 

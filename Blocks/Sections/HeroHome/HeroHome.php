@@ -48,7 +48,7 @@ class HeroHome extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $slides_raw = Metabox::get_repeater($postId, 'hero_slides');
         $slides = [];

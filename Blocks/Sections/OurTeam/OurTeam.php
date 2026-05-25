@@ -73,7 +73,7 @@ class OurTeam extends MetaBlock
         ]);
     }
 
-    protected function getData(int $postId): array
+    protected function getData(int|false $postId): array
     {
         $default_members = [
             [

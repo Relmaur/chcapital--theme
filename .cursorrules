@@ -24,7 +24,7 @@ Full architecture docs: see AGENTS.md in the repo root.
 1. Create Blocks/{Name}/{Name}.php extending TAW\Blocks\MetaBlock
 2. Set protected string $id = '{name}';
 3. Implement registerMetaboxes() — use new Metabox([...])
-4. Implement getData(int $postId): array — return template variables
+4. Implement getData(int|false $postId): array — return template variables
 5. Create Blocks/{Name}/index.php — template receives extracted vars
 6. Optionally add style.css (or style.scss) and script.js — auto-enqueued
 
