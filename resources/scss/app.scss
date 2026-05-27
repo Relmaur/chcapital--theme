@@ -1,5 +1,6 @@
 @use 'fonts';
 @use 'functions' as *;
+@use 'view-transitions';
 
 :root {
     --section-vertical-padding: #{fluid(4, 320, 1920, 5)};

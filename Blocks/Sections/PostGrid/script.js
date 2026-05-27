@@ -3,8 +3,12 @@
  *
  * Registers a reusable Alpine component used by any section or archive page
  * that renders video cards. The component manages a fullscreen iframe modal.
+ *
+ * Supports both first-load (alpine:init) and Swup late-load (window._alpineStarted)
+ * registration patterns.
  */
-document.addEventListener('alpine:init', () => {
+
+const registerVideoModal = () => {
     Alpine.data('videoModal', () => ({
         isOpen:   false,
         embedUrl: '',
@@ -21,4 +25,8 @@ document.addEventListener('alpine:init', () => {
             document.documentElement.style.overflow = '';
         },
     }));
-});
+};
+
+window._alpineStarted
+    ? registerVideoModal()
+    : document.addEventListener('alpine:init', registerVideoModal);

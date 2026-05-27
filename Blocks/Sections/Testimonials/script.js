@@ -41,6 +41,16 @@ function initTestimonials(root) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.testimonials__embla').forEach(initTestimonials)
-})
+function initPage() {
+  // data-testimonials-ready guards against double-init; the attribute is absent
+  // on server-rendered elements so it's automatically clear after every Swup swap.
+  document.querySelectorAll('.testimonials__embla:not([data-testimonials-ready])').forEach(root => {
+    root.setAttribute('data-testimonials-ready', '')
+    initTestimonials(root)
+  })
+}
+
+// First page load
+document.addEventListener('DOMContentLoaded', initPage)
+// Swup navigation — taw:page-view is dispatched by app.js after every content swap.
+document.addEventListener('taw:page-view', initPage)

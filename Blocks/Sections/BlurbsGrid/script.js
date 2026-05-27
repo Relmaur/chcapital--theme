@@ -5,7 +5,7 @@ import 'photoswipe/dist/photoswipe.css'
  * Idempotent PhotoSwipe init — same pattern as LightboxImage/script.js.
  * data-pswp-ready prevents double-initialisation when both scripts load.
  */
-document.addEventListener('DOMContentLoaded', () => {
+function initPhotoSwipe() {
   document.querySelectorAll('[data-pswp-gallery]:not([data-pswp-ready])').forEach(gallery => {
     gallery.setAttribute('data-pswp-ready', '')
     new PhotoSwipeLightbox({
@@ -14,4 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
       pswpModule: () => import('photoswipe'),
     }).init()
   })
-})
+}
+
+// First page load
+document.addEventListener('DOMContentLoaded', initPhotoSwipe)
+// Swup page swap — DOMContentLoaded does not re-fire after a Swup navigation,
+// so app.js dispatches this custom event from its page:view hook instead.
+document.addEventListener('taw:page-view', initPhotoSwipe)

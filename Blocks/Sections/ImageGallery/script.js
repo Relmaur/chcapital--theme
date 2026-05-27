@@ -63,7 +63,13 @@ function initGallery(root) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initPage() {
   document.querySelectorAll('.image-gallery__embla').forEach(initGallery)
   initPhotoSwipe()
-})
+}
+
+// First page load
+document.addEventListener('DOMContentLoaded', initPage)
+// Swup page swap — DOMContentLoaded does not re-fire after a Swup navigation,
+// so app.js dispatches this custom event from its page:view hook instead.
+document.addEventListener('taw:page-view', initPage)

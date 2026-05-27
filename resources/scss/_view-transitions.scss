@@ -1,0 +1,84 @@
+// ── Page Transitions (Swup) ───────────────────────────────────────────────────
+//
+// Swup intercepts link clicks, fetches the next page in the background, then
+// swaps #content once it's ready.  This eliminates the FOUC / BFCache bugs
+// of the native cross-document View Transitions API.
+//
+// HOW THE ANIMATION WORKS
+// ─────────────────────────────────────────────────────────────────────────────
+// Swup adds classes to <html> during transitions:
+//
+//   is-animating            — present for the full duration of the transition
+//   is-animating.is-leaving — exit phase  (old content is playing its "out" anim)
+//   is-animating.is-rendering — enter phase (new content is playing its "in" anim)
+//
+// Swup watches #content for CSS transitionend events to know when to proceed.
+//
+// ANIMATION CHOICE: simple opacity fade
+// ─────────────────────────────────────────────────────────────────────────────
+// A slide + fade exit/enter sounds nice, but going from is-leaving → is-rendering
+// without a transition break causes a visible position jump (the element is at
+// translateY(-8px) and would transition to translateY(+8px)).  Pure opacity is
+// the battle-tested safe choice — used by every official Swup theme.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── 1. Main content fade ──────────────────────────────────────────────────────
+
+#content {
+    opacity: 1;
+    // Swup waits for this transition to end before swapping content.
+    transition: opacity 180ms ease;
+}
+
+html.is-animating #content {
+    opacity: 0;
+}
+
+// ── 2. Progress bar ───────────────────────────────────────────────────────────
+//
+// Driven by JS (app.js) via .is-active / .is-done classes.
+// The bar uses a CSS keyframe animation so it feels like it's loading
+// even when the actual fetch is nearly instant.
+
+@keyframes vt-bar-grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+
+.vt-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 3px;
+    background: var(--color-primary, #004a98);
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: opacity 200ms ease;
+    pointer-events: none;
+    will-change: transform;
+
+    &.is-active {
+        animation: vt-bar-grow 400ms ease-out forwards;
+    }
+
+    &.is-done {
+        transform: scaleX(1);
+        opacity: 0;
+    }
+}
+
+// ── 3. Reduced motion ─────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+    #content {
+        transition: none !important;
+    }
+
+    .vt-progress-bar {
+        display: none;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
