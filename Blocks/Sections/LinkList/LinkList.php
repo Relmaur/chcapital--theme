@@ -22,7 +22,7 @@ class LinkList extends MetaBlock
 
         new Metabox([
             'id'     => 'taw_link_list' . $s,
-            'title' => 'Link List' . ($s ? ' (' . ucfirst($this->variation) . ')' : ''),
+            'title' => __('Section - Link List', 'taw-theme') . ($s ? ' (' . ucfirst($this->variation) . ')' : ''),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screen' => 'page',
             'show_on' => static function (\WP_Post $post): bool {

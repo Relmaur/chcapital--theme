@@ -15,7 +15,7 @@ class HeroHome extends MetaBlock
     {
         new Metabox([
             'id'     => 'taw_hero',
-            'title'  => __('Hero Section', 'taw-theme'),
+            'title'  => __('Section - Hero', 'taw-theme'),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             // 'screens' => ['front-page.php'],
             'show_on' => static function (\WP_Post $post): bool {

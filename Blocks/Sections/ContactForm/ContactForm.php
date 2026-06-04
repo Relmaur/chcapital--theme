@@ -43,7 +43,7 @@ class ContactForm extends MetaBlock
     {
         new Metabox([
             'id'      => 'taw_contact_form',
-            'title'   => __('Contact Form Section', 'taw-theme'),
+            'title'   => __('Section - Contact Form', 'taw-theme'),
             'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screens' => ['page-contacto.php'],
             'fields'  => [

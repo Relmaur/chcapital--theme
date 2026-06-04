@@ -15,7 +15,7 @@ class StrategicAllies extends MetaBlock
     {
         new Metabox([
             'id'     => 'taw_strategic_allies',
-            'title'  => __('Strategic Allies Section', 'taw-theme'),
+            'title'  => __('Section - Strategic Allies', 'taw-theme'),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screen' => ['page-nosotros.php'],
             'show_on' => static function (\WP_Post $post): bool {
@@ -64,8 +64,8 @@ class StrategicAllies extends MetaBlock
         $logos = Metabox::get_repeater($postId, 'allies_logos');
 
         return [
-            'heading'    => $this->getMeta($postId, 'allies_heading') ?: __('Aliados Estratégicos', 'taw-theme'),
-            'subheading' => $this->getMeta($postId, 'allies_subheading') ?: __('Trabajamos con instituciones líderes que comparten nuestra visión.', 'taw-theme'),
+            'heading'    => $this->getMeta($postId, 'allies_heading') ?: __('Aliados estratégicos', 'taw-theme'),
+            'subheading' => $this->getMeta($postId, 'allies_subheading') ?: null,
             'logos'      => $logos ?: [],
         ];
     }

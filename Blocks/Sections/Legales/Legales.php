@@ -16,7 +16,7 @@ class Legales extends MetaBlock
         new Metabox([
             'id'     => 'taw_legales',
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-            'title'  => __('Legales Section', 'taw-theme'),
+            'title'  => __('Section - Legal', 'taw-theme'),
             'screen' => ['front-page.php', 'page-credito-pyme.php', 'page-arrendamiento-puro.php'],
             'fields' => [
                 [

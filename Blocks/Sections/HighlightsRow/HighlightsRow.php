@@ -45,7 +45,7 @@ class HighlightsRow extends MetaBlock
     {
         new Metabox([
             'id'      => 'taw_highlights_row',
-            'title'   => __('Highlights Row Section', 'taw-theme'),
+            'title'   => __('Section - Highlights Row', 'taw-theme'),
             'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screens' => self::SCREENS,
             'fields'  => [

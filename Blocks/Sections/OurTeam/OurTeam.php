@@ -15,7 +15,7 @@ class OurTeam extends MetaBlock
     {
         new Metabox([
             'id'     => 'taw_our_team',
-            'title'  => __('Our Team Section', 'taw-theme'),
+            'title'  => __('Section - Our Team', 'taw-theme'),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screen' => ['page-nosotros.php'],
             'show_on' => static function (\WP_Post $post): bool {

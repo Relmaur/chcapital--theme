@@ -10,10 +10,10 @@
 
 use TAW\Helpers\Image;
 
-$placeholder_count = 6;
+$placeholder_count = 3;
 $has_items         = !empty($items);
 ?>
-<section class="logo-list ch-section">
+<section class="logo-list ch-section" style="--placeholder-count: <?php echo $placeholder_count; ?>">
     <div class="section-container--sm">
 
         <header class="logo-list__header">

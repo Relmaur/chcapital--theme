@@ -15,7 +15,7 @@ class WhoAreWe extends MetaBlock
     {
         new Metabox([
             'id'     => 'taw_who_are_we',
-            'title'  => __('Who Are We Section', 'taw-theme'),
+            'title'  => __('Section - Who Are We', 'taw-theme'),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screen' => ['page-nosotros.php'],
             'show_on' => static function (\WP_Post $post): bool {

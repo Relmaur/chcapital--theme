@@ -12,13 +12,13 @@ add_action('init', static function (): void {
         'labels' => [
             'name'               => __('Videos', 'taw-theme'),
             'singular_name'      => __('Video', 'taw-theme'),
-            'add_new_item'       => __('Agregar Video', 'taw-theme'),
-            'edit_item'          => __('Editar Video', 'taw-theme'),
-            'new_item'           => __('Nuevo Video', 'taw-theme'),
-            'view_item'          => __('Ver Video', 'taw-theme'),
-            'search_items'       => __('Buscar Videos', 'taw-theme'),
-            'not_found'          => __('No se encontraron videos.', 'taw-theme'),
-            'not_found_in_trash' => __('No hay videos en la papelera.', 'taw-theme'),
+            'add_new_item'       => __('Add New Video', 'taw-theme'),
+            'edit_item'          => __('Edit Video', 'taw-theme'),
+            'new_item'           => __('New Video', 'taw-theme'),
+            'view_item'          => __('View Video', 'taw-theme'),
+            'search_items'       => __('Search Videos', 'taw-theme'),
+            'not_found'          => __('No videos found.', 'taw-theme'),
+            'not_found_in_trash' => __('No videos in trash.', 'taw-theme'),
         ],
         'public'              => true,
         'show_in_rest'        => true,
@@ -32,13 +32,13 @@ add_action('init', static function (): void {
 
     register_post_type('mm_news', [
         'labels' => [
-            'name'               => __('Noticias', 'taw-theme'),
-            'singular_name'      => __('Noticia', 'taw-theme'),
-            'add_new_item'       => __('Agregar Noticia', 'taw-theme'),
-            'edit_item'          => __('Editar Noticia', 'taw-theme'),
-            'new_item'           => __('Nueva Noticia', 'taw-theme'),
-            'not_found'          => __('No se encontraron noticias.', 'taw-theme'),
-            'not_found_in_trash' => __('No hay noticias en la papelera.', 'taw-theme'),
+            'name'               => __('News', 'taw-theme'),
+            'singular_name'      => __('News Item', 'taw-theme'),
+            'add_new_item'       => __('Add New News Item', 'taw-theme'),
+            'edit_item'          => __('Edit News Item', 'taw-theme'),
+            'new_item'           => __('New News Item', 'taw-theme'),
+            'not_found'          => __('No news found.', 'taw-theme'),
+            'not_found_in_trash' => __('No news in trash.', 'taw-theme'),
         ],
         'public'              => true,
         'show_in_rest'        => true,
@@ -52,13 +52,13 @@ add_action('init', static function (): void {
 
     register_post_type('mm_gallery', [
         'labels' => [
-            'name'               => __('Galerías de Fotos', 'taw-theme'),
-            'singular_name'      => __('Galería', 'taw-theme'),
-            'add_new_item'       => __('Agregar Galería', 'taw-theme'),
-            'edit_item'          => __('Editar Galería', 'taw-theme'),
-            'new_item'           => __('Nueva Galería', 'taw-theme'),
-            'not_found'          => __('No se encontraron galerías.', 'taw-theme'),
-            'not_found_in_trash' => __('No hay galerías en la papelera.', 'taw-theme'),
+            'name'               => __('Photo Galleries', 'taw-theme'),
+            'singular_name'      => __('Gallery', 'taw-theme'),
+            'add_new_item'       => __('Add New Gallery', 'taw-theme'),
+            'edit_item'          => __('Edit Gallery', 'taw-theme'),
+            'new_item'           => __('New Gallery', 'taw-theme'),
+            'not_found'          => __('No galleries found.', 'taw-theme'),
+            'not_found_in_trash' => __('No galleries in trash.', 'taw-theme'),
         ],
         'public'              => true,
         'show_in_rest'        => true,
@@ -72,13 +72,13 @@ add_action('init', static function (): void {
 
     register_post_type('mm_guide', [
         'labels' => [
-            'name'               => __('Guías Descargables', 'taw-theme'),
-            'singular_name'      => __('Guía', 'taw-theme'),
-            'add_new_item'       => __('Agregar Guía', 'taw-theme'),
-            'edit_item'          => __('Editar Guía', 'taw-theme'),
-            'new_item'           => __('Nueva Guía', 'taw-theme'),
-            'not_found'          => __('No se encontraron guías.', 'taw-theme'),
-            'not_found_in_trash' => __('No hay guías en la papelera.', 'taw-theme'),
+            'name'               => __('Downloadable Guides', 'taw-theme'),
+            'singular_name'      => __('Guide', 'taw-theme'),
+            'add_new_item'       => __('Add New Guide', 'taw-theme'),
+            'edit_item'          => __('Edit Guide', 'taw-theme'),
+            'new_item'           => __('New Guide', 'taw-theme'),
+            'not_found'          => __('No guides found.', 'taw-theme'),
+            'not_found_in_trash' => __('No guides in trash.', 'taw-theme'),
         ],
         'public'              => true,
         'show_in_rest'        => true,
@@ -92,12 +92,12 @@ add_action('init', static function (): void {
 
     register_taxonomy('mm_video_type', 'mm_video', [
         'labels' => [
-            'name'          => __('Tipos de Video', 'taw-theme'),
-            'singular_name' => __('Tipo', 'taw-theme'),
-            'add_new_item'  => __('Agregar Tipo', 'taw-theme'),
-            'edit_item'     => __('Editar Tipo', 'taw-theme'),
-            'search_items'  => __('Buscar tipos', 'taw-theme'),
-            'all_items'     => __('Todos los tipos', 'taw-theme'),
+            'name'          => __('Video Types', 'taw-theme'),
+            'singular_name' => __('Type', 'taw-theme'),
+            'add_new_item'  => __('Add New Type', 'taw-theme'),
+            'edit_item'     => __('Edit Type', 'taw-theme'),
+            'search_items'  => __('Search Types', 'taw-theme'),
+            'all_items'     => __('All Types', 'taw-theme'),
         ],
         'hierarchical'      => true,
         'show_in_rest'      => true,
@@ -113,26 +113,26 @@ add_action('init', static function (): void {
 
     new Metabox([
         'id'      => 'taw_mm_video_meta',
-        'title'   => __('Detalles del Video', 'taw-theme'),
+        'title'   => __('Video Details', 'taw-theme'),
         'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
         'screens' => ['mm_video'],
         'fields'  => [
             [
                 'id'          => 'video_url',
-                'label'       => __('URL del Video', 'taw-theme'),
+                'label'       => __('Video URL', 'taw-theme'),
                 'type'        => 'url',
                 'width'       => '100',
                 'placeholder' => 'https://www.youtube.com/watch?v=...',
-                'description' => __('YouTube o Vimeo.', 'taw-theme'),
+                'description' => __('YouTube or Vimeo.', 'taw-theme'),
             ],
             [
                 'id' => 'video_description',
-                'label' => __('Descripción', 'taw-theme'),
+                'label' => __('Description', 'taw-theme'),
                 'type' => 'wysiwyg',
             ],
             [
                 'id'    => 'video_thumbnail',
-                'label' => __('Miniatura', 'taw-theme'),
+                'label' => __('Thumbnail', 'taw-theme'),
                 'type'  => 'image',
                 'width' => '100',
             ],
@@ -141,20 +141,20 @@ add_action('init', static function (): void {
 
     new Metabox([
         'id'      => 'taw_mm_news_meta',
-        'title'   => __('Detalles de la Noticia', 'taw-theme'),
+        'title'   => __('News Item Details', 'taw-theme'),
         'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
         'screens' => ['mm_news'],
         'fields'  => [
             [
                 'id'          => 'news_url',
-                'label'       => __('URL del Artículo', 'taw-theme'),
+                'label'       => __('Article URL', 'taw-theme'),
                 'type'        => 'url',
                 'width'       => '100',
                 'placeholder' => 'https://...',
             ],
             [
                 'id'    => 'news_thumbnail',
-                'label' => __('Miniatura', 'taw-theme'),
+                'label' => __('Thumbnail', 'taw-theme'),
                 'type'  => 'image',
                 'width' => '100',
             ],
@@ -163,26 +163,26 @@ add_action('init', static function (): void {
 
     new Metabox([
         'id'      => 'taw_mm_gallery_meta',
-        'title'   => __('Imágenes de la Galería', 'taw-theme'),
+        'title'   => __('Gallery Images', 'taw-theme'),
         'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
         'screens' => ['mm_gallery'],
         'fields'  => [
             [
                 'id'     => 'gallery_images',
-                'label'  => __('Imágenes', 'taw-theme'),
+                'label'  => __('Images', 'taw-theme'),
                 'type'   => 'repeater',
                 'layout' => 'tabbed_horizontal',
-                'button' => __('Agregar Imagen', 'taw-theme'),
+                'button' => __('Add Image', 'taw-theme'),
                 'fields' => [
                     [
                         'id'    => 'image',
-                        'label' => __('Imagen', 'taw-theme'),
+                        'label' => __('Image', 'taw-theme'),
                         'type'  => 'image',
                         'width' => '50',
                     ],
                     [
                         'id'    => 'caption',
-                        'label' => __('Descripción', 'taw-theme'),
+                        'label' => __('Caption', 'taw-theme'),
                         'type'  => 'text',
                         'width' => '50',
                     ],
@@ -190,7 +190,7 @@ add_action('init', static function (): void {
             ],
             [
                 'id' => 'gallery_date',
-                'label' => __('Fecha del Evento', 'taw-theme'),
+                'label' => __('Event Date', 'taw-theme'),
                 'type' => 'datepicker',
             ]
         ],
@@ -198,20 +198,20 @@ add_action('init', static function (): void {
 
     new Metabox([
         'id'      => 'taw_mm_guide_meta',
-        'title'   => __('Detalles de la Guía', 'taw-theme'),
+        'title'   => __('Guide Details', 'taw-theme'),
         'icon'    => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
         'screens' => ['mm_guide'],
         'fields'  => [
             [
                 'id'          => 'guide_pdf_url',
-                'label'       => __('URL del PDF', 'taw-theme'),
+                'label'       => __('PDF URL', 'taw-theme'),
                 'type'        => 'url',
                 'width'       => '100',
                 'placeholder' => 'https://...',
             ],
             [
                 'id'    => 'guide_thumbnail',
-                'label' => __('Miniatura', 'taw-theme'),
+                'label' => __('Thumbnail', 'taw-theme'),
                 'type'  => 'image',
                 'width' => '100',
             ],

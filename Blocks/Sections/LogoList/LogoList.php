@@ -15,7 +15,7 @@ class LogoList extends MetaBlock
     {
         new Metabox([
             'id'     => 'taw_logo_list_about',
-            'title'  => __('Logo List Section', 'taw-theme'),
+            'title'  => __('Section - Logo List', 'taw-theme'),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
             'screen' => ['page-nosotros.php'],
             'show_on' => static function (\WP_Post $post): bool {
@@ -40,6 +40,7 @@ class LogoList extends MetaBlock
                     'id'     => 'logo_list_about_items',
                     'label'  => __('Logos', 'taw-theme'),
                     'type'   => 'repeater',
+                    'layout' => 'tabbed_horizontal',
                     'button' => __('Add Logo', 'taw-theme'),
                     'fields' => [
                         [
@@ -71,8 +72,8 @@ class LogoList extends MetaBlock
         $items = Metabox::get_repeater($postId, 'logo_list_about_items');
 
         return [
-            'heading'    => $this->getMeta($postId, 'logo_list_about_heading') ?: __('Respaldados por los Mejores', 'taw-theme'),
-            'subheading' => $this->getMeta($postId, 'logo_list_about_subheading') ?: __('Certificaciones, membresías y organismos que avalan nuestra operación.', 'taw-theme'),
+            'heading'    => $this->getMeta($postId, 'logo_list_about_heading') ?: __('Nuestros asociados', 'taw-theme'),
+            'subheading' => $this->getMeta($postId, 'logo_list_about_subheading') ?: null,
             'items'      => $items ?: [],
         ];
     }
