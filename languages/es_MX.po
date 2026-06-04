@@ -1,15 +1,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAW Theme\n"
-"POT-Creation-Date: 2026-02-27 21:54-0500\n"
-"PO-Revision-Date: 2026-02-28 00:10-0500\n"
+"POT-Creation-Date: 2026-06-04 14:00-0600\n"
+"PO-Revision-Date: 2026-06-04 14:02-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: style.css\n"
@@ -22,388 +23,1362 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-2: vendor\n"
 
 #: 404.php:13
-msgid "Page Not Found"
-msgstr "Página no encontrada"
+msgid "No se encontró la página"
+msgstr "No se encontró la página"
 
 #: 404.php:15
-msgid "The page you're looking for doesn't exist or may have been moved."
+msgid "La página que estás buscando no existe o puede haber sido movida."
 msgstr "La página que estás buscando no existe o puede haber sido movida."
 
 #: 404.php:20
-msgid "Back to Home"
-msgstr "Volver a Inicio"
+msgid "Volver al inicio"
+msgstr "Volver al inicio"
 
-#: archive.php:45
-msgid "&larr; Newer"
-msgstr "&larr; Más reciente"
-
-#: archive.php:45
-msgid "Older &rarr;"
-msgstr "Mayor &rarr;"
-
-#: archive.php:50 inc/Core/Metabox/Metabox.php:416
-msgid "No posts found."
-msgstr "No se encontraron publicaciones."
-
-#: footer.php:24 functions.php:33
-msgid "Footer Menu"
-msgstr "Menú del pie de página"
-
-#: functions.php:32 header.php:41
+#: Blocks/Molecules/Menu/index.php:256 functions.php:126
 msgid "Primary Menu"
 msgstr "Menú principal"
 
-#: header.php:19
-msgid "Skip to content"
-msgstr "Saltar al contenido"
+#: Blocks/Molecules/SocialMediaShare/index.php:15
+#: Blocks/Molecules/SocialMediaShare/index.php:16
+msgid "Copiar enlace"
+msgstr "Copiar enlace"
 
-#: Blocks/Hero/Hero.php:18 inc/Metabox/Hero/metabox-example.php:42
-msgid "Hero Section"
-msgstr "Sección Hero"
+#: Blocks/Molecules/SocialMediaShare/index.php:16
+msgid "¡Copiado!"
+msgstr "¡Copiado!"
 
-#: Blocks/Hero/Hero.php:23
+#: Blocks/Molecules/SocialMediaShare/index.php:39
+msgid "Correo"
+msgstr "Correo"
+
+#: Blocks/Molecules/SocialMediaShare/index.php:49
+msgid "Compartir"
+msgstr "Compartir"
+
+#: Blocks/Molecules/SummarizeWithAI/index.php:53
+msgid "Sumariza con IA"
+msgstr "Sumariza con IA"
+
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:18
+msgid "Section - Blurbs Grid"
+msgstr "Sección - Mosaico de Tarjetas"
+
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:24
+#: Blocks/Sections/ContactCta/ContactCta.php:51
+#: Blocks/Sections/ContactForm/ContactForm.php:52
+#: Blocks/Sections/ContentBlock/ContentBlock.php:281
+#: Blocks/Sections/FAQs/FAQs.php:31
+#: Blocks/Sections/HeroStandard/HeroStandard.php:40
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:54
+#: Blocks/Sections/ImageGallery/ImageGallery.php:24
+#: Blocks/Sections/Legales/Legales.php:24
+#: Blocks/Sections/LinkList/LinkList.php:41
+#: Blocks/Sections/LogoList/LogoList.php:28
+#: Blocks/Sections/OurTeam/OurTeam.php:28
+#: Blocks/Sections/StrategicAllies/StrategicAllies.php:28
+#: Blocks/Sections/Testimonials/Testimonials.php:24
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:28
 msgid "Heading"
 msgstr "Encabezado"
 
-#: Blocks/Hero/Hero.php:30 inc/Metabox/Hero/metabox-example.php:65
-msgid "Tagline"
-msgstr "Eslogan"
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:30
+#: Blocks/Sections/ContactCta/ContactCta.php:57
+#: Blocks/Sections/ContactForm/ContactForm.php:58
+#: Blocks/Sections/ContentBlock/ContentBlock.php:287
+#: Blocks/Sections/FAQs/FAQs.php:37
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:60
+#: Blocks/Sections/ImageGallery/ImageGallery.php:30
+#: Blocks/Sections/LogoList/LogoList.php:34
+#: Blocks/Sections/OurTeam/OurTeam.php:34
+#: Blocks/Sections/StrategicAllies/StrategicAllies.php:34
+#: Blocks/Sections/Testimonials/Testimonials.php:30
+msgid "Subheading"
+msgstr "Subtítulo"
 
-#: Blocks/Hero/Hero.php:37 inc/Metabox/Hero/metabox-example.php:155
-msgid "Hero Image"
-msgstr "Imagen destacada"
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:37
+msgid "Blurbs"
+msgstr "Tarjetas"
 
-#: Blocks/Hero/Hero.php:43
-msgid "Show Tagline"
-msgstr "Mostrar eslogan"
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:39
+msgid "Add Blurb"
+msgstr "Agregar Tarjeta"
 
-#: Blocks/Hero/Hero.php:45
-msgid "Enable or disable the tagline above the heading."
-msgstr "Activa o desactiva el eslogan que aparece encima del encabezado."
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:44
+#: Blocks/Sections/ContentBlock/ContentBlock.php:310
+#: Blocks/Sections/HeroHome/HeroHome.php:41
+#: Blocks/Sections/ImageGallery/ImageGallery.php:43
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:40 inc/multimedia-cpts.php:179
+msgid "Image"
+msgstr "Imagen"
 
-#: Blocks/Hero/Hero.php:50
-msgid "Hero Padding"
-msgstr "Espaciado"
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:50
+#: Blocks/Sections/ImageGallery/ImageGallery.php:49
+msgid "Alt Text"
+msgstr "Texto Alternativo"
 
-#: Blocks/Hero/Hero.php:57
-msgid "Vertical padding for the hero section."
-msgstr "Relleno vertical para la sección principal."
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:52
+#: Blocks/Sections/ImageGallery/ImageGallery.php:51
+msgid "Leave empty to use the attachment alt text."
+msgstr "Déjalo vacío para usar el texto alternativo del archivo adjunto."
 
-#: Blocks/Hero/Hero.php:62
-msgid "Background Color"
-msgstr "Color de fondo"
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:57
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:82
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:60
+msgid "Title"
+msgstr "Título"
 
-#: Blocks/Hero/Hero.php:65
-msgid "Background color for the hero section."
-msgstr "Color de fondo para la sección principal."
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:63
+#: Blocks/Sections/HeroHome/HeroHome.php:27
+#: Blocks/Sections/HeroStandard/HeroStandard.php:46
+msgid "Subtitle"
+msgstr "Subtítulo"
 
-#: Blocks/Hero/Hero.php:70
-msgid "Featured Post"
-msgstr "Publicación destacada"
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:69
+msgid "Badge"
+msgstr "Etiqueta"
 
-#: Blocks/Hero/Hero.php:73
-msgid "Select a single post to feature."
-msgstr "Selecciona una sola publicación para destacar."
+#: Blocks/Sections/BlurbsGrid/BlurbsGrid.php:71
+msgid "Short label shown over the image (optional)."
+msgstr "Etiqueta corta mostrada sobre la imagen (opcional)."
 
-#: Blocks/Hero/Hero.php:78
-msgid "Related Posts"
-msgstr "Publicaciones relacionadas"
+#: Blocks/Sections/ChangingNumbers/ChangingNumbers.php:18
+msgid "Section - Changing Numbers"
+msgstr "Sección - Números en Movimiento"
 
-#: Blocks/Hero/Hero.php:83
-msgid "Select up to 5 related posts."
-msgstr "Selecciona hasta 5 publicaciones relacionadas."
+#: Blocks/Sections/ChangingNumbers/ChangingNumbers.php:27
+msgid "Section Title"
+msgstr "Título de la Sección"
 
-#: Blocks/Hero/Hero.php:88
-msgid "Team Members"
-msgstr "Miembros del equipo"
+#: Blocks/Sections/ChangingNumbers/ChangingNumbers.php:34
+msgid "Numbers"
+msgstr "Números"
 
-#: Blocks/Hero/Hero.php:90
-msgid "Add Team Member"
-msgstr "Agregar Miembro del Equipo"
+#: Blocks/Sections/ChangingNumbers/ChangingNumbers.php:36
+msgid "Add Number"
+msgstr "Agregar Número"
 
-#: Blocks/Hero/Hero.php:95
-msgid "Name"
+#: Blocks/Sections/ChangingNumbers/ChangingNumbers.php:40
+msgid "Prefix (e.g. +)"
+msgstr "Prefijo (ej. +)"
+
+#: Blocks/Sections/ChangingNumbers/ChangingNumbers.php:46
+msgid "Number"
+msgstr "Número"
+
+#: Blocks/Sections/ChangingNumbers/ChangingNumbers.php:53
+msgid "Suffix (e.g. mdp)"
+msgstr "Sufijo (ej. mdp)"
+
+#: Blocks/Sections/ChangingNumbers/ChangingNumbers.php:59
+msgid "Label"
+msgstr "Etiqueta"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:20
+#: Blocks/Sections/ContactForm/ContactForm.php:21
+msgid "Enviar mensaje"
+msgstr "Enviar mensaje"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:23
+msgid "Nueva consulta desde el sitio web"
+msgstr "Nueva consulta desde el sitio web"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:28
+#: Blocks/Sections/ContactForm/ContactForm.php:29
+msgid "¡Gracias! Nos pondremos en contacto contigo pronto."
+msgstr "¡Gracias! Nos pondremos en contacto contigo pronto."
+
+#: Blocks/Sections/ContactCta/ContactCta.php:31
+msgid "Nombre"
 msgstr "Nombre"
 
-#: Blocks/Hero/Hero.php:97
-msgid "Full name"
+#: Blocks/Sections/ContactCta/ContactCta.php:32
+#: Blocks/Sections/ContactForm/ContactForm.php:34
+#: Blocks/Sections/ContactForm/index.php:51
+msgid "Teléfono"
+msgstr "Teléfono"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:33
+#: Blocks/Sections/ContactForm/ContactForm.php:35
+#: Blocks/Sections/ContactForm/index.php:68
+msgid "Correo electrónico"
+msgstr "Correo electrónico"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:34
+#: Blocks/Sections/ContactForm/ContactForm.php:33
+msgid "Empresa"
+msgstr "Empresa"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:35
+msgid "Mensaje"
+msgstr "Mensaje"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:45
+msgid "Section - Contact CTA"
+msgstr "Sección - CTA de Contacto"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:64
+msgid "Form Shortcode (optional)"
+msgstr "Shortcode del formulario (opcional)"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:66
+msgid ""
+"Paste a Forminator shortcode here, e.g. [forminator_form id=\"123\"]. Leave "
+"empty to use the built-in fallback form."
+msgstr ""
+"Pega un shortcode de Forminator aquí, ej. [forminator_form id=\"123\"]. "
+"Déjalo vacío para usar el formulario de respaldo integrado."
+
+#: Blocks/Sections/ContactCta/ContactCta.php:76
+msgid "Queremos ser parte de tus proyectos"
+msgstr "Queremos ser parte de tus proyectos"
+
+#: Blocks/Sections/ContactCta/ContactCta.php:77
+msgid ""
+"Cuéntanos sobre tu empresa y te ayudaremos a encontrar el financiamiento "
+"ideal."
+msgstr ""
+"Cuéntanos sobre tu empresa y te ayudaremos a encontrar el financiamiento "
+"ideal."
+
+#: Blocks/Sections/ContactForm/ContactForm.php:24
+msgid "Nueva consulta desde Contacto"
+msgstr "Nueva consulta desde Contacto"
+
+#: Blocks/Sections/ContactForm/ContactForm.php:32
+msgid "Nombre completo"
 msgstr "Nombre completo"
 
-#: Blocks/Hero/Hero.php:102
-msgid "Role"
-msgstr "Puesto"
+#: Blocks/Sections/ContactForm/ContactForm.php:36
+msgid "¿En qué podemos ayudarte?"
+msgstr "¿En qué podemos ayudarte?"
 
-#: Blocks/Hero/Hero.php:104
-msgid "e.g. Designer, Developer"
-msgstr "Por ejemplo, diseñador, desarrollador"
+#: Blocks/Sections/ContactForm/ContactForm.php:46
+msgid "Section - Contact Form"
+msgstr "Sección - Formulario de Contacto"
 
-#: Blocks/Hero/Hero.php:109
-msgid "Bio"
-msgstr "Bio"
+#: Blocks/Sections/ContactForm/ContactForm.php:65
+msgid "Office Hours"
+msgstr "Horario de Atención"
 
-#: Blocks/Hero/Hero.php:115
-msgid "Photo"
-msgstr "Foto"
+#: Blocks/Sections/ContactForm/ContactForm.php:86
+msgid "Hablemos"
+msgstr "Hablemos"
 
-#: Blocks/Hero/Hero.php:121
-msgid "Group"
-msgstr "Grupo"
+#: Blocks/Sections/ContactForm/ContactForm.php:87
+msgid ""
+"Cuéntanos sobre tu empresa y un asesor te contactará a la brevedad para "
+"ayudarte a encontrar la solución financiera ideal."
+msgstr ""
+"Cuéntanos sobre tu empresa y un asesor te contactará a la brevedad para "
+"ayudarte a encontrar la solución financiera ideal."
 
-#: Blocks/Hero/Hero.php:126
-msgid "LinkedIn URL"
-msgstr "LinkedIn URL"
+#: Blocks/Sections/ContactForm/ContactForm.php:88
+msgid "Lun–Vie: 9:00 – 18:00"
+msgstr "Lun–Vie: 9:00 – 18:00"
 
-#: Blocks/Hero/Hero.php:133
-msgid "Twitter URL"
-msgstr "URL de Twitter"
+#: Blocks/Sections/ContactForm/index.php:85
+msgid "Dirección"
+msgstr "Dirección"
 
-#: Blocks/Hero/Hero.php:142
-msgid "Add your team members. Drag to reorder."
-msgstr "Agrega a los miembros de tu equipo. Arrastra para reordenar."
+#: Blocks/Sections/ContactForm/index.php:102
+msgid "Horario de atención"
+msgstr "Horario de atención"
 
-#: Blocks/Hero/index.php:35
-msgid "Get Started"
-msgstr "Empezar"
+#: Blocks/Sections/ContactForm/index.php:112
+msgid "Síguenos"
+msgstr "Síguenos"
 
-#: Blocks/Hero/index.php:36
-msgid "Learn More"
-msgstr "Saber más"
+#: Blocks/Sections/ContentBlock/ContentBlock.php:294
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:34
+msgid "Content"
+msgstr "Contenido"
 
-#: inc/Core/Metabox/Metabox.php:216
-msgid "Select or Upload Image"
-msgstr "Seleccionar o Subir Imagen"
+#: Blocks/Sections/ContentBlock/ContentBlock.php:300
+#: Blocks/Sections/FAQs/FAQs.php:44
+msgid "Layout"
+msgstr "Diseño"
 
-#: inc/Core/Metabox/Metabox.php:218
-msgid "Use this image"
-msgstr "Usar la imagen de fondo"
+#: Blocks/Sections/ContentBlock/ContentBlock.php:303
+msgid "Single column"
+msgstr "Una columna"
 
-#: inc/Core/Metabox/Metabox.php:396
-msgid "Search failed. Please try again."
-msgstr "La búsqueda no ha tenido éxito. Inténtalo de nuevo."
+#: Blocks/Sections/ContentBlock/ContentBlock.php:304
+msgid "Two columns (with image)"
+msgstr "Dos columnas (con imagen)"
 
-#: inc/Core/Metabox/Metabox.php:428 inc/Core/Metabox/Metabox.php:513
-msgid "(no title)"
-msgstr "(sin título)"
+#: Blocks/Sections/ContentBlock/ContentBlock.php:319
+msgid "Image Position"
+msgstr "Posición de la imagen"
 
-#: inc/Core/Metabox/Metabox.php:515 inc/Core/OptionsPage.php:330
-msgid "Remove"
-msgstr "Eliminar"
+#: Blocks/Sections/ContentBlock/ContentBlock.php:322
+msgid "Right"
+msgstr "Derecha"
 
-#: inc/Core/Metabox/Metabox.php:529
-msgid "selected"
-msgstr "seleccionado"
+#: Blocks/Sections/ContentBlock/ContentBlock.php:323
+msgid "Left"
+msgstr "Izquierda"
 
-#: inc/Core/Metabox/Metabox.php:1019 inc/Core/OptionsPage.php:327
-msgid "Select Image"
-msgstr "Seleccionar imagen"
+#: Blocks/Sections/FAQs/FAQs.php:18
+msgid "Section - FAQs"
+msgstr "Sección - Preguntas Frecuentes"
 
-#: inc/Core/Metabox/Metabox.php:1023
-msgid "Remove Image"
-msgstr "Remover imagen"
+#: Blocks/Sections/FAQs/FAQs.php:24 Blocks/Sections/LinkList/LinkList.php:34
+msgid "Section ID"
+msgstr "ID de Sección"
 
-#: inc/Core/Metabox/Metabox.php:1088
-msgid "Search to add posts…"
-msgstr "Buscar para agregar publicaciones"
+#: Blocks/Sections/FAQs/FAQs.php:26
+msgid ""
+"Optional unique ID for this section (without #). Useful for anchor links."
+msgstr ""
+"ID único opcional para esta sección (sin #). Útil para enlaces de anclaje."
 
-#: inc/Core/Metabox/Metabox.php:1088
-msgid "Search for a post…"
-msgstr "Buscar una publicación"
+#: Blocks/Sections/FAQs/FAQs.php:53
+msgid "FAQ Items"
+msgstr "Preguntas Frecuentes"
 
-#: inc/Core/Metabox/Metabox.php:1101
-msgid "Add Row"
-msgstr "Agregar Renglón"
+#: Blocks/Sections/FAQs/FAQs.php:56
+msgid "Add FAQ"
+msgstr "Agregar Pregunta"
 
-#: inc/Core/Metabox/Metabox.php:1240
-msgid "Drag to reorder"
-msgstr "Arrastre para reordenar"
+#: Blocks/Sections/FAQs/FAQs.php:60
+msgid "Question"
+msgstr "Pregunta"
 
-#: inc/Core/Metabox/Metabox.php:1244
-msgid "Collapse"
-msgstr "Colapso"
+#: Blocks/Sections/FAQs/FAQs.php:66
+msgid "Answer"
+msgstr "Respuesta"
 
-#: inc/Core/Metabox/Metabox.php:1245
-msgid "Remove row"
-msgstr "Quitar fila"
+#: Blocks/Sections/FAQs/FAQs.php:81
+msgid "¿Cuál es el plazo máximo para un crédito?"
+msgstr "¿Cuál es el plazo máximo para un crédito?"
 
-#. translators: %s: field label
-#: inc/Core/Metabox/Metabox.php:1578
-#, php-format
-msgid "%s is required."
-msgstr "%s es requerido."
+#: Blocks/Sections/FAQs/FAQs.php:82
+msgid ""
+"Los plazos varían según el tipo de producto. Contáctanos para obtener "
+"información personalizada según tus necesidades."
+msgstr ""
+"Los plazos varían según el tipo de producto. Contáctanos para obtener "
+"información personalizada según tus necesidades."
 
-#. translators: %s: field label
-#: inc/Core/Metabox/Metabox.php:1586
-#, php-format
-msgid "%s is invalid."
-msgstr "%s no es válido."
+#: Blocks/Sections/FAQs/FAQs.php:85
+msgid "¿Qué documentos necesito para solicitar un financiamiento?"
+msgstr "¿Qué documentos necesito para solicitar un financiamiento?"
 
-#: inc/Core/OptionsPage.php:187
-msgid "Tab"
-msgstr "Pestaña"
+#: Blocks/Sections/FAQs/FAQs.php:86
+msgid ""
+"Los requisitos dependen del tipo de financiamiento. En general solicitamos "
+"identificación oficial, comprobante de domicilio y estados de cuenta "
+"recientes."
+msgstr ""
+"Los requisitos dependen del tipo de financiamiento. En general solicitamos "
+"identificación oficial, comprobante de domicilio y estados de cuenta "
+"recientes."
 
-#: inc/Core/OptionsPage.php:327
-msgid "Change Image"
-msgstr "Cambiar imagen"
+#: Blocks/Sections/FAQs/FAQs.php:89
+msgid "¿Cómo puedo saber qué producto es el adecuado para mí?"
+msgstr "¿Cómo puedo saber qué producto es el adecuado para mí?"
 
-#: inc/Metabox/Hero/metabox-example.php:51
-msgid "Settings"
-msgstr "Ajustes"
+#: Blocks/Sections/FAQs/FAQs.php:90
+msgid ""
+"Nuestros asesores están listos para orientarte. Puedes contactarnos por "
+"teléfono, correo o visitando cualquiera de nuestras sucursales."
+msgstr ""
+"Nuestros asesores están listos para orientarte. Puedes contactarnos por "
+"teléfono, correo o visitando cualquiera de nuestras sucursales."
 
-#: inc/Metabox/Hero/metabox-example.php:57
-msgid "Style"
-msgstr "Estilo"
+#: Blocks/Sections/HeroHome/HeroHome.php:18
+msgid "Section - Hero"
+msgstr "Sección - Hero"
 
-#: inc/Metabox/Hero/metabox-example.php:67
-msgid "e.g. Bridging modern web architecture…"
-msgstr "Por ejemplo, uniendo la arquitectura web moderna..."
+#: Blocks/Sections/HeroHome/HeroHome.php:35
+msgid "Background Slides"
+msgstr "Carrusel de fondo"
 
-#: inc/Metabox/Hero/metabox-example.php:68
-msgid "Short introductory text displayed above the headline."
-msgstr "Texto introductorio breve que aparece encima del titular."
+#: Blocks/Sections/HeroHome/HeroHome.php:37
+msgid "Add Slide"
+msgstr "Agregar Diapositiva"
 
-#: inc/Metabox/Hero/metabox-example.php:82
+#: Blocks/Sections/HeroHome/index.php:66
+msgid "¡Contáctanos!"
+msgstr "¡Contáctanos!"
+
+#: Blocks/Sections/HeroStandard/HeroStandard.php:30
+msgid "Section - Standard Hero"
+msgstr "Sección - Hero Estándar"
+
+#: Blocks/Sections/HeroStandard/HeroStandard.php:53
+msgid "Background Image"
+msgstr "Imagen de fondo"
+
+#: Blocks/Sections/HeroStandard/HeroStandard.php:64
+msgid "Conoce CH Capital"
+msgstr "Conoce CH Capital"
+
+#: Blocks/Sections/HeroStandard/HeroStandard.php:65
+msgid ""
+"Más de dos décadas construyendo confianza, crecimiento y oportunidades en el "
+"sector financiero mexicano."
+msgstr ""
+"Más de dos décadas construyendo confianza, crecimiento y oportunidades en el "
+"sector financiero mexicano."
+
+#: Blocks/Sections/HeroStandard/index.php:30 archive-mm_gallery.php:37
+#: archive-mm_guide.php:30 archive-mm_news.php:30 archive-mm_video.php:35
+msgid "Inicio"
+msgstr "Inicio"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:31
+msgid "Reloj — Respuesta rápida"
+msgstr "Reloj — Respuesta rápida"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:32
+msgid "Escudo — Seguridad"
+msgstr "Escudo — Seguridad"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:33
+msgid "Paloma — Calidad"
+msgstr "Paloma — Calidad"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:34
+msgid "Personas — Equipo"
+msgstr "Personas — Equipo"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:35
+msgid "Estrella — Excelencia"
+msgstr "Estrella — Excelencia"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:36
+msgid "Candado — Confidencialidad"
+msgstr "Candado — Confidencialidad"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:37
+msgid "Gráfica — Crecimiento"
+msgstr "Gráfica — Crecimiento"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:38
+msgid "Documento — Proceso"
+msgstr "Documento — Proceso"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:39
+msgid "Teléfono — Contacto"
+msgstr "Teléfono — Contacto"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:40
+msgid "Corazón — Compromiso"
+msgstr "Corazón — Compromiso"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:48
+msgid "Section - Highlights Row"
+msgstr "Sección - Fila de Destacados"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:67
+msgid "Highlights"
+msgstr "Destacados"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:69
+msgid "Add Highlight"
+msgstr "Agregar Destacado"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:75
+#: Blocks/Sections/LinkList/LinkList.php:74
+msgid "Icon"
+msgstr "Ícono"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:88
+#: Blocks/Sections/LinkList/LinkList.php:46 inc/multimedia-cpts.php:130
 msgid "Description"
 msgstr "Descripción"
 
-#: inc/Metabox/Hero/metabox-example.php:85
-msgid "Supporting paragraph below the heading. Supports basic HTML."
-msgstr "Párrafo de apoyo debajo del encabezado. Admite HTML básico."
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:106
+msgid "Respuesta en 24 horas"
+msgstr "Respuesta en 24 horas"
 
-#: inc/Metabox/Hero/metabox-example.php:90
-msgid "Hero Code Snippet"
-msgstr "Fragmento de código de héroe"
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:107
+msgid "Un asesor te contactará dentro de las próximas 24 horas hábiles."
+msgstr "Un asesor te contactará dentro de las próximas 24 horas hábiles."
 
-#: inc/Metabox/Hero/metabox-example.php:94
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:111
+msgid "Información segura"
+msgstr "Información segura"
+
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:112
 msgid ""
-"Optional code snippet (e.g., HTML, shortcode) to display in the hero section."
+"Tus datos están protegidos bajo estrictas políticas de confidencialidad."
 msgstr ""
-"Fragmento de código opcional (por ejemplo, HTML, código corto) para mostrar "
-"en la sección principal."
+"Tus datos están protegidos bajo estrictas políticas de confidencialidad."
 
-#: inc/Metabox/Hero/metabox-example.php:95
-msgid "Code Snippet displayed in the hero section."
-msgstr "Fragmento de código mostrado en la sección principal."
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:116
+msgid "Asesoría personalizada"
+msgstr "Asesoría personalizada"
 
-#: inc/Metabox/Hero/metabox-example.php:100
-msgid "Code Snippet Formatting"
-msgstr "Formato de fragmentos de código"
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:117
+msgid "Diseñamos la solución financiera que mejor se adapta a tu empresa."
+msgstr "Diseñamos la solución financiera que mejor se adapta a tu empresa."
 
-#: inc/Metabox/Hero/metabox-example.php:103
-msgid "None"
-msgstr "Ninguna"
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:121
+msgid "Más de 20 años de experiencia"
+msgstr "Más de 20 años de experiencia"
 
-#: inc/Metabox/Hero/metabox-example.php:104
-msgid "HTML"
-msgstr "HTML"
+#: Blocks/Sections/HighlightsRow/HighlightsRow.php:122
+msgid "Respaldo y trayectoria en el sector financiero mexicano."
+msgstr "Respaldo y trayectoria en el sector financiero mexicano."
 
-#: inc/Metabox/Hero/metabox-example.php:105
-msgid "CSS"
-msgstr "CSS"
+#: Blocks/Sections/ImageGallery/ImageGallery.php:18
+msgid "Section - Image Gallery"
+msgstr "Sección - Galería de Imágenes"
 
-#: inc/Metabox/Hero/metabox-example.php:106
-msgid "JavaScript"
-msgstr "JavaScript"
+#: Blocks/Sections/ImageGallery/ImageGallery.php:37 inc/multimedia-cpts.php:172
+msgid "Images"
+msgstr "Imágenes"
 
-#: inc/Metabox/Hero/metabox-example.php:107
-msgid "PHP"
-msgstr "PHP"
+#: Blocks/Sections/ImageGallery/ImageGallery.php:39 inc/multimedia-cpts.php:175
+msgid "Add Image"
+msgstr "Agregar imagen"
 
-#: inc/Metabox/Hero/metabox-example.php:108
-msgid "Other"
-msgstr "Otro"
+#: Blocks/Sections/ImageGallery/ImageGallery.php:56 inc/multimedia-cpts.php:185
+msgid "Caption"
+msgstr "Descripción"
 
-#: inc/Metabox/Hero/metabox-example.php:111
-msgid "Specify the language of the code snippet for proper formatting."
+#: Blocks/Sections/ImageGallery/index.php:56
+#: Blocks/Sections/Testimonials/index.php:50
+msgid "Anterior"
+msgstr "Anterior"
+
+#: Blocks/Sections/ImageGallery/index.php:62
+msgid "Galería de imágenes"
+msgstr "Galería de imágenes"
+
+#: Blocks/Sections/ImageGallery/index.php:64
+#: Blocks/Sections/Testimonials/index.php:58
+msgid "Siguiente"
+msgstr "Siguiente"
+
+#: Blocks/Sections/Legales/Legales.php:19
+msgid "Section - Legal"
+msgstr "Sección - Legales"
+
+#: Blocks/Sections/Legales/Legales.php:29
+#: Blocks/Sections/LinkList/LinkList.php:80
+msgid "Links"
+msgstr "Enlaces"
+
+#: Blocks/Sections/Legales/Legales.php:31
+#: Blocks/Sections/LinkList/LinkList.php:82
+msgid "Add Link"
+msgstr "Agregar Enlace"
+
+#: Blocks/Sections/Legales/Legales.php:35
+#: Blocks/Sections/LinkList/LinkList.php:96
+msgid "Link Text"
+msgstr "Texto del enlace"
+
+#: Blocks/Sections/Legales/Legales.php:40
+#: Blocks/Sections/LinkList/LinkList.php:102
+msgid "Link URL"
+msgstr "URL del enlace"
+
+#: Blocks/Sections/Legales/Legales.php:55
+msgid "¿Quién regula y supervisa a las instituciones financieras?"
+msgstr "¿Quién regula y supervisa a las instituciones financieras?"
+
+#: Blocks/Sections/Legales/Legales.php:59
+msgid "¿Qué es el Buró de Entidades Financieras?"
+msgstr "¿Qué es el Buró de Entidades Financieras?"
+
+#: Blocks/Sections/LinkList/LinkList.php:25
+msgid "Section - Link List"
+msgstr "Sección - Lista de Links"
+
+#: Blocks/Sections/LinkList/LinkList.php:36
+msgid ""
+"Optional unique ID for this section (without #). Useful for anchor links and "
+"styling."
 msgstr ""
-"Especifique el idioma del fragmento de código para que se formatee "
-"correctamente."
+"ID único opcional para esta sección (sin #). Útil para enlaces de anclaje y "
+"estilos."
 
-#: inc/Metabox/Hero/metabox-example.php:115
-msgid "Hero CTA (Primary)"
-msgstr "Llamada a la acción del héroe (primaria)"
+#: Blocks/Sections/LinkList/LinkList.php:53
+msgid "Button Text"
+msgstr "Texto del Botón"
 
-#: inc/Metabox/Hero/metabox-example.php:120
-#: inc/Metabox/Hero/metabox-example.php:140
+#: Blocks/Sections/LinkList/LinkList.php:59
+msgid "Button URL"
+msgstr "URL del Botón"
+
+#: Blocks/Sections/LinkList/LinkList.php:65
+msgid "Open in new tab"
+msgstr "Abrir en nueva pestaña"
+
+#: Blocks/Sections/LinkList/LinkList.php:71
+msgid "Link List Link Type"
+msgstr "Tipo de Enlace"
+
+#: Blocks/Sections/LinkList/LinkList.php:75
+msgid "Blurb"
+msgstr "Tarjeta"
+
+#: Blocks/Sections/LinkList/LinkList.php:88
+msgid "Link Image"
+msgstr "Imagen del Enlace"
+
+#: Blocks/Sections/LinkList/LinkList.php:92
+msgid ""
+"Optional image for the link. If Link Type is \"Blurb\", this image will be "
+"used as the blurb background."
+msgstr ""
+"Imagen opcional para el enlace. Si el tipo es \"Tarjeta\", se usará como "
+"fondo de la tarjeta."
+
+#. Template Name of the plugin/theme
+#: Blocks/Sections/LinkList/LinkList.php:135
+msgid "Crédito PYME"
+msgstr "Crédito PYME"
+
+#. Template Name of the plugin/theme
+#: Blocks/Sections/LinkList/LinkList.php:140
+msgid "Arrendamiento Puro"
+msgstr "Arrendamiento Puro"
+
+#: Blocks/Sections/LinkList/LinkList.php:145
+msgid "Crédito Personal"
+msgstr "Crédito Personal"
+
+#: Blocks/Sections/LogoList/LogoList.php:18
+msgid "Section - Logo List"
+msgstr "Sección - Lista de Logos"
+
+#: Blocks/Sections/LogoList/LogoList.php:41
+msgid "Logos"
+msgstr "Logos"
+
+#: Blocks/Sections/LogoList/LogoList.php:44
+#: Blocks/Sections/StrategicAllies/StrategicAllies.php:42
+msgid "Add Logo"
+msgstr "Agregar logo"
+
+#: Blocks/Sections/LogoList/LogoList.php:48
+#: Blocks/Sections/StrategicAllies/StrategicAllies.php:46
+msgid "Logo"
+msgstr "Logo"
+
+#: Blocks/Sections/LogoList/LogoList.php:54
+#: Blocks/Sections/StrategicAllies/StrategicAllies.php:52
+msgid "Name / Alt Text"
+msgstr "Nombre / Texto alternativo"
+
+#: Blocks/Sections/LogoList/LogoList.php:60
+msgid "Link URL (optional)"
+msgstr "URL del enlace (opcional)"
+
+#: Blocks/Sections/LogoList/LogoList.php:75
+msgid "Nuestros asociados"
+msgstr "Nuestros asociados"
+
+#: Blocks/Sections/LogoList/index.php:45
+#, php-format
+msgid "Logo %d"
+msgstr "Logo %d"
+
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:18
+msgid "Section - Mission, Vision and Values"
+msgstr "Sección - Misión, Visión y Valores"
+
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:28
+msgid "Misión — Heading"
+msgstr "Misión — Encabezado"
+
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:34
+msgid "Misión — Text"
+msgstr "Misión — Texto"
+
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:41
+msgid "Visión — Heading"
+msgstr "Visión — Encabezado"
+
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:47
+msgid "Visión — Text"
+msgstr "Visión — Texto"
+
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:54
+msgid "Valores"
+msgstr "Valores"
+
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:56
+msgid "Add Value"
+msgstr "Agregar Valor"
+
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:66
 msgid "Text"
 msgstr "Texto"
 
-#: inc/Metabox/Hero/metabox-example.php:122
-#: inc/Metabox/Hero/metabox-example.php:142
-msgid "e.g. Get in touch!"
-msgstr "Por ejemplo: ¡Póngase en contacto con nosotros!"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:80
+msgid "Colaborativo"
+msgstr "Colaborativo"
 
-#: inc/Metabox/Hero/metabox-example.php:126
-#: inc/Metabox/Hero/metabox-example.php:146
-msgid "URL"
-msgstr "URL"
-
-#: inc/Metabox/Hero/metabox-example.php:135
-msgid "Hero CTA (Secondary)"
-msgstr "Héroe CTA (secundario)"
-
-#: inc/Metabox/Hero/metabox-example.php:157
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:80
 msgid ""
-"Optional image displayed in the hero section. Recommended dimensions: "
-"1200x800px."
+"Actuamos con honestidad y ética en cada decisión y operación financiera."
 msgstr ""
-"Imagen opcional que se muestra en la sección principal. Dimensiones "
-"recomendadas: 1200 x 800 píxeles."
+"Actuamos con honestidad y ética en cada decisión y operación financiera."
 
-#: inc/Metabox/Hero/metabox-example.php:168
-msgid "Stats Section"
-msgstr "Sección de estadísticas"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:81
+msgid "Asertivo"
+msgstr "Asertivo"
 
-#: inc/Metabox/Hero/metabox-example.php:176
-msgid "Stat 1 — Value"
-msgstr "Estadística 1 — Valor"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:81
+msgid ""
+"Construimos relaciones sólidas basadas en el cumplimiento de nuestros "
+"compromisos."
+msgstr ""
+"Construimos relaciones sólidas basadas en el cumplimiento de nuestros "
+"compromisos."
 
-#: inc/Metabox/Hero/metabox-example.php:178
-msgid "e.g. 4+"
-msgstr "por ejemplo, 4+"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:82
+msgid "Perseverante"
+msgstr "Perseverante"
 
-#: inc/Metabox/Hero/metabox-example.php:182
-msgid "Stat 1 — Label"
-msgstr "Estadística 1 — Etiqueta"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:82
+msgid ""
+"Desarrollamos soluciones financieras que se adaptan a las necesidades "
+"cambiantes del mercado."
+msgstr ""
+"Desarrollamos soluciones financieras que se adaptan a las necesidades "
+"cambiantes del mercado."
 
-#: inc/Metabox/Hero/metabox-example.php:184
-msgid "e.g. Years of Experience"
-msgstr "por ejemplo, años de experiencia."
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:83
+msgid "Integro"
+msgstr "Íntegro"
 
-#: inc/Metabox/Hero/metabox-example.php:188
-msgid "Stat 2 — Value"
-msgstr "Estadística 2 — Valor"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:83
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:84
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:85
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:86
+msgid ""
+"Ponemos el éxito de nuestros clientes en el centro de todo lo que hacemos."
+msgstr ""
+"Ponemos el éxito de nuestros clientes en el centro de todo lo que hacemos."
 
-#: inc/Metabox/Hero/metabox-example.php:190
-msgid "e.g. 50+"
-msgstr "por ejemplo, más de 50."
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:84
+msgid "Trascendente"
+msgstr "Trascendente"
 
-#: inc/Metabox/Hero/metabox-example.php:194
-msgid "Stat 2 — Label"
-msgstr "Estadística 2 — Etiqueta"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:85
+msgid "Auténtico"
+msgstr "Auténtico"
 
-#: inc/Metabox/Hero/metabox-example.php:196
-msgid "e.g. Projects Completed"
-msgstr "por ejemplo, proyectos completados."
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:86
+msgid "Leal"
+msgstr "Leal"
 
-#: inc/Metabox/Hero/metabox-example.php:200
-msgid "Stat 3 — Value"
-msgstr "Estadística 3 — Valor"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:92
+msgid "Nuestra Misión"
+msgstr "Nuestra Misión"
 
-#: inc/Metabox/Hero/metabox-example.php:202
-msgid "e.g. 100%"
-msgstr "por ejemplo, 100 %."
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:93
+msgid ""
+"Ofrecer soluciones financieras accesibles, confiables y personalizadas que "
+"impulsen el crecimiento de nuestros clientes, generando valor sostenible "
+"para todas las partes involucradas."
+msgstr ""
+"Ofrecer soluciones financieras accesibles, confiables y personalizadas que "
+"impulsen el crecimiento de nuestros clientes, generando valor sostenible "
+"para todas las partes involucradas."
 
-#: inc/Metabox/Hero/metabox-example.php:206
-msgid "Stat 3 — Label"
-msgstr "Estadística 3 — Etiqueta"
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:94
+msgid "Nuestra Visión"
+msgstr "Nuestra Visión"
 
-#: inc/Metabox/Hero/metabox-example.php:208
-msgid "e.g. Project Success Rate"
-msgstr "por ejemplo, tasa de éxito del proyecto."
+#: Blocks/Sections/MisionVisionValues/MisionVisionValues.php:95
+msgid ""
+"Ser la institución financiera de referencia en México, reconocida por su "
+"solidez, transparencia e impacto positivo en la vida económica de nuestros "
+"clientes y comunidades."
+msgstr ""
+"Ser la institución financiera de referencia en México, reconocida por su "
+"solidez, transparencia e impacto positivo en la vida económica de nuestros "
+"clientes y comunidades."
+
+#: Blocks/Sections/MisionVisionValues/index.php:46
+msgid "Nuestros Valores"
+msgstr "Nuestros Valores"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:18
+msgid "Section - Our Team"
+msgstr "Sección - Nuestro Equipo"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:41
+msgid "Featured Member (CEO)"
+msgstr "Miembro Destacado (CEO)"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:46
+#: Blocks/Sections/OurTeam/OurTeam.php:85
+msgid "Photo"
+msgstr "Foto"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:52
+#: Blocks/Sections/OurTeam/OurTeam.php:91
+#: Blocks/Sections/Testimonials/Testimonials.php:58
+msgid "Name"
+msgstr "Nombre"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:58
+msgid "Position / Title"
+msgstr "Posición / Título"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:64
+#: Blocks/Sections/OurTeam/OurTeam.php:103
+msgid "Bio"
+msgstr "Bio"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:71 inc/options.php:20
+msgid "LinkedIn URL"
+msgstr "LinkedIn URL"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:79
+msgid "Team Members"
+msgstr "Miembros del equipo"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:81
+msgid "Add Member"
+msgstr "Agregar Miembro"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:97
+msgid "Position"
+msgstr "Puesto"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:120
+msgid "Director Fiduciario"
+msgstr "Director Fiduciario"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:121
+msgid ""
+"Con más de 25 años de experiencia en el sector financiero mexicano, Miguel "
+"ha liderado CH Capital desde sus inicios con visión, integridad y un "
+"profundo compromiso con los clientes."
+msgstr ""
+"Con más de 25 años de experiencia en el sector financiero mexicano, Miguel "
+"ha liderado CH Capital desde sus inicios con visión, integridad y un "
+"profundo compromiso con los clientes."
+
+#: Blocks/Sections/OurTeam/OurTeam.php:126
+msgid "Directora Comercial"
+msgstr "Directora Comercial"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:127
+msgid ""
+"Especialista en gestión de riesgos y optimización de procesos financieros. "
+"Su liderazgo garantiza la excelencia operativa en cada servicio que "
+"ofrecemos."
+msgstr ""
+"Especialista en gestión de riesgos y optimización de procesos financieros. "
+"Su liderazgo garantiza la excelencia operativa en cada servicio que "
+"ofrecemos."
+
+#: Blocks/Sections/OurTeam/OurTeam.php:132
+msgid "Directora de Tesorería y oficial de cumplimiento"
+msgstr "Directora de Tesorería y oficial de cumplimiento"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:133
+msgid ""
+"Abogada financiera con especialización en derecho corporativo y fiduciario. "
+"Responsable de estructurar soluciones de fideicomiso a la medida de cada "
+"cliente."
+msgstr ""
+"Abogada financiera con especialización en derecho corporativo y fiduciario. "
+"Responsable de estructurar soluciones de fideicomiso a la medida de cada "
+"cliente."
+
+#: Blocks/Sections/OurTeam/OurTeam.php:138
+msgid "Contraloría"
+msgstr "Contraloría"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:139
+msgid ""
+"Abogado financiero con especialización en derecho corporativo y fiduciario. "
+"Responsable de estructurar soluciones de fideicomiso a la medida de cada "
+"cliente."
+msgstr ""
+"Abogado financiero con especialización en derecho corporativo y fiduciario. "
+"Responsable de estructurar soluciones de fideicomiso a la medida de cada "
+"cliente."
+
+#: Blocks/Sections/OurTeam/OurTeam.php:149
+msgid "Director General"
+msgstr "Director General"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:157
+msgid "Nuestro Equipo"
+msgstr "Nuestro Equipo"
+
+#: Blocks/Sections/OurTeam/OurTeam.php:158
+msgid "Profesionales comprometidos con tu éxito financiero."
+msgstr "Profesionales comprometidos con tu éxito financiero."
+
+#: Blocks/Sections/OurTeam/index.php:45
+msgid "CEO"
+msgstr "CEO"
+
+#: Blocks/Sections/PostGrid/PostGrid.php:69
+msgid "Título de la sección"
+msgstr "Título de la sección"
+
+#: Blocks/Sections/PostGrid/index.php:44 archive-mm_video.php:89
+#: archive-mm_video.php:138
+#, php-format
+msgid "Ver video: %s"
+msgstr "Ver video: %s"
+
+#: Blocks/Sections/PostGrid/index.php:85 archive-mm_news.php:76
+msgid "Leer más"
+msgstr "Leer más"
+
+#: Blocks/Sections/PostGrid/index.php:122
+#, php-format
+msgid "%d foto"
+msgid_plural "%d fotos"
+msgstr[0] "%d foto"
+msgstr[1] "%d fotos"
+
+#: Blocks/Sections/PostGrid/index.php:159 archive-mm_guide.php:88
+msgid "Descargar guía"
+msgstr "Descargar guía"
+
+#: Blocks/Sections/PostGrid/index.php:174
+msgid "Ver más"
+msgstr "Ver más"
+
+#: Blocks/Sections/PostGrid/index.php:193 archive-mm_video.php:170
+msgid "Reproductor de video"
+msgstr "Reproductor de video"
+
+#: Blocks/Sections/PostGrid/index.php:201 archive-mm_video.php:178
+msgid "Cerrar video"
+msgstr "Cerrar video"
+
+#: Blocks/Sections/PostGrid/index.php:214 archive-mm_video.php:191
+#: inc/multimedia-cpts.php:14
+msgid "Video"
+msgstr "Video"
+
+#: Blocks/Sections/StrategicAllies/StrategicAllies.php:18
+msgid "Section - Strategic Allies"
+msgstr "Sección - Aliados Estratégicos"
+
+#: Blocks/Sections/StrategicAllies/StrategicAllies.php:40
+msgid "Ally Logos"
+msgstr "Logos de Aliados"
+
+#: Blocks/Sections/StrategicAllies/StrategicAllies.php:67
+msgid "Aliados estratégicos"
+msgstr "Aliados estratégicos"
+
+#: Blocks/Sections/Testimonials/Testimonials.php:18
+msgid "Section - Testimonials"
+msgstr "Sección - Testimonios"
+
+#: Blocks/Sections/Testimonials/Testimonials.php:37
+msgid "Display as slider"
+msgstr "Mostrar como carrusel"
+
+#: Blocks/Sections/Testimonials/Testimonials.php:39
+msgid "Render testimonials as an Embla carousel instead of a static grid."
+msgstr "Muestra los testimonios como un carrusel Embla en lugar de una cuadrícula estática."
+
+#: Blocks/Sections/Testimonials/Testimonials.php:44
+msgid "Testimonials"
+msgstr "Testimonios"
+
+#: Blocks/Sections/Testimonials/Testimonials.php:47
+msgid "Add Testimonial"
+msgstr "Agregar Testimonio"
+
+#: Blocks/Sections/Testimonials/Testimonials.php:51
+msgid "Quote"
+msgstr "Cita"
+
+#: Blocks/Sections/Testimonials/Testimonials.php:64
+msgid "Role / Company"
+msgstr "Cargo / Empresa"
+
+#: Blocks/Sections/Testimonials/Testimonials.php:78
+msgid ""
+"Durante el tiempo que hemos trabajado en conjunto, hemos encontrado que los "
+"servicios que ofrece son claros, accesibles y bien valorados por nuestro "
+"personal."
+msgstr ""
+"Durante el tiempo que hemos trabajado en conjunto, hemos encontrado que los "
+"servicios que ofrece son claros, accesibles y bien valorados por nuestro "
+"personal."
+
+#: Blocks/Sections/Testimonials/Testimonials.php:83
+msgid ""
+"El servicio financiero es confiable y transparente desde la oferta del "
+"crédito hasta su culminación. Es gratificante que existan empresas así de "
+"confiables."
+msgstr ""
+"El servicio financiero es confiable y transparente desde la oferta del "
+"crédito hasta su culminación. Es gratificante que existan empresas así de "
+"confiables."
+
+#: Blocks/Sections/Testimonials/Testimonials.php:88
+#: Blocks/Sections/Testimonials/Testimonials.php:93
+#: Blocks/Sections/Testimonials/Testimonials.php:98
+msgid ""
+"El servicio en préstamos ha sido muy eficiente y profesional. "
+"Definitivamente recomendaría a CH Capital con otras personas que busquen "
+"asesoría financiera."
+msgstr ""
+"El servicio en préstamos ha sido muy eficiente y profesional. "
+"Definitivamente recomendaría a CH Capital con otras personas que busquen "
+"asesoría financiera."
+
+#: Blocks/Sections/Testimonials/Testimonials.php:107
+msgid "Descubre lo que nuestros clientes piensan de nosotros"
+msgstr "Descubre lo que nuestros clientes piensan de nosotros"
+
+#: Blocks/Sections/Testimonials/index.php:56
+msgid "Testimonios"
+msgstr "Testimonios"
+
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:18
+msgid "Section - Who Are We"
+msgstr "Sección - ¿Quiénes Somos?"
+
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:46
+msgid "Author Name"
+msgstr "Nombre del Autor"
+
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:52
+msgid "Author Title"
+msgstr "Título del Autor"
+
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:58
+msgid "Author Quote"
+msgstr "Cita del Autor"
+
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:92
+msgid "¿Quiénes Somos?"
+msgstr "¿Quiénes Somos?"
+
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:93
+msgid ""
+"<p>Somos una <strong>Sociedad Financiera de Objeto Múltiple</strong>, "
+"regulada y supervisada por la Comisión Nacional Bancaria y de Valores "
+"<strong>(CNBV)</strong>, la Comisión Nacional para la Defensa de los "
+"Usuarios de Servicios Financieros <strong>(CONDUSEF)</strong> y el Buró de "
+"Entidades Financieras. En <strong>CH Capital</strong> ofrecemos servicios "
+"que transforman las ideas de nuestros clientes en oportunidades de negocio. "
+"Somos más accesibles, más ágiles y más eficientes en la respuesta que damos "
+"a nuestros clientes, y creamos soluciones personalizadas, a la medida de las "
+"necesidades que se nos plantean.</p>"
+msgstr ""
+"<p>Somos una <strong>Sociedad Financiera de Objeto Múltiple</strong>, "
+"regulada y supervisada por la Comisión Nacional Bancaria y de Valores "
+"<strong>(CNBV)</strong>, la Comisión Nacional para la Defensa de los "
+"Usuarios de Servicios Financieros <strong>(CONDUSEF)</strong> y el Buró de "
+"Entidades Financieras. En <strong>CH Capital</strong> ofrecemos servicios "
+"que transforman las ideas de nuestros clientes en oportunidades de negocio. "
+"Somos más accesibles, más ágiles y más eficientes en la respuesta que damos "
+"a nuestros clientes, y creamos soluciones personalizadas, a la medida de las "
+"necesidades que se nos plantean.</p>"
+
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:96
+msgid "Fundador"
+msgstr "Fundador"
+
+#: Blocks/Sections/WhoAreWe/WhoAreWe.php:97
+msgid ""
+"Convertimos las ideas de nuestros clientes en oportunidades de negocio "
+"reales y sostenibles."
+msgstr ""
+"Convertimos las ideas de nuestros clientes en oportunidades de negocio "
+"reales y sostenibles."
+
+#: archive-mm_gallery.php:35 archive-mm_guide.php:28 archive-mm_news.php:28
+#: archive-mm_video.php:33
+msgid "Breadcrumb"
+msgstr "Ruta de navegación"
+
+#. Template Name of the plugin/theme
+#: archive-mm_gallery.php:39 archive-mm_guide.php:32 archive-mm_news.php:32
+#: archive-mm_video.php:37
+msgid "Multimedia"
+msgstr "Multimedia"
+
+#: archive-mm_gallery.php:41
+msgid "Galerías"
+msgstr "Galerías"
+
+#: archive-mm_gallery.php:45
+msgid "Galerías de Fotos"
+msgstr "Galerías de Fotos"
+
+#: archive-mm_gallery.php:48
+msgid "Revive nuestros eventos y momentos más destacados en imágenes."
+msgstr "Revive nuestros eventos y momentos más destacados en imágenes."
+
+#: archive-mm_gallery.php:133
+msgid "Próximamente publicaremos nuevas galerías."
+msgstr "Próximamente publicaremos nuevas galerías."
+
+#: archive-mm_guide.php:34
+msgid "Guías"
+msgstr "Guías"
+
+#: archive-mm_guide.php:38
+msgid "Guías Descargables"
+msgstr "Guías Descargables"
+
+#: archive-mm_guide.php:41
+msgid ""
+"Descarga nuestros recursos gratuitos: guías, whitepapers y materiales "
+"educativos."
+msgstr ""
+"Descarga nuestros recursos gratuitos: guías, whitepapers y materiales "
+"educativos."
+
+#: archive-mm_guide.php:98
+msgid "Próximamente publicaremos nuevas guías descargables."
+msgstr "Próximamente publicaremos nuevas guías descargables."
+
+#: archive-mm_news.php:34 archive-mm_news.php:38
+msgid "Noticias"
+msgstr "Noticias"
+
+#: archive-mm_news.php:41
+msgid ""
+"Las últimas noticias y artículos sobre CH Capital y el sector financiero."
+msgstr ""
+"Las últimas noticias y artículos sobre CH Capital y el sector financiero."
+
+#: archive-mm_news.php:84
+msgid "Próximamente publicaremos nuevas noticias."
+msgstr "Próximamente publicaremos nuevas noticias."
+
+#: archive-mm_video.php:39 archive-mm_video.php:43 inc/multimedia-cpts.php:13
+msgid "Videos"
+msgstr "Videos"
+
+#: archive-mm_video.php:46
+msgid "Explora nuestra biblioteca de videos: webinars, casos de éxito y más."
+msgstr "Explora nuestra biblioteca de videos: webinars, casos de éxito y más."
+
+#: archive.php:206 home.php:159
+msgid "&larr; Nuevos"
+msgstr "&larr; Nuevos"
+
+#: archive.php:207 home.php:160
+msgid "Anteriores &rarr;"
+msgstr "Anteriores &rarr;"
+
+#: archive.php:213 home.php:166
+msgid "No posts found."
+msgstr "No se encontraron publicaciones."
+
+#: footer.php:11
+msgid "Todos los derechos reservados."
+msgstr "Todos los derechos reservados."
+
+#: footer.php:42
+msgid "Sitio"
+msgstr "Sitio"
+
+#: footer.php:44 functions.php:127
+msgid "Footer Menu"
+msgstr "Menú del pie de página"
+
+#: footer.php:65
+msgid "División Financiera"
+msgstr "División Financiera"
+
+#: footer.php:87
+msgid "División Fiduciaria"
+msgstr "División Fiduciaria"
+
+#: header.php:28
+msgid "Skip to content"
+msgstr "Saltar al contenido"
+
+#: inc/multimedia-cpts.php:15
+msgid "Add New Video"
+msgstr "Agregar Nuevo Video"
+
+#: inc/multimedia-cpts.php:16
+msgid "Edit Video"
+msgstr "Editar Video"
+
+#: inc/multimedia-cpts.php:17
+msgid "New Video"
+msgstr "Nuevo Video"
+
+#: inc/multimedia-cpts.php:18
+msgid "View Video"
+msgstr "Ver Video"
+
+#: inc/multimedia-cpts.php:19
+msgid "Search Videos"
+msgstr "Buscar Videos"
+
+#: inc/multimedia-cpts.php:20
+msgid "No videos found."
+msgstr "No se encontraron videos."
+
+#: inc/multimedia-cpts.php:21
+msgid "No videos in trash."
+msgstr "No hay videos en la papelera."
+
+#: inc/multimedia-cpts.php:35
+msgid "News"
+msgstr "Noticias"
+
+#: inc/multimedia-cpts.php:36
+msgid "News Item"
+msgstr "Noticia"
+
+#: inc/multimedia-cpts.php:37
+msgid "Add New News Item"
+msgstr "Agregar Nueva Noticia"
+
+#: inc/multimedia-cpts.php:38
+msgid "Edit News Item"
+msgstr "Editar Noticia"
+
+#: inc/multimedia-cpts.php:39
+msgid "New News Item"
+msgstr "Nueva Noticia"
+
+#: inc/multimedia-cpts.php:40
+msgid "No news found."
+msgstr "No se encontraron noticias."
+
+#: inc/multimedia-cpts.php:41
+msgid "No news in trash."
+msgstr "No hay noticias en la papelera."
+
+#: inc/multimedia-cpts.php:55
+msgid "Photo Galleries"
+msgstr "Galerías de Fotos"
+
+#: inc/multimedia-cpts.php:56
+msgid "Gallery"
+msgstr "Galería"
+
+#: inc/multimedia-cpts.php:57
+msgid "Add New Gallery"
+msgstr "Agregar Nueva Galería"
+
+#: inc/multimedia-cpts.php:58
+msgid "Edit Gallery"
+msgstr "Editar Galería"
+
+#: inc/multimedia-cpts.php:59
+msgid "New Gallery"
+msgstr "Nueva Galería"
+
+#: inc/multimedia-cpts.php:60
+msgid "No galleries found."
+msgstr "No se encontraron galerías."
+
+#: inc/multimedia-cpts.php:61
+msgid "No galleries in trash."
+msgstr "No hay galerías en la papelera."
+
+#: inc/multimedia-cpts.php:75
+msgid "Downloadable Guides"
+msgstr "Guías Descargables"
+
+#: inc/multimedia-cpts.php:76
+msgid "Guide"
+msgstr "Guía"
+
+#: inc/multimedia-cpts.php:77
+msgid "Add New Guide"
+msgstr "Agregar Nueva Guía"
+
+#: inc/multimedia-cpts.php:78
+msgid "Edit Guide"
+msgstr "Editar Guía"
+
+#: inc/multimedia-cpts.php:79
+msgid "New Guide"
+msgstr "Nueva Guía"
+
+#: inc/multimedia-cpts.php:80
+msgid "No guides found."
+msgstr "No se encontraron guías."
+
+#: inc/multimedia-cpts.php:81
+msgid "No guides in trash."
+msgstr "No hay guías en la papelera."
+
+#: inc/multimedia-cpts.php:95
+msgid "Video Types"
+msgstr "Tipos de Video"
+
+#: inc/multimedia-cpts.php:96
+msgid "Type"
+msgstr "Tipo"
+
+#: inc/multimedia-cpts.php:97
+msgid "Add New Type"
+msgstr "Agregar Nuevo Tipo"
+
+#: inc/multimedia-cpts.php:98
+msgid "Edit Type"
+msgstr "Editar Tipo"
+
+#: inc/multimedia-cpts.php:99
+msgid "Search Types"
+msgstr "Buscar Tipos"
+
+#: inc/multimedia-cpts.php:100
+msgid "All Types"
+msgstr "Todos los Tipos"
+
+#: inc/multimedia-cpts.php:116
+msgid "Video Details"
+msgstr "Detalles del Video"
+
+#: inc/multimedia-cpts.php:122
+msgid "Video URL"
+msgstr "URL del Video"
+
+#: inc/multimedia-cpts.php:126
+msgid "YouTube or Vimeo."
+msgstr "YouTube o Vimeo."
+
+#: inc/multimedia-cpts.php:135 inc/multimedia-cpts.php:157
+#: inc/multimedia-cpts.php:214
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: inc/multimedia-cpts.php:144
+msgid "News Item Details"
+msgstr "Detalles de la Noticia"
+
+#: inc/multimedia-cpts.php:150
+msgid "Article URL"
+msgstr "URL del Artículo"
+
+#: inc/multimedia-cpts.php:166
+msgid "Gallery Images"
+msgstr "Imágenes de la Galería"
+
+#: inc/multimedia-cpts.php:193
+msgid "Event Date"
+msgstr "Fecha del Evento"
+
+#: inc/multimedia-cpts.php:201
+msgid "Guide Details"
+msgstr "Detalles de la Guía"
+
+#: inc/multimedia-cpts.php:207
+msgid "PDF URL"
+msgstr "URL del PDF"
 
 #: inc/options.php:7 inc/options.php:8
-msgid "TAW Settings"
-msgstr "Configuración de TAW"
+msgid "Theme Settings"
+msgstr "Configuración del tema"
 
 #: inc/options.php:12
 msgid "Company Name"
@@ -415,31 +1390,55 @@ msgstr "Número de teléfono"
 
 #: inc/options.php:14
 msgid "Email Address"
-msgstr "Email"
+msgstr "Correo electrónico"
 
 #: inc/options.php:15
-msgid "Footer Copyright"
-msgstr "Pie de página para Copyright"
+msgid "Address"
+msgstr "Dirección"
 
 #: inc/options.php:16
+msgid "Footer Copyright"
+msgstr "Copyright del pie de página"
+
+#: inc/options.php:17
 msgid "Facebook URL"
 msgstr "URL de Facebook"
 
-#: inc/options.php:17
+#: inc/options.php:18
 msgid "Instagram URL"
 msgstr "URL de Instagram"
 
-#: inc/options.php:20
+#: inc/options.php:19
+msgid "X (Twitter) URL"
+msgstr "URL de X (Twitter)"
+
+#: inc/options.php:21
+msgid "YouTube URL"
+msgstr "URL de YouTube"
+
+#: inc/options.php:22
+msgid "Enable CSS Studio"
+msgstr "Activar CSS Studio"
+
+#: inc/options.php:25
 msgid "General"
 msgstr "General"
 
-#: inc/options.php:21
+#: inc/options.php:26
 msgid "Footer"
 msgstr "Pie de página"
 
-#: inc/options.php:22
+#: inc/options.php:27
 msgid "Social"
 msgstr "Social"
+
+#: inc/options.php:28
+msgid "Developer Tools"
+msgstr "Herramientas de Desarrollador"
+
+#: index.php:30 page.php:40 single.php:36
+msgid "Tagged: "
+msgstr "Etiquetado: "
 
 #. translators: %s: search query
 #: search.php:16
@@ -459,9 +1458,21 @@ msgstr "Siguiente &rarr;"
 msgid "No results found. Try different keywords."
 msgstr "No se han encontrado resultados. Prueba con otras palabras clave."
 
-#: single.php:36
-msgid "Tagged: "
-msgstr "Etiquetado: "
+#: single-post.php:90
+msgid "Por favor sumariza este artículo y resalta los puntos clave"
+msgstr "Por favor sumariza este artículo y resalta los puntos clave"
+
+#: single-post.php:137
+msgid "También te puede interesar"
+msgstr "También te puede interesar"
+
+#: template-parts/blog-filter-bar.php:23
+msgid "Filtrar por categoría"
+msgstr "Filtrar por categoría"
+
+#: template-parts/blog-filter-bar.php:27
+msgid "Todos"
+msgstr "Todos"
 
 #. Theme Name of the plugin/theme
 msgid "TAW Theme"
@@ -485,3 +1496,248 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "M. Lizardo"
 msgstr "M. Lizardo"
+
+#. Template Name of the plugin/theme
+msgid "Crédito de Nómina"
+msgstr "Crédito de Nómina"
+
+#. Template Name of the plugin/theme
+msgid "Escrow"
+msgstr "Escrow"
+
+#. Template Name of the plugin/theme
+msgid "Fideicomisos"
+msgstr "Fideicomisos"
+
+#. Template Name of the plugin/theme
+msgid "About Us — Nosotros"
+msgstr "Quiénes Somos — Nosotros"
+
+#. Template Name of the plugin/theme
+msgid "Contacto"
+msgstr "Contacto"
+
+#~ msgid "Page Not Found"
+#~ msgstr "Página no encontrada"
+
+#~ msgid "The page you're looking for doesn't exist or may have been moved."
+#~ msgstr "La página que estás buscando no existe o puede haber sido movida."
+
+#~ msgid "Back to Home"
+#~ msgstr "Volver a Inicio"
+
+#~ msgid "&larr; Newer"
+#~ msgstr "&larr; Más reciente"
+
+#~ msgid "Tagline"
+#~ msgstr "Eslogan"
+
+#~ msgid "Show Tagline"
+#~ msgstr "Mostrar eslogan"
+
+#~ msgid "Enable or disable the tagline above the heading."
+#~ msgstr "Activa o desactiva el eslogan que aparece encima del encabezado."
+
+#~ msgid "Hero Padding"
+#~ msgstr "Espaciado"
+
+#~ msgid "Vertical padding for the hero section."
+#~ msgstr "Relleno vertical para la sección principal."
+
+#~ msgid "Background color for the hero section."
+#~ msgstr "Color de fondo para la sección principal."
+
+#~ msgid "Featured Post"
+#~ msgstr "Publicación destacada"
+
+#~ msgid "Select a single post to feature."
+#~ msgstr "Selecciona una sola publicación para destacar."
+
+#~ msgid "Related Posts"
+#~ msgstr "Publicaciones relacionadas"
+
+#~ msgid "Select up to 5 related posts."
+#~ msgstr "Selecciona hasta 5 publicaciones relacionadas."
+
+#~ msgid "Full name"
+#~ msgstr "Nombre completo"
+
+#~ msgid "Role"
+#~ msgstr "Puesto"
+
+#~ msgid "e.g. Designer, Developer"
+#~ msgstr "Por ejemplo, diseñador, desarrollador"
+
+#~ msgid "Group"
+#~ msgstr "Grupo"
+
+#~ msgid "Add your team members. Drag to reorder."
+#~ msgstr "Agrega a los miembros de tu equipo. Arrastra para reordenar."
+
+#~ msgid "Get Started"
+#~ msgstr "Empezar"
+
+#~ msgid "Learn More"
+#~ msgstr "Saber más"
+
+#~ msgid "Select or Upload Image"
+#~ msgstr "Seleccionar o Subir Imagen"
+
+#~ msgid "Use this image"
+#~ msgstr "Usar la imagen de fondo"
+
+#~ msgid "Search failed. Please try again."
+#~ msgstr "La búsqueda no ha tenido éxito. Inténtalo de nuevo."
+
+#~ msgid "(no title)"
+#~ msgstr "(sin título)"
+
+#~ msgid "Remove"
+#~ msgstr "Eliminar"
+
+#~ msgid "selected"
+#~ msgstr "seleccionado"
+
+#~ msgid "Select Image"
+#~ msgstr "Seleccionar imagen"
+
+#~ msgid "Remove Image"
+#~ msgstr "Remover imagen"
+
+#~ msgid "Search to add posts…"
+#~ msgstr "Buscar para agregar publicaciones"
+
+#~ msgid "Search for a post…"
+#~ msgstr "Buscar una publicación"
+
+#~ msgid "Drag to reorder"
+#~ msgstr "Arrastre para reordenar"
+
+#~ msgid "Collapse"
+#~ msgstr "Colapso"
+
+#~ msgid "Remove row"
+#~ msgstr "Quitar fila"
+
+#, php-format
+#~ msgid "%s is required."
+#~ msgstr "%s es requerido."
+
+#, php-format
+#~ msgid "%s is invalid."
+#~ msgstr "%s no es válido."
+
+#~ msgid "Tab"
+#~ msgstr "Pestaña"
+
+#~ msgid "Settings"
+#~ msgstr "Ajustes"
+
+#~ msgid "Style"
+#~ msgstr "Estilo"
+
+#~ msgid "e.g. Bridging modern web architecture…"
+#~ msgstr "Por ejemplo, uniendo la arquitectura web moderna..."
+
+#~ msgid "Short introductory text displayed above the headline."
+#~ msgstr "Texto introductorio breve que aparece encima del titular."
+
+#~ msgid "Supporting paragraph below the heading. Supports basic HTML."
+#~ msgstr "Párrafo de apoyo debajo del encabezado. Admite HTML básico."
+
+#~ msgid "Hero Code Snippet"
+#~ msgstr "Fragmento de código de héroe"
+
+#~ msgid ""
+#~ "Optional code snippet (e.g., HTML, shortcode) to display in the hero "
+#~ "section."
+#~ msgstr ""
+#~ "Fragmento de código opcional (por ejemplo, HTML, código corto) para "
+#~ "mostrar en la sección principal."
+
+#~ msgid "Code Snippet displayed in the hero section."
+#~ msgstr "Fragmento de código mostrado en la sección principal."
+
+#~ msgid "Code Snippet Formatting"
+#~ msgstr "Formato de fragmentos de código"
+
+#~ msgid "None"
+#~ msgstr "Ninguna"
+
+#~ msgid "HTML"
+#~ msgstr "HTML"
+
+#~ msgid "CSS"
+#~ msgstr "CSS"
+
+#~ msgid "JavaScript"
+#~ msgstr "JavaScript"
+
+#~ msgid "PHP"
+#~ msgstr "PHP"
+
+#~ msgid "Other"
+#~ msgstr "Otro"
+
+#~ msgid "Specify the language of the code snippet for proper formatting."
+#~ msgstr ""
+#~ "Especifique el idioma del fragmento de código para que se formatee "
+#~ "correctamente."
+
+#~ msgid "Hero CTA (Primary)"
+#~ msgstr "Llamada a la acción del héroe (primaria)"
+
+#~ msgid "e.g. Get in touch!"
+#~ msgstr "Por ejemplo: ¡Póngase en contacto con nosotros!"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Hero CTA (Secondary)"
+#~ msgstr "Héroe CTA (secundario)"
+
+#~ msgid ""
+#~ "Optional image displayed in the hero section. Recommended dimensions: "
+#~ "1200x800px."
+#~ msgstr ""
+#~ "Imagen opcional que se muestra en la sección principal. Dimensiones "
+#~ "recomendadas: 1200 x 800 píxeles."
+
+#~ msgid "Stats Section"
+#~ msgstr "Sección de estadísticas"
+
+#~ msgid "Stat 1 — Value"
+#~ msgstr "Estadística 1 — Valor"
+
+#~ msgid "e.g. 4+"
+#~ msgstr "por ejemplo, 4+"
+
+#~ msgid "Stat 1 — Label"
+#~ msgstr "Estadística 1 — Etiqueta"
+
+#~ msgid "e.g. Years of Experience"
+#~ msgstr "por ejemplo, años de experiencia."
+
+#~ msgid "Stat 2 — Value"
+#~ msgstr "Estadística 2 — Valor"
+
+#~ msgid "e.g. 50+"
+#~ msgstr "por ejemplo, más de 50."
+
+#~ msgid "Stat 2 — Label"
+#~ msgstr "Estadística 2 — Etiqueta"
+
+#~ msgid "e.g. Projects Completed"
+#~ msgstr "por ejemplo, proyectos completados."
+
+#~ msgid "Stat 3 — Value"
+#~ msgstr "Estadística 3 — Valor"
+
+#~ msgid "e.g. 100%"
+#~ msgstr "por ejemplo, 100 %."
+
+#~ msgid "Stat 3 — Label"
+#~ msgstr "Estadística 3 — Etiqueta"
+
+#~ msgid "e.g. Project Success Rate"
+#~ msgstr "por ejemplo, tasa de éxito del proyecto."
