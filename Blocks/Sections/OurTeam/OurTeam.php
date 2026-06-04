@@ -27,14 +27,14 @@ class OurTeam extends MetaBlock
                     'id'    => 'team_heading',
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'    => 'team_subheading',
                     'label' => __('Subheading', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 2,
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'     => 'featured_member',
@@ -78,6 +78,7 @@ class OurTeam extends MetaBlock
                     'id'     => 'team_members',
                     'label'  => __('Team Members', 'taw-theme'),
                     'type'   => 'repeater',
+                    'layout' => 'tabbed_horizontal',
                     'button' => __('Add Member', 'taw-theme'),
                     'fields' => [
                         [
@@ -105,6 +106,12 @@ class OurTeam extends MetaBlock
                             'rows'  => 3,
                             'width' => '100',
                         ],
+                        [
+                            'id'    => 'member_linkedin',
+                            'label' => __('LinkedIn URL', 'taw-theme'),
+                            'type'  => 'url',
+                            'width' => '30',
+                        ],
                     ],
                 ],
             ],
@@ -119,24 +126,28 @@ class OurTeam extends MetaBlock
                 'member_name'     => 'Miguel Pacheco<br />Pérez-Tello',
                 'member_position' => __('Director Fiduciario', 'taw-theme'),
                 'member_bio'      => __('Con más de 25 años de experiencia en el sector financiero mexicano, Miguel ha liderado CH Capital desde sus inicios con visión, integridad y un profundo compromiso con los clientes.', 'taw-theme'),
+                'member_linkedin' => '',
             ],
             [
                 'member_image'    => 0,
                 'member_name'     => 'Volga Del Riego',
                 'member_position' => __('Directora Comercial', 'taw-theme'),
                 'member_bio'      => __('Especialista en gestión de riesgos y optimización de procesos financieros. Su liderazgo garantiza la excelencia operativa en cada servicio que ofrecemos.', 'taw-theme'),
+                'member_linkedin' => '',
             ],
             [
                 'member_image'    => 0,
                 'member_name'     => 'Rocío González',
                 'member_position' => __('Directora de Tesorería y oficial de cumplimiento', 'taw-theme'),
                 'member_bio'      => __('Abogada financiera con especialización en derecho corporativo y fiduciario. Responsable de estructurar soluciones de fideicomiso a la medida de cada cliente.', 'taw-theme'),
+                'member_linkedin' => '',
             ],
             [
                 'member_image'    => 0,
                 'member_name'     => 'Eric Alfaro',
                 'member_position' => __('Contraloría', 'taw-theme'),
                 'member_bio'      => __('Abogado financiero con especialización en derecho corporativo y fiduciario. Responsable de estructurar soluciones de fideicomiso a la medida de cada cliente.', 'taw-theme'),
+                'member_linkedin' => '',
             ],
         ];
 

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAW Theme\n"
-"POT-Creation-Date: 2026-06-04 14:00-0600\n"
-"PO-Revision-Date: 2026-06-04 14:02-0600\n"
+"POT-Creation-Date: 2026-06-04 14:10-0600\n"
+"PO-Revision-Date: 2026-06-04 14:28-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -982,7 +982,9 @@ msgstr "Mostrar como carrusel"
 
 #: Blocks/Sections/Testimonials/Testimonials.php:39
 msgid "Render testimonials as an Embla carousel instead of a static grid."
-msgstr "Muestra los testimonios como un carrusel Embla en lugar de una cuadrícula estática."
+msgstr ""
+"Muestra los testimonios como un carrusel Embla en lugar de una cuadrícula "
+"estática."
 
 #: Blocks/Sections/Testimonials/Testimonials.php:44
 msgid "Testimonials"

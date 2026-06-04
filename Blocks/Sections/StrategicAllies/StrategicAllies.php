@@ -27,13 +27,13 @@ class StrategicAllies extends MetaBlock
                     'id'    => 'allies_heading',
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'    => 'allies_subheading',
                     'label' => __('Subheading', 'taw-theme'),
                     'type'  => 'text',
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'     => 'allies_logos',

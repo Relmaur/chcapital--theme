@@ -27,14 +27,14 @@ class LogoList extends MetaBlock
                     'id'    => 'logo_list_about_heading',
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'    => 'logo_list_about_subheading',
                     'label' => __('Subheading', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 2,
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'     => 'logo_list_about_items',

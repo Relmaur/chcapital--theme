@@ -90,9 +90,9 @@ class MisionVisionValues extends MetaBlock
 
         return [
             'mision_heading' => $this->getMeta($postId, 'mvv_mision_heading') ?: __('Nuestra Misión', 'taw-theme'),
-            'mision_text'    => $this->getMeta($postId, 'mvv_mision_text') ?: __('Ofrecer soluciones financieras accesibles, confiables y personalizadas que impulsen el crecimiento de nuestros clientes, generando valor sostenible para todas las partes involucradas.', 'taw-theme'),
+            'mision_text'    => $this->getMeta($postId, 'mvv_mision_text') ?: __('Inspirar la creación y promoción de soluciones estratégicas con amplia contribución organizacional, siendo exponencialmente eficientes y sistemáticos, orquestando una propuesta de valor insuperable para nuestros clientes.', 'taw-theme'),
             'vision_heading' => $this->getMeta($postId, 'mvv_vision_heading') ?: __('Nuestra Visión', 'taw-theme'),
-            'vision_text'    => $this->getMeta($postId, 'mvv_vision_text') ?: __('Ser la institución financiera de referencia en México, reconocida por su solidez, transparencia e impacto positivo en la vida económica de nuestros clientes y comunidades.', 'taw-theme'),
+            'vision_text'    => $this->getMeta($postId, 'mvv_vision_text') ?: __('Ser un agente de cambio en la vida de las personas y del desarrollo de las empresas, implementando nuestro modelo cooperativo “CAPITAL” fundamental.', 'taw-theme'),
             'values'         => $values ?: $default_values,
         ];
     }

@@ -24,8 +24,8 @@
 
     &__featured {
         display: grid;
-        grid-template-columns: 320px 1fr;
-        gap: 3rem;
+        grid-template-columns: 220px 1fr;
+        gap: 2.5rem;
         background: white;
         border-radius: 1.25rem;
         overflow: hidden;
@@ -35,7 +35,7 @@
     }
 
     &__featured-photo-wrap {
-        aspect-ratio: 3 / 4;
+        aspect-ratio: 1 / 1;
         overflow: hidden;
         background: var(--color-primary, #004a98);
 
@@ -52,11 +52,11 @@
     }
 
     &__featured-info {
-        padding: 2.5rem 2.5rem 2.5rem 0;
+        padding: 1.75rem 2rem 1.75rem 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.4rem;
     }
 
     &__featured-badge {
@@ -201,7 +201,7 @@
 
     @media (max-width: 1024px) {
         &__featured {
-            grid-template-columns: 240px 1fr;
+            grid-template-columns: 180px 1fr;
             gap: 2rem;
         }
 

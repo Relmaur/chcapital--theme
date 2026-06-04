@@ -39,14 +39,14 @@ class HeroStandard extends MetaBlock
                     'id'    => 'hero_standard_heading',
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'    => 'hero_standard_subtitle',
                     'label' => __('Subtitle', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 3,
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'    => 'hero_standard_image',

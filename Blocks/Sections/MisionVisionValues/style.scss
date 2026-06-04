@@ -92,7 +92,7 @@
 
     &__values-grid {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
         gap: 0.5rem;
     }
 
@@ -119,6 +119,15 @@
         opacity: 0.15;
         line-height: 1;
         font-variant-numeric: tabular-nums;
+        transition: all 150ms ease;
+    }
+
+    &__value:hover &__value-number {
+        opacity: 1;
+    }
+
+    &__value:hover {
+        cursor: pointer;
     }
 
     &__value-title {
@@ -136,17 +145,10 @@
     }
 
     @media (max-width: 1024px) {
-        &__values-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
     }
 
     @media (max-width: 768px) {
         &__top {
-            grid-template-columns: 1fr;
-        }
-
-        &__values-grid {
             grid-template-columns: 1fr;
         }
     }
