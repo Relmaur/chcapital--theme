@@ -39,27 +39,26 @@ class WhoAreWe extends MetaBlock
                     'id'    => 'who_image',
                     'label' => __('Image', 'taw-theme'),
                     'type'  => 'image',
-                    'width' => '50',
+                    'width' => '34',
                 ],
                 [
                     'id'    => 'who_author_name',
                     'label' => __('Author Name', 'taw-theme'),
                     'type'  => 'text',
-                    'width' => '50',
+                    'width' => '33',
                 ],
                 [
                     'id'    => 'who_author_title',
                     'label' => __('Author Title', 'taw-theme'),
                     'type'  => 'text',
-                    'width' => '50',
+                    'width' => '33',
                 ],
                 [
                     'id'    => 'who_author_quote',
                     'label' => __('Author Quote', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 3,
-                    'width' => '100',
-                ],
+                ],  
             ],
         ]);
     }
@@ -70,22 +69,22 @@ class WhoAreWe extends MetaBlock
             [
                 'name' => 'Crédito PYME',
                 'description' => 'Descripción breve del servicio 1 que ofrecemos a nuestros clientes.',
-                'url' => '#',
+                'url' => '/credito-pyme',
             ],
             [
-                'name' => 'Crédito personal',
+                'name' => 'Crédito de nómina',
                 'description' => 'Descripción breve del servicio 2 que ofrecemos a nuestros clientes.',
-                'url' => '#',
+                'url' => '/credito-de-nomina',
             ],
             [
                 'name' => 'Fideicomisos de Garantía',
                 'description' => 'Descripción breve del servicio 3 que ofrecemos a nuestros clientes.',
-                'url' => '#',
+                'url' => '/fideicomisos',
             ],
             [
                 'name' => 'Servicio Escrow',
                 'description' => 'Descripción breve del servicio 4 que ofrecemos a nuestros clientes.',
-                'url' => '#',
+                'url' => '/escrow',
             ],
         ];
 

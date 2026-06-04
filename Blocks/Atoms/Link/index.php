@@ -30,9 +30,9 @@ $classes = isset($classes) && !empty($classes) ? $classes : '';
 
     <?php
     case 'blurb': ?>
-        <a href="<?php echo esc_url($link['url']); ?>" class="link link--blurb relative flex min-h-50 flex-col justify-end p-4 aspect-3/2 bg-cover bg-center rounded-md<?php echo ' ' . esc_attr($classes); ?>" <?php echo $blurb_background ? 'style="background-image:url(' . esc_url($blurb_background) . ');"' : ''; ?> target="<?php echo esc_attr($link['target']); ?>" rel="noopener">
-            <div class="gradient absolute inset-0 bg-[linear-gradient(0deg,rgba(0,74,152,0.5)_0%,rgba(255,255,255,0)_100%)] z-1"></div>
-            <div class="icon-and-text flex items-center gap-2 bg-white/75 px-3 py-2 rounded w-fit relative z-2">
+        <a href="<?php echo esc_url($link['url']); ?>" class="link link--blurb relative flex min-h-50 flex-col justify-end p-4 aspect-3/2 bg-cover bg-center rounded-md group<?php echo ' ' . esc_attr($classes); ?>" <?php echo $blurb_background ? 'style="background-image:url(' . esc_url($blurb_background) . ');"' : ''; ?> target="<?php echo esc_attr($link['target']); ?>" rel="noopener">
+            <div class="gradient absolute rounded inset-0 bg-[linear-gradient(0deg,rgba(0,74,152,0.5)_0%,rgba(255,255,255,0)_100%)] z-1"></div>
+            <div class="icon-and-text transition-all duration-150 ease-in-out flex items-center gap-2 bg-white/75 px-3 py-2 rounded w-fit relative z-2 group-hover:-translate-y-1">
                 <?php if ($icon) : ?>
                     <div class="icon text-primary">
                         <?php echo $icon ?>

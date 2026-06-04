@@ -21,7 +21,7 @@ get_header();
 <section class="ch-section bg-lightgray">
     <div class="section-container--sm flex items-center gap-10 md:flex-row flex-col">
         <div class="image flex-1 rounded-lg overflow-hidden aspect-video">
-            <img class="rounded-lg object-cover w-full h-full" src="https://placehold.co/1000x1000" alt="">
+            <img class="rounded-lg object-cover object-[50%_5%] w-full h-full" src="/wp-content/uploads/2026/05/ch-alfredo-01.webp" alt="">
         </div>
         <div class="content flex-1">
             <h2 class="section-title">Nuestros Valores</h2>
@@ -45,7 +45,7 @@ BlockRegistry::render('changing_numbers');
 
 BlockRegistry::render('legales');
 
-BlockRegistry::render('faqs');
+// BlockRegistry::render('faqs');
 
 ?>
 

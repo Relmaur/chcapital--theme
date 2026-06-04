@@ -5,7 +5,8 @@
  *
  * @var string $heading
  * @var string $subheading
- * @var array  $members  [ ['member_image' => int, 'member_name' => '', 'member_position' => '', 'member_bio' => ''] ]
+ * @var array  $featured  [ 'featured_image' => int, 'featured_name' => '', 'featured_position' => '', 'featured_bio' => '', 'featured_linkedin' => '' ]
+ * @var array  $members   [ ['member_image' => int, 'member_name' => '', 'member_position' => '', 'member_bio' => ''] ]
  */
 
 use TAW\Helpers\Image;
@@ -19,6 +20,49 @@ use TAW\Helpers\Image;
                 <p class="our-team__subheading"><?php echo esc_html($subheading); ?></p>
             <?php endif; ?>
         </header>
+
+        <?php if (!empty($featured)) :
+            $f_image_id = (int) ($featured['featured_image'] ?? 0);
+            $f_name     = $featured['featured_name'] ?? '';
+            $f_position = $featured['featured_position'] ?? '';
+            $f_bio      = $featured['featured_bio'] ?? '';
+            $f_linkedin = $featured['featured_linkedin'] ?? '';
+        ?>
+            <article class="our-team__featured">
+                <div class="our-team__featured-photo-wrap">
+                    <?php if ($f_image_id) : ?>
+                        <?php echo Image::render($f_image_id, 'large', esc_attr($f_name), ['class' => 'our-team__featured-photo']); ?>
+                    <?php else : ?>
+                        <div class="our-team__photo-placeholder" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="our-team__featured-info">
+                    <!-- <span class="our-team__featured-badge"><?php esc_html_e('CEO', 'taw-theme'); ?></span> -->
+                    <?php if ($f_name) : ?>
+                        <h3 class="our-team__featured-name"><?php echo wp_kses_post($f_name); ?></h3>
+                    <?php endif; ?>
+                    <?php if ($f_position) : ?>
+                        <p class="our-team__featured-position"><?php echo wp_kses_post($f_position); ?></p>
+                    <?php endif; ?>
+                    <?php if ($f_bio) : ?>
+                        <p class="our-team__featured-bio"><?php echo wp_kses_post($f_bio); ?></p>
+                    <?php endif; ?>
+                    <?php if ($f_linkedin) : ?>
+                        <a href="<?php echo esc_url($f_linkedin); ?>" class="our-team__featured-linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                            </svg>
+                            LinkedIn
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </article>
+        <?php endif; ?>
 
         <?php if (!empty($members)) : ?>
             <div class="our-team__grid">

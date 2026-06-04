@@ -37,6 +37,44 @@ class OurTeam extends MetaBlock
                     'width' => '100',
                 ],
                 [
+                    'id'     => 'featured_member',
+                    'label'  => __('Featured Member (CEO)', 'taw-theme'),
+                    'type'   => 'group',
+                    'fields' => [
+                        [
+                            'id'    => 'featured_image',
+                            'label' => __('Photo', 'taw-theme'),
+                            'type'  => 'image',
+                            'width' => '30',
+                        ],
+                        [
+                            'id'    => 'featured_name',
+                            'label' => __('Name', 'taw-theme'),
+                            'type'  => 'text',
+                            'width' => '35',
+                        ],
+                        [
+                            'id'    => 'featured_position',
+                            'label' => __('Position / Title', 'taw-theme'),
+                            'type'  => 'text',
+                            'width' => '35',
+                        ],
+                        [
+                            'id'    => 'featured_bio',
+                            'label' => __('Bio', 'taw-theme'),
+                            'type'  => 'textarea',
+                            'rows'  => 4,
+                            'width' => '70',
+                        ],
+                        [
+                            'id'    => 'featured_linkedin',
+                            'label' => __('LinkedIn URL', 'taw-theme'),
+                            'type'  => 'url',
+                            'width' => '30',
+                        ],
+                    ],
+                ],
+                [
                     'id'     => 'team_members',
                     'label'  => __('Team Members', 'taw-theme'),
                     'type'   => 'repeater',
@@ -103,10 +141,22 @@ class OurTeam extends MetaBlock
         ];
 
         $members = Metabox::get_repeater($postId, 'team_members');
+        $featured_raw = $this->getMeta($postId, 'featured_member');
+
+        $default_featured = [
+            'featured_image'    => 0,
+            'featured_name'     => 'Alfredo Chumacero Flores',
+            'featured_position' => __('Director General', 'taw-theme'),
+            // 'featured_bio'      => __('Con más de 25 años de experiencia en el sector financiero mexicano, Miguel ha liderado CH Capital desde sus inicios con visión, integridad y un profundo compromiso con los clientes.', 'taw-theme'),
+            'featured_linkedin' => '',
+        ];
+
+        $featured = (!empty($featured_raw) && is_array($featured_raw)) ? $featured_raw : $default_featured;
 
         return [
             'heading'    => $this->getMeta($postId, 'team_heading') ?: __('Nuestro Equipo', 'taw-theme'),
             'subheading' => $this->getMeta($postId, 'team_subheading') ?: __('Profesionales comprometidos con tu éxito financiero.', 'taw-theme'),
+            'featured'   => $featured,
             'members'    => $members ?: $default_members,
         ];
     }

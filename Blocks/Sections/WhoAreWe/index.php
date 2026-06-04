@@ -9,6 +9,7 @@
  * @var string $author_name
  * @var string $author_title
  * @var string $author_quote
+ * @var array  $services
  */
 
 use TAW\Helpers\Image;

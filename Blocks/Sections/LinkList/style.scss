@@ -4,4 +4,25 @@
 
 .link_list {
     position: relative;
+
+    .links {
+
+        .link,
+        * {
+            transition: all 150ms ease;
+        }
+
+        .link {
+            background-size: cover;
+        }
+
+        .link:hover .icon-and-text {
+            background-color:
+                color-mix(in oklab, var(--color-white) 100%, transparent);
+        }
+
+        .link .gradient {
+            transition: all 150ms ease;
+        }
+    }
 }

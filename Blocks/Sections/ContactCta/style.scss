@@ -78,6 +78,11 @@
 
         &__headline {
             text-align: center;
+
+            & h2::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
         }
     }
 

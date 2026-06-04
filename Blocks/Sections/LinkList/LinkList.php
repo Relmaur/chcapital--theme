@@ -42,8 +42,33 @@ class LinkList extends MetaBlock
                     'type'  => 'text',
                 ],
                 [
+                    'id'    => 'link_list_description' . $s,
+                    'label' => __('Description', 'taw-theme'),
+                    'type'  => 'textarea',
+                    'rows'  => 3,
+                    'width' => '100',
+                ],
+                [
+                    'id'    => 'link_list_cta_text' . $s,
+                    'label' => __('Button Text', 'taw-theme'),
+                    'type'  => 'text',
+                    'width' => '34',
+                ],
+                [
+                    'id'    => 'link_list_cta_url' . $s,
+                    'label' => __('Button URL', 'taw-theme'),
+                    'type'  => 'url',
+                    'width' => '34',
+                ],
+                [
+                    'id'      => 'link_list_cta_target' . $s,
+                    'label'   => __('Open in new tab', 'taw-theme'),
+                    'type'    => 'checkbox',
+                    'width'   => '32',
+                ],
+                [
                     'id'    => 'link_list_link_type' . $s,
-                    'label' => __('Link Type', 'taw-theme'),
+                    'label' => __('Link List Link Type', 'taw-theme'),
                     'type'  => 'select',
                     'options' => [
                         'icon' => __('Icon', 'taw-theme'),
@@ -55,7 +80,17 @@ class LinkList extends MetaBlock
                     'label'  => __('Links', 'taw-theme'),
                     'type'   => 'repeater',
                     'button' => __('Add Link', 'taw-theme'),
+                    'layout' => 'tabbed_horizontal',
                     'fields' => [
+                        [
+                            'id' => 'image',
+                            'type' => 'image',
+                            'label' => __('Link Image', 'taw-theme'),
+                            'conditions' => [
+                                ['id' => 'link_list_link_type' . $s, 'operator' => '==', 'value' => 'blurb']
+                            ],
+                            'description' => __('Optional image for the link. If Link Type is "Blurb", this image will be used as the blurb background.', 'taw-theme'),
+                        ],
                         [
                             'id'    => 'text',
                             'label' => __('Link Text', 'taw-theme'),
@@ -115,10 +150,16 @@ class LinkList extends MetaBlock
 
         $links = Metabox::get_repeater($postId, 'link_list' . $s);
 
+        $cta_target = $this->getMeta($postId, 'link_list_cta_target' . $s) ? '_blank' : '_self';
+
         return [
-            'section_id' => Metabox::get($postId, 'link_list_section_id' . $s),
-            'heading' => $this->getMeta($postId, 'link_list_heading' . $s),
-            'links' => $links ?: $default_links,
+            'section_id'  => Metabox::get($postId, 'link_list_section_id' . $s),
+            'heading'     => $this->getMeta($postId, 'link_list_heading' . $s),
+            'description' => $this->getMeta($postId, 'link_list_description' . $s),
+            'cta_text'    => $this->getMeta($postId, 'link_list_cta_text' . $s),
+            'cta_url'     => $this->getMeta($postId, 'link_list_cta_url' . $s),
+            'cta_target'  => $cta_target,
+            'links'       => $links ?: $default_links,
         ];
     }
 }

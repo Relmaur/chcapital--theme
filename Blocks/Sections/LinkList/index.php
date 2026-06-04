@@ -5,7 +5,11 @@
  *
  * @var string $section_id
  * @var string $heading
- * @var array $links
+ * @var string $description
+ * @var string $cta_text
+ * @var string $cta_url
+ * @var string $cta_target
+ * @var array  $links
  */
 
 if (empty($heading)) return;
@@ -18,23 +22,31 @@ if (empty($heading)) return;
             <?php echo esc_html($heading); ?>
         </h2>
 
-        <p class="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem voluptatum harum dolorem, ea quae eius nulla sed rem ipsum consequuntur nobis id dolores quis libero atque voluptatem laborum saepe ad.</p>
+        <?php if ($description) : ?>
+            <p class="mb-5"><?php echo wp_kses_post($description); ?></p>
+        <?php endif; ?>
 
-        <?php (new TAW\Blocks\Atoms\Button\Button())->render([
-            'url' => '#',
-            'text' => 'Explora nuestros servicios',
-            'target' => '_blank',
-        ]) ?>
+        <?php if ($cta_text && $cta_url) : ?>
+            <?php (new TAW\Blocks\Atoms\Button\Button())->render([
+                'url'    => $cta_url,
+                'text'   => $cta_text,
+                'target' => $cta_target,
+            ]) ?>
+        <?php endif; ?>
 
         <?php if ($links): ?>
             <div class="links flex items-center justify-start gap-3 mt-8 flex-wrap">
                 <?php // dump($links) 
                 ?>
-                <?php foreach ($links as $link): (new TAW\Blocks\Atoms\Link\Link())->render([
+                <?php foreach ($links as $link):
+
+                    $image = wp_get_attachment_image_src($link['image'] ?? '', 'full')[0] ?? 'https://placehold.co/600x400?text=Link+Image';
+
+                    (new TAW\Blocks\Atoms\Link\Link())->render([
                         'type' => 'blurb',
-                        'blurb_background' => 'https://placehold.co/600x400?text=Link+Image', // Placeholder image
+                        'blurb_background' => $image, // Use the retrieved image or placeholder
                         'icon' => $link['icon'] ?? '', // Optional icon
-                        'classes' => 'flex-1', // Example classes for layout
+                        'classes' => 'flex-1 aspect-16/9', // Example classes for layout
                         'link' => [
                             'url'  => $link['url'],
                             'text' => $link['text'],

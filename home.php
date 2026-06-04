@@ -13,6 +13,13 @@
  */
 
 use TAW\Helpers\Image;
+use TAW\Core\Block\BlockRegistry;
+
+/*
+BlockRegistry::queue(
+    'hero_standard'
+);
+*/
 
 // Peek at the first post so we can register its preload before wp_head().
 $first_thumb_id = null;
@@ -32,12 +39,18 @@ if ($first_thumb_id) {
 get_header();
 ?>
 
+<?php // BlockRegistry::render('hero_standard'); ?>
+
 <div class="section-container--sm py-16 ch-section">
 
     <header class="mb-12">
         <h1 class="text-4xl font-bold section-title">Artículos y Perspectivas.</h1>
         <p class="mt-3 text-xl">Conocimiento financiero para fundamentar cada decisión.</p>
     </header>
+
+    <?php
+    get_template_part('template-parts/blog-filter-bar', null, ['active_cat_id' => null]);
+    ?>
 
     <?php if (have_posts()) : ?>
 
