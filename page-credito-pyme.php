@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template Name: Crédito PYME
  *
@@ -15,6 +16,7 @@ BlockRegistry::queue(
     'content_block--benefits',
     'content_block--characteristics_pyme',
     'content_block--steps_pyme',
+    'content_block--cat_info',
     'legales',
     'contact_cta'
 );
@@ -31,6 +33,8 @@ get_header();
 <?php BlockRegistry::render('content_block--characteristics_pyme'); ?>
 
 <?php BlockRegistry::render('content_block--steps_pyme'); ?>
+
+<?php BlockRegistry::render('content_block--cat_info'); ?>
 
 <?php BlockRegistry::render('legales'); ?>
 
