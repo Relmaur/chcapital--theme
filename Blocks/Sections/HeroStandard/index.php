@@ -29,7 +29,7 @@ use TAW\Helpers\Image;
             <ol class="flex items-center gap-2 text-sm">
                 <li><a href="/" class="opacity-70 hover:opacity-100 transition-opacity"><?php _e('Inicio', 'taw-theme'); ?></a></li>
                 <li class="opacity-40" aria-hidden="true">/</li>
-                <li class="font-medium" aria-current="page"><?php echo esc_html($heading); ?></li>
+                <li class="font-medium" aria-current="page"><?php echo get_the_title(get_queried_object_id()); ?></li>
             </ol>
         </nav>
 

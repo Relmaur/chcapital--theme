@@ -1,0 +1,32 @@
+/**
+ * FideicomitentePM Block Styles
+ */
+
+.fideicomitente-pm {
+    .fideicomitente-pm__header {
+        margin: 0 0 2rem 0;
+
+        h2 {
+            font-size: 1.5rem;
+            line-height: 1.2;
+        }
+    }
+
+    [data-taw-form]>div:has([data-taw-submit]) {
+        margin: 2rem 0 0 0;
+    }
+
+    [data-taw-form="fideicomitente_pm"] .taw-step-dot.is-active .taw-step-dot-number,
+    [data-taw-form="fideicomitente_pm"] .taw-btn-primary,
+    [data-taw-form="fideicomitente_pm"] .taw-field-heading {
+        background: var(--color-primary);
+    }
+
+    [data-taw-form="fideicomitente_pm"] .taw-btn-primary {
+        color: #fff;
+
+        &:hover {
+            background: var(--color-secondary);
+        }
+    }
+}

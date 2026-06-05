@@ -24,7 +24,9 @@ class ContentBlock extends MetaBlock
         return [
             'benefits',
             'characteristics',
+            'characteristics_pyme',
             'steps',
+            'steps_pyme',
             'requirements',
             'cat_info',
             'company_benefits',
@@ -61,12 +63,12 @@ class ContentBlock extends MetaBlock
                     'heading'    => 'Lo que ofrecemos',
                     'subheading' => 'Diseñamos soluciones de financiamiento a la medida de tu negocio.',
                     'content'    => '<ul>
-<li><strong>Mayor productividad</strong> — financiamiento que impulsa el crecimiento de tu empresa.</li>
-<li><strong>Agilidad en los procesos</strong> — respuesta rápida y sin trámites innecesarios.</li>
-<li><strong>Transparencia</strong> — condiciones claras en cada etapa del crédito.</li>
-<li><strong>Asesoría personalizada</strong> — un asesor dedicado a tus necesidades.</li>
-<li><strong>Tasas competitivas</strong> — financiamiento accesible para empresas de todos los tamaños.</li>
-</ul>',
+                                    <li><strong>Alta productividad</strong> — Podemos diseñar un plan de pagos que se ajuste a tus posibilidades, con plazos cómodos y tasas competitivas que no comprometan la estabilidad financiera de tu negocio.</li>
+                                    <li><strong>Agilidad</strong> — Trámites sencillos y rápidos en el proceso de aprobación de tu crédito.</li>
+                                    <li><strong>Sin letras chiquitas.</strong> — Condiciones transparentes y claras, sin costos ocultos ni sorpresas desagradables.</li>
+                                    <li><strong>Asesoramiento personalizado.</strong> — Para CH Capital, el cliente es la figura central. Si tienes preguntas o requieres información adicional, acércate a nosotros. Nuestros expertos financieros están listos para que puedas tomar decisiones informadas y estratégicas.</li>
+                                    <li><strong>Tasas competitivas.</strong> — Cada punto porcentual cuenta por eso nuestras tasas garantizan un financiamiento adecuado que no comprometa la rentabilidad de tu empresa.</li>
+                                    </ul>',
                 ],
             ],
 
@@ -78,16 +80,36 @@ class ContentBlock extends MetaBlock
                 'image_position' => 'right',
                 'defaults'       => [
                     'heading'    => 'Características del Crédito',
-                    'subheading' => 'Condiciones diseñadas para adaptarse a las necesidades de tu empresa.',
+                    'subheading' => 'Una vez firmado el convenio con CH Capital, tus colaboradores tendrán acceso al siguiente <strong>plan de beneficios</strong>:',
                     'content'    => '<ul>
-<li><strong>Monto mínimo:</strong> desde $250,000 MXN</li>
-<li><strong>Comisión:</strong> 3 - 5%</li>
-<li><strong>Plazo:</strong> 6 a 48 meses</li>
-<li><strong>Tasa de interés:</strong> fija anual</li>
-<li><strong>Garantía:</strong> hipotecaria o en fideicomiso</li>
-<li><strong>Obligado solidario:</strong> opcional</li>
-<li><strong>Prepago:</strong> sin penalización por pago anticipado</li>
-</ul>',
+                                    <li>Montos del préstamo de 3 a 6 meses de sueldo</li>
+                                    <li>Plazos de 6 hasta 18 meses</li>
+                                    <li>Aprobación desde 24 horas (con expediente completo)</li>
+                                    <li>Descuentos via nómina</li>
+                                    <li>Atención personalizada</li>
+                                    <li>Comisión por apertura del 4%</li>
+                                    </ul>',
+                ],
+            ],
+
+            'characteristics_pyme' => [
+                'label'          => 'Section — Características del Crédito',
+                'screens'        => ['page-credito-pyme.php', 'page-arrendamiento-puro.php', 'page-credito-de-nomina.php'],
+                'bg'             => 'bg-lightgray',
+                'layout'         => 'single',
+                'image_position' => 'right',
+                'defaults'       => [
+                    'heading'    => 'Características del Crédito',
+                    'subheading' => 'Una vez firmado el convenio con CH Capital, tus colaboradores tendrán acceso al siguiente <strong>plan de beneficios</strong>:',
+                    'content'    => '<ul>
+                                    <li><strong>Montos.</strong> Desde 250 mil pesos.</li>
+                                    <li><strong>Comisiones.</strong> De 3% a 5%</li>
+                                    <li><strong>Plazo.</strong> Desde 6 hasta 48 meses.</li>
+                                    <li><strong>Tasa.</strong> Anual fija durante la vigencia del crédito.</li>
+                                    <li><strong>Garantía.</strong> Inmobiliaria o fiduciaria.</li>
+                                    <li><strong>Obligado Solidario.</strong> Puede aplicar.</li>
+                                    <li><strong>Sin penalización.</strong> Por liquidación anticipada del crédito.</li>
+                                    </ul>',
                 ],
             ],
 
@@ -101,12 +123,32 @@ class ContentBlock extends MetaBlock
                     'heading'    => '¿Cómo solicitarlo?',
                     'subheading' => 'Un proceso sencillo y transparente, diseñado para que obtengas tu financiamiento a tiempo.',
                     'content'    => '<ol>
-<li><strong>Solicitud</strong> — Completa el formulario de contacto o llámanos directamente.</li>
-<li><strong>Análisis</strong> — Nuestro equipo evalúa tu perfil crediticio y las condiciones del crédito.</li>
-<li><strong>Propuesta</strong> — Te presentamos una oferta personalizada con los términos y condiciones.</li>
-<li><strong>Formalización</strong> — Firma del contrato y constitución de la garantía.</li>
-<li><strong>Dispersión</strong> — Depósito del monto aprobado en tu cuenta.</li>
-</ol>',
+                                    <li><span><strong>Solicitud</strong>— Completa el formulario de contacto o llámanos directamente.</span></li>
+                                    <li><span><strong>Análisis</strong>— Nuestro equipo evalúa tu perfil crediticio y las condiciones del crédito.</span></li>
+                                    <li><span><strong>Propuesta</strong>— Te presentamos una oferta personalizada con los términos y condiciones.</span></li>
+                                    <li><span><strong>Formalización</strong>— Firma del contrato y constitución de la garantía.</span></li>
+                                    <li><span><strong>Dispersión</strong>— Depósito del monto aprobado en tu cuenta.</span></li>
+                                    </ol>',
+                ],
+            ],
+
+            'steps_pyme' => [
+                'label'          => 'Section — Pasos',
+                'screens'        => ['page-credito-pyme.php', 'page-arrendamiento-puro.php', 'page-credito-de-nomina.php'],
+                'bg'             => '',
+                'layout'         => 'single',
+                'image_position' => 'right',
+                'defaults'       => [
+                    'heading'    => '¿Cómo solicitarlo?',
+                    'subheading' => 'Un proceso sencillo y transparente, diseñado para que obtengas tu financiamiento a tiempo.',
+                    'content'    => '<ol>
+                                    <li>Solicita tu crédito a través de un asesor.</li>
+                                    <li>Si cumples con los requisitos, envía la documentación requerida.</li>
+                                    <li>Evaluaremos tu solicitud y tendrás una respuesta en 48 horas.</li>
+                                    <li>Una vez aprobado el crédito, firma tu contrato.</li>
+                                    <li>Recibe tu crédito. Disfruta de los beneficios.</li>
+                                    </ol>',
+                    'content_disclaimer' => '<sup>*</sup> Sujeto a aprobación de crédito.'
                 ],
             ],
 
@@ -118,15 +160,15 @@ class ContentBlock extends MetaBlock
                 'image_position' => 'right',
                 'defaults'       => [
                     'heading'    => '¿Qué necesita tu empresa para firmar un convenio con nosotros?',
-                    'subheading' => 'Para formalizar un convenio con CH Capital, tu empresa debe cumplir con la siguiente documentación:',
+                    'subheading' => 'Para <strong>formalizar un convenio con CH Capital</strong>, tu empresa debe cumplir con la <strong>siguiente documentación</strong>:',
                     'content'    => '<ul>
-<li>Acta constitutiva</li>
-<li>Poder del representante legal</li>
-<li>Identificación del representante legal</li>
-<li>Comprobante de domicilio vigente</li>
-<li>Constancia de situación fiscal</li>
-<li>Convenio firmado</li>
-</ul>',
+                                    <li>Acta constitutiva</li>
+                                    <li>Poder del representante legal</li>
+                                    <li>Identificación del representante legal</li>
+                                    <li>Comprobante de domicilio vigente</li>
+                                    <li>Constancia de situación fiscal</li>
+                                    <li>Convenio firmado</li>
+                                    </ul>',
                 ],
             ],
 
@@ -153,11 +195,11 @@ class ContentBlock extends MetaBlock
                     'heading'    => '¿Qué obtienes como empresa?',
                     'subheading' => '',
                     'content'    => '<ul>
-<li><strong>Fortaleces tu paquete de beneficios</strong> sin gastar.</li>
-<li><strong>Impulsas un ambiente sano y comprometido.</strong></li>
-<li><strong>Evitas prestar dinero</strong> de forma interna.</li>
-<li><strong>Mejoras la retención y atracción de talento.</strong></li>
-</ul>',
+                                    <li>Fortaleces tu paquete de beneficios sin gastar.</li>
+                                    <li>Impulsas un ambiente sano y comprometido.</li>
+                                    <li>Evitas prestar dinero de forma interna.</li>
+                                    <li>Mejoras la retención y atracción de talento.</li>
+                                    </ul>',
                 ],
             ],
 
@@ -171,14 +213,14 @@ class ContentBlock extends MetaBlock
                     'heading'    => 'Beneficios para el colaborador con su crédito nómina',
                     'subheading' => '',
                     'content'    => '<ul>
-<li>El historial del Buró <strong>NO</strong> es determinante para otorgar el préstamo</li>
-<li>Sin penalización por pago anticipado</li>
-<li>Pagos fijos mediante descuentos vía nómina</li>
-<li>Liquidez inmediata para emergencias</li>
-<li>Formación de historial crediticio</li>
-<li>Trámite rápido y sencillo</li>
-<li>Sin aval ni garantía prendaria</li>
-</ul>',
+                                    <li>El historial del Buró <strong>NO es determinante</strong> para otorgar el préstamo</li>
+                                    <li><strong>Sin penalización</strong> por pago anticipado</li>
+                                    <li>Pagos fijos mediante <strong>descuentos vía nómina</strong></li>
+                                    <li><strong>Liquidez inmediata</strong> para emergencias</li>
+                                    <li>Formación de <strong>historial crediticio</strong></li>
+                                    <li><strong>Trámite rápido</strong> y sencillo</li>
+                                    <li><strong>Sin aval</strong> ni garantía prendaria</li>
+                                    </ul>',
                 ],
             ],
 
@@ -205,12 +247,12 @@ class ContentBlock extends MetaBlock
                     'heading'    => 'Beneficios clave del Escrow',
                     'subheading' => 'Una estructura pensada para proteger a todas las partes involucradas.',
                     'content'    => '<ul>
-<li><strong>Seguridad financiera</strong> — los recursos permanecen protegidos hasta el cumplimiento de las condiciones.</li>
-<li><strong>Control operativo y trazabilidad</strong> — cada movimiento queda documentado y auditado.</li>
-<li><strong>Certeza jurídica</strong> — respaldo contractual en cada etapa de la operación.</li>
-<li><strong>Imparcialidad</strong> — un tercero neutral custodia los fondos sin favorecer a ninguna parte.</li>
-<li><strong>Prevención de conflictos</strong> — elimina la incertidumbre y reduce el riesgo de incumplimiento.</li>
-</ul>',
+                                    <li><strong>Seguridad financiera</strong> — los recursos permanecen protegidos hasta el cumplimiento de las condiciones.</li>
+                                    <li><strong>Control operativo y trazabilidad</strong> — cada movimiento queda documentado y auditado.</li>
+                                    <li><strong>Certeza jurídica</strong> — respaldo contractual en cada etapa de la operación.</li>
+                                    <li><strong>Imparcialidad</strong> — un tercero neutral custodia los fondos sin favorecer a ninguna parte.</li>
+                                    <li><strong>Prevención de conflictos</strong> — elimina la incertidumbre y reduce el riesgo de incumplimiento.</li>
+                                    </ul>',
                 ],
             ],
 
@@ -280,14 +322,14 @@ class ContentBlock extends MetaBlock
                     'id'    => $v . '_heading',
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'    => $v . '_subheading',
                     'label' => __('Subheading', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 3,
-                    'width' => '100',
+                    'width' => '50',
                 ],
                 [
                     'id'    => $v . '_content',
@@ -341,6 +383,7 @@ class ContentBlock extends MetaBlock
             'heading'        => $this->getMeta($postId, $v . '_heading')        ?: $d['heading'],
             'subheading'     => $this->getMeta($postId, $v . '_subheading')     ?: $d['subheading'],
             'content'        => $this->getMeta($postId, $v . '_content')        ?: $d['content'],
+            'content_disclaimer' => $this->getMeta($postId, $v . '_content_disclaimer') ?: (isset($d['content_disclaimer']) ? $d['content_disclaimer'] : null), // No default for disclaimer; only shows if set
             'layout'         => $this->getMeta($postId, $v . '_layout')         ?: $c['layout'],
             'image_id'       => (int) $this->getMeta($postId, $v . '_image'),
             'image_position' => $this->getMeta($postId, $v . '_image_position') ?: $c['image_position'],

@@ -11,6 +11,7 @@
  * @var string $heading
  * @var string $subheading
  * @var string $content        HTML from wysiwyg
+ * @var string|null $content_disclaimer Optional small-print text below content (e.g. for disclaimers)
  * @var string $layout         'single' | 'two_columns'
  * @var int    $image_id       Attachment ID (two_columns only; 0 = none)
  * @var string $image_position 'left' | 'right' (two_columns only)
@@ -51,6 +52,9 @@ $img_left   = ($image_position ?? 'right') === 'left';
                         <div class="content-block__content">
                             <?php echo wp_kses_post($content); ?>
                         </div>
+                        <?php if (isset($content_disclaimer) && !empty($content_disclaimer)) : ?>
+                            <p class="content-block__disclaimer"><?php echo wp_kses_post($content_disclaimer); ?></p>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
 
@@ -71,13 +75,16 @@ $img_left   = ($image_position ?? 'right') === 'left';
             <?php endif; ?>
 
             <?php if (!empty($subheading)) : ?>
-                <p class="section-subtitle"><?php echo esc_html($subheading); ?></p>
+                <p class="section-subtitle"><?php echo wp_kses_post($subheading); ?></p>
             <?php endif; ?>
 
             <?php if (!empty($content)) : ?>
                 <div class="content-block__content">
                     <?php echo wp_kses_post($content); ?>
                 </div>
+                <?php if (isset($content_disclaimer) && !empty($content_disclaimer)) : ?>
+                    <p class="content-block__disclaimer"><?php echo wp_kses_post($content_disclaimer); ?></p>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 

@@ -23,6 +23,7 @@
         }
 
         @media (max-width: 900px) {
+
             &--img-left,
             &--img-right {
                 grid-template-columns: 1fr;
@@ -53,7 +54,15 @@
 
     // ── Shared content styles (UL / OL / p) ──────────────────────────────────
 
+    &__disclaimer {
+        margin-top: 1.5rem;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        color: var(--color-gray-500, #6b7280);
+    }
+
     &__content {
+
         // --- Shared list reset ---
         ul,
         ol {
@@ -79,6 +88,11 @@
         // column of cards reads better than a cramped auto-fit grid.
         .content-block__text-col & ul {
             grid-template-columns: 1fr;
+        }
+
+        ol li {
+            display: flex;
+            align-items: center;
         }
 
         ul li {
@@ -114,12 +128,15 @@
         ol {
             counter-reset: steps-counter;
             max-width: 680px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
 
         ol li {
             counter-increment: steps-counter;
             position: relative;
-            padding: 0 0 2rem 5.5rem;
+            padding: 0 0 0 5.5rem;
             min-height: 3.5rem;
 
             // Numbered circle
@@ -140,21 +157,19 @@
                 justify-content: center;
             }
 
-            // Connector line
+            // Connector line — extends into the flex gap (2rem) between items
             &::after {
                 content: '';
                 position: absolute;
                 left: 1.625rem;
                 top: 3.5rem;
-                bottom: 0;
+                height: calc(100% - 3.5rem + 2rem);
                 width: 2px;
                 background: var(--color-primary, #004a98);
                 opacity: 0.15;
             }
 
             &:last-child {
-                padding-bottom: 0;
-
                 &::after {
                     display: none;
                 }

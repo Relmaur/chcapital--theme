@@ -13,8 +13,8 @@ BlockRegistry::queue(
     'hero_standard',
     'image_gallery',
     'content_block--benefits',
-    'content_block--characteristics',
-    'content_block--steps',
+    'content_block--characteristics_pyme',
+    'content_block--steps_pyme',
     'legales',
     'contact_cta'
 );
@@ -28,9 +28,9 @@ get_header();
 
 <?php BlockRegistry::render('content_block--benefits'); ?>
 
-<?php BlockRegistry::render('content_block--characteristics'); ?>
+<?php BlockRegistry::render('content_block--characteristics_pyme'); ?>
 
-<?php BlockRegistry::render('content_block--steps'); ?>
+<?php BlockRegistry::render('content_block--steps_pyme'); ?>
 
 <?php BlockRegistry::render('legales'); ?>
 

@@ -36,6 +36,7 @@ class ImageGallery extends MetaBlock
                     'id'     => 'gallery_images',
                     'label'  => __('Images', 'taw-theme'),
                     'type'   => 'repeater',
+                    'layout' => 'tabbed_horizontal',
                     'button' => __('Add Image', 'taw-theme'),
                     'fields' => [
                         [
