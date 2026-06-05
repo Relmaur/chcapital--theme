@@ -64,12 +64,19 @@ function initGallery(root) {
 }
 
 function initPage() {
-  document.querySelectorAll('.image-gallery__embla').forEach(initGallery)
+  document.querySelectorAll('.image-gallery__embla:not([data-gallery-ready])').forEach(root => {
+    root.setAttribute('data-gallery-ready', '')
+    initGallery(root)
+  })
   initPhotoSwipe()
 }
 
-// First page load
-document.addEventListener('DOMContentLoaded', initPage)
+// First load — guard handles both normal load and Swup script injection (readyState is already 'complete').
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPage)
+} else {
+  initPage()
+}
 // Swup page swap — DOMContentLoaded does not re-fire after a Swup navigation,
 // so app.js dispatches this custom event from its page:view hook instead.
 document.addEventListener('taw:page-view', initPage)

@@ -187,7 +187,7 @@ $render_menu_icon = static function ($raw_icon): string {
 
             <!-- Suggested pages -->
             <?php
-            $suggested_query = new WP_Query([
+            $suggested_query = new \WP_Query([
                 "post_type" => "page",
                 "post_status" => "publish",
                 "posts_per_page" => 3,
@@ -231,7 +231,7 @@ $render_menu_icon = static function ($raw_icon): string {
                         <a :href="result.url" class="search-overlay__result-link">
                             <div class="search-overlay__result-body">
                                 <span class="search-overlay__result-title" x-text="result.title"></span>
-                                <span class="search-overlay__result-meta" x-text="result.subtype"></span>
+                                <span class="search-overlay__result-meta" x-text="result.metaLabel || result.subtype"></span>
                             </div>
                         </a>
                     </li>

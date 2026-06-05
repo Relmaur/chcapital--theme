@@ -122,31 +122,31 @@ class OurTeam extends MetaBlock
     {
         $default_members = [
             [
-                'member_image'    => 0,
+                'member_image'    => 5512,
                 'member_name'     => 'Miguel Pacheco<br />Pérez-Tello',
                 'member_position' => __('Director Fiduciario', 'taw-theme'),
-                'member_bio'      => __('Con más de 25 años de experiencia en el sector financiero mexicano, Miguel ha liderado CH Capital desde sus inicios con visión, integridad y un profundo compromiso con los clientes.', 'taw-theme'),
+                // 'member_bio'      => __('Con más de 25 años de experiencia en el sector financiero mexicano, Miguel ha liderado CH Capital desde sus inicios con visión, integridad y un profundo compromiso con los clientes.', 'taw-theme'),
                 'member_linkedin' => '',
             ],
             [
-                'member_image'    => 0,
+                'member_image'    => 5509,
                 'member_name'     => 'Volga Del Riego',
                 'member_position' => __('Directora Comercial', 'taw-theme'),
-                'member_bio'      => __('Especialista en gestión de riesgos y optimización de procesos financieros. Su liderazgo garantiza la excelencia operativa en cada servicio que ofrecemos.', 'taw-theme'),
+                // 'member_bio'      => __('Especialista en gestión de riesgos y optimización de procesos financieros. Su liderazgo garantiza la excelencia operativa en cada servicio que ofrecemos.', 'taw-theme'),
                 'member_linkedin' => '',
             ],
             [
-                'member_image'    => 0,
+                'member_image'    => 5511,
                 'member_name'     => 'Rocío González',
                 'member_position' => __('Directora de Tesorería y oficial de cumplimiento', 'taw-theme'),
-                'member_bio'      => __('Abogada financiera con especialización en derecho corporativo y fiduciario. Responsable de estructurar soluciones de fideicomiso a la medida de cada cliente.', 'taw-theme'),
+                // 'member_bio'      => __('Abogada financiera con especialización en derecho corporativo y fiduciario. Responsable de estructurar soluciones de fideicomiso a la medida de cada cliente.', 'taw-theme'),
                 'member_linkedin' => '',
             ],
             [
-                'member_image'    => 0,
+                'member_image'    => 5508,
                 'member_name'     => 'Eric Alfaro',
                 'member_position' => __('Contraloría', 'taw-theme'),
-                'member_bio'      => __('Abogado financiero con especialización en derecho corporativo y fiduciario. Responsable de estructurar soluciones de fideicomiso a la medida de cada cliente.', 'taw-theme'),
+                // 'member_bio'      => __('Abogado financiero con especialización en derecho corporativo y fiduciario. Responsable de estructurar soluciones de fideicomiso a la medida de cada cliente.', 'taw-theme'),
                 'member_linkedin' => '',
             ],
         ];
@@ -155,7 +155,7 @@ class OurTeam extends MetaBlock
         $featured_raw = $this->getMeta($postId, 'featured_member');
 
         $default_featured = [
-            'featured_image'    => 0,
+            'featured_image'    => 5510,
             'featured_name'     => 'Alfredo Chumacero Flores',
             'featured_position' => __('Director General', 'taw-theme'),
             // 'featured_bio'      => __('Con más de 25 años de experiencia en el sector financiero mexicano, Miguel ha liderado CH Capital desde sus inicios con visión, integridad y un profundo compromiso con los clientes.', 'taw-theme'),
@@ -166,7 +166,7 @@ class OurTeam extends MetaBlock
 
         return [
             'heading'    => $this->getMeta($postId, 'team_heading') ?: __('Nuestro Equipo', 'taw-theme'),
-            'subheading' => $this->getMeta($postId, 'team_subheading') ?: __('Profesionales comprometidos con tu éxito financiero.', 'taw-theme'),
+            'subheading' => $this->getMeta($postId, 'team_subheading') ?: '',
             'featured'   => $featured,
             'members'    => $members ?: $default_members,
         ];

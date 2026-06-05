@@ -99,11 +99,88 @@ const registerMenu = () => {
 
                 if (!res.ok) throw new Error(res.statusText);
                 const data   = await res.json();
-                this.results = data.map(r => ({ ...r, subtype: labels[r.subtype?.toLowerCase()] ?? r.subtype }));
+                const mappedResults = data.map((result) => {
+                    const subtypeKey = result.subtype?.toLowerCase() ?? '';
+                    return {
+                        ...result,
+                        subtypeKey,
+                        subtype: labels[subtypeKey] ?? result.subtype,
+                    };
+                });
+                this.results = await this.appendPostCategories(mappedResults);
             } catch {
                 this.results = [];
             } finally {
                 this.loading = false;
+            }
+        },
+
+        async appendPostCategories(results) {
+            const postIds = results
+                .filter((result) => result.subtypeKey === 'post' && Number.isFinite(Number(result.id)))
+                .map((result) => Number(result.id));
+
+            if (!postIds.length) {
+                return results.map((result) => ({ ...result, metaLabel: result.subtype }));
+            }
+
+            try {
+                const postsParams = new URLSearchParams({
+                    include: postIds.join(','),
+                    per_page: String(postIds.length),
+                    _fields: 'id,categories',
+                });
+                const postsRes = await fetch(`/wp-json/wp/v2/posts?${postsParams}`);
+                if (!postsRes.ok) throw new Error(postsRes.statusText);
+
+                const posts = await postsRes.json();
+                const categoryIds = [...new Set(
+                    posts.flatMap((post) => Array.isArray(post.categories) ? post.categories : [])
+                )];
+
+                let categoriesById = {};
+                if (categoryIds.length) {
+                    const categoriesParams = new URLSearchParams({
+                        include: categoryIds.join(','),
+                        per_page: String(categoryIds.length),
+                        _fields: 'id,name,slug',
+                    });
+                    const categoriesRes = await fetch(`/wp-json/wp/v2/categories?${categoriesParams}`);
+                    if (categoriesRes.ok) {
+                        const categories = await categoriesRes.json();
+                        categoriesById = categories.reduce((acc, category) => {
+                            acc[category.id] = {
+                                name: category.name,
+                                slug: category.slug,
+                            };
+                            return acc;
+                        }, {});
+                    }
+                }
+
+                const postCategoriesById = posts.reduce((acc, post) => {
+                    const names = (post.categories || [])
+                        .map((categoryId) => categoriesById[categoryId])
+                        .filter(Boolean)
+                        .filter((category) => category.slug !== 'uncategorized' && category.name?.toLowerCase() !== 'uncategorized')
+                        .map((category) => category.name);
+                    acc[post.id] = names;
+                    return acc;
+                }, {});
+
+                return results.map((result) => {
+                    if (result.subtypeKey !== 'post') {
+                        return { ...result, metaLabel: result.subtype };
+                    }
+
+                    const categories = postCategoriesById[Number(result.id)] || [];
+                    return {
+                        ...result,
+                        metaLabel: categories.length ? `${result.subtype} · ${categories.join(', ')}` : result.subtype,
+                    };
+                });
+            } catch {
+                return results.map((result) => ({ ...result, metaLabel: result.subtype }));
             }
         },
     }));

@@ -22,11 +22,11 @@ use TAW\Helpers\Image;
         </header>
 
         <?php if (!empty($featured)) :
-            $f_image_id = (int) ($featured['featured_image'] ?? 0);
-            $f_name     = $featured['featured_name'] ?? '';
-            $f_position = $featured['featured_position'] ?? '';
-            $f_bio      = $featured['featured_bio'] ?? '';
-            $f_linkedin = $featured['featured_linkedin'] ?? '';
+            $f_image_id = isset($featured['featured_image']) ? (int) $featured['featured_image'] : 0;
+            $f_name     = isset($featured['featured_name']) ? $featured['featured_name'] : '';
+            $f_position = isset($featured['featured_position']) ? $featured['featured_position'] : '';
+            $f_bio      = isset($featured['featured_bio']) ? $featured['featured_bio'] : '';
+            $f_linkedin = isset($featured['featured_linkedin']) ? $featured['featured_linkedin'] : '';
         ?>
             <article class="our-team__featured">
                 <div class="our-team__featured-photo-wrap">
@@ -67,11 +67,11 @@ use TAW\Helpers\Image;
         <?php if (!empty($members)) : ?>
             <div class="our-team__grid">
                 <?php foreach ($members as $member) :
-                    $image_id = (int) ($member['member_image'] ?? 0);
-                    $name     = $member['member_name'] ?? '';
-                    $position = $member['member_position'] ?? '';
-                    $bio      = $member['member_bio'] ?? '';
-                    $linkedin = $member['member_linkedin'] ?? '';
+                    $image_id = isset($member['member_image']) ? (int) $member['member_image'] : 0;
+                    $name     = isset($member['member_name']) ? $member['member_name'] : '';
+                    $position = isset($member['member_position']) ? $member['member_position'] : '';
+                    $bio      = isset($member['member_bio']) ? $member['member_bio'] : '';
+                    $linkedin = isset($member['member_linkedin']) ? $member['member_linkedin'] : '';
                     // dump($member);
                 ?>
                     <article class="our-team__card">

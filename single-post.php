@@ -47,9 +47,11 @@ get_header();
         <header class="mb-7">
 
             <?php if ($categories) : ?>
-                <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-primary inline-block p-1 bg-primary/10 rounded w-fit">
-                    <?php echo esc_html($categories[0]->name); ?>
-                </p>
+                <?php if ($categories[0]->name !== 'Uncategorized') : ?>
+                    <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-primary inline-block p-1 bg-primary/10 rounded w-fit">
+                        <?php echo esc_html($categories[0]->name); ?>
+                    </p>
+                <?php endif; ?>
             <?php endif; ?>
 
             <h1 class="text-4xl md:text-5xl font-bold leading-tight w-full">
@@ -101,10 +103,12 @@ get_header();
             if ($categories || $tags) : ?>
                 <div class="flex flex-wrap gap-2 mb-6">
                     <?php foreach ($categories as $cat) : ?>
-                        <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"
-                            class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 transition-colors no-underline">
-                            <?php echo esc_html($cat->name); ?>
-                        </a>
+                        <?php if ($cat->name !== 'Uncategorized'): ?>
+                            <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"
+                                class="inline-flex items-center px-3 py-1 rounded-sm text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 transition-colors no-underline">
+                                <?php echo esc_html($cat->name); ?>
+                            </a>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                     <?php if ($tags) : foreach ($tags as $tag) : ?>
                             <a href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>"

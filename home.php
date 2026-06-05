@@ -15,11 +15,7 @@
 use TAW\Helpers\Image;
 use TAW\Core\Block\BlockRegistry;
 
-/*
-BlockRegistry::queue(
-    'hero_standard'
-);
-*/
+BlockRegistry::queue('hero_standard');
 
 // Peek at the first post so we can register its preload before wp_head().
 $first_thumb_id = null;
@@ -39,13 +35,12 @@ if ($first_thumb_id) {
 get_header();
 ?>
 
-<?php // BlockRegistry::render('hero_standard'); ?>
+<?php BlockRegistry::render('hero_standard', (int) get_option('page_for_posts')); ?>
 
 <div class="section-container--sm py-16 ch-section">
 
     <header class="mb-12">
-        <h1 class="text-4xl font-bold section-title">Artículos y Perspectivas.</h1>
-        <p class="mt-3 text-xl">Conocimiento financiero para fundamentar cada decisión.</p>
+        <h1 class="text-4xl font-bold section-title">Recientes</h1>
     </header>
 
     <?php
@@ -75,7 +70,7 @@ get_header();
                 <?php endif; ?>
 
                 <div class="flex flex-col justify-center p-8 md:p-12">
-                    <?php if ($hero_cats) : ?>
+                    <?php if ($hero_cats && $hero_cats[0]->name !== 'Uncategorized') : ?>
                         <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-primary inline-block p-1 bg-primary/10 rounded w-fit">
                             <?php echo esc_html($hero_cats[0]->name); ?>
                         </p>
@@ -92,7 +87,7 @@ get_header();
                     <p class="mt-6 text-xs text-gray-400">
                         <?php echo esc_html(get_the_date()); ?>
                         &middot;
-                        <?php the_author(); ?>
+                        <span class="font-semibold text-gray-700"><?php the_author(); ?></span>
                     </p>
                 </div>
             </a>
@@ -122,7 +117,7 @@ get_header();
 
                         <div class="flex flex-col flex-1 p-6">
 
-                            <?php if ($cats) : ?>
+                            <?php if ($cats && $cats[0]->name !== 'Uncategorized') : ?>
                                 <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-primary inline-block p-1 bg-primary/10 rounded w-fit">
                                     <?php echo esc_html($cats[0]->name); ?>
                                 </p>
@@ -141,7 +136,7 @@ get_header();
                             <p class="mt-4 text-xs text-gray-400">
                                 <?php echo esc_html(get_the_date()); ?>
                                 &middot;
-                                <?php the_author(); ?>
+                                <span class="font-semibold text-gray-700"><?php the_author(); ?></span>
                             </p>
 
                         </div>
@@ -163,7 +158,7 @@ get_header();
 
     <?php else : ?>
 
-        <p class="text-gray-500"><?php esc_html_e('No posts found.', 'taw-theme'); ?></p>
+        <p class="text-gray-500"><?php esc_html_e('No se encontraron entradas.', 'taw-theme'); ?></p>
 
     <?php endif; ?>
 

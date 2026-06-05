@@ -25,6 +25,11 @@ class Legales extends MetaBlock
                     'type'  => 'text',
                 ],
                 [
+                    'id'    => 'legales_description',
+                    'label' => __('Description', 'taw-theme'),
+                    'type'  => 'textarea',
+                ],
+                [
                     'id'     => 'legales_links',
                     'label'  => __('Links', 'taw-theme'),
                     'type'   => 'repeater',
@@ -62,8 +67,9 @@ class Legales extends MetaBlock
         ];
 
         return [
-            'heading' => $this->getMeta($postId, 'legales_heading') ?: 'Legales',
-            'links'   => $links ?: $default_links,
+            'heading'     => $this->getMeta($postId, 'legales_heading') ?: 'Legales',
+            'description' => $this->getMeta($postId, 'legales_description') ?: '',
+            'links'       => $links ?: $default_links,
         ];
     }
 }

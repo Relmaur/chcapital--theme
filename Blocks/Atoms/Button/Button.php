@@ -13,8 +13,9 @@ class Button extends Block
         return [
             'text'    => '',
             'url'     => '#',
-            'variant' => 'primary',  // 'primary', 'secondary', 'ghost'
+            'variant' => 'primary',  // primary | secondary | outline | ghost | white | outline-white
             'target'  => '_self',
+            'size'    => 'md',       // sm | md | lg
         ];
     }
 }

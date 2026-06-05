@@ -17,8 +17,9 @@
   &__gradient {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat, no-repeat;
+    background-position: center, top left;
+    background-size: cover, cover;
   }
 
   // Each slide crossfades on top of the gradient.
@@ -38,8 +39,12 @@
     position: absolute;
     inset: 0;
     background-repeat: no-repeat;
-    background-size: auto 70%;
-    background-position: right max(calc((100vw - var(--container-width)) / 2), 5%) top 50%;
+    // Centered horse
+    // background-size: auto 70%;
+    // background-position: right max(calc((100vw - var(--container-width)) / 2), 5%) top 50%;
+    // Big horse
+    background-size: auto 130%;
+    background-position: right max((100vw - var(--container-width)) / 2, 5%) top -15%;
   }
 
   // Full-bleed background for subsequent slides.

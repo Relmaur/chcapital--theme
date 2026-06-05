@@ -36,11 +36,12 @@ $placeholder_names = ['Banamex', 'BBVA', 'Banorte', 'Santander', 'HSBC', 'Inburs
                 <?php foreach ($logos as $item) :
                     $logo_id = (int) ($item['ally_logo'] ?? 0);
                     $name    = esc_attr($item['ally_name'] ?? '');
+                    $url     = esc_url($item['ally_url'] ?? '#');
                     if (!$logo_id) continue;
                 ?>
-                    <div class="strategic-allies__logo">
+                    <a href="<?php echo $url; ?>" class="strategic-allies__logo" target="_blank" rel="noopener noreferrer">
                         <?php echo Image::render($logo_id, 'medium', $name, ['class' => 'strategic-allies__img']); ?>
-                    </div>
+                    </a>
                 <?php endforeach; ?>
             <?php else : ?>
                 <?php foreach ($placeholder_names as $label) : ?>

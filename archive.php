@@ -210,7 +210,7 @@ get_header();
 
     <?php else : ?>
 
-        <p class="text-gray-500"><?php esc_html_e('No posts found.', 'taw-theme'); ?></p>
+        <p class="text-gray-500"><?php esc_html_e('No se encontraron entradas.', 'taw-theme'); ?></p>
 
     <?php endif; ?>
 

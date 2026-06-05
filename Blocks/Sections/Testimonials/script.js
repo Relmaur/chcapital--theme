@@ -50,7 +50,11 @@ function initPage() {
   })
 }
 
-// First page load
-document.addEventListener('DOMContentLoaded', initPage)
+// First load — guard handles both normal load and Swup script injection (readyState is already 'complete').
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPage)
+} else {
+  initPage()
+}
 // Swup navigation — taw:page-view is dispatched by app.js after every content swap.
 document.addEventListener('taw:page-view', initPage)

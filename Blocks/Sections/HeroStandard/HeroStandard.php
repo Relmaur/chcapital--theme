@@ -29,7 +29,7 @@ class HeroStandard extends MetaBlock
             'id'     => 'taw_hero_standard',
             'title'  => __('Section - Standard Hero', 'taw-theme'),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-            'screens' => ['page-nosotros.php', 'page-credito-pyme.php', 'page-fideicomisos.php', 'page-arrendamiento-puro.php', 'page-credito-de-nomina.php', 'page-escrow.php', 'page-multimedia.php', 'page-contacto.php'], // only show on specific templates
+            'screens' => ['page-nosotros.php', 'page-credito-pyme.php', 'page-fideicomisos.php', 'page-arrendamiento-puro.php', 'page-credito-de-nomina.php', 'page-escrow.php', 'page-multimedia.php', 'page-contacto.php', 'home.php'], // only show on specific templates
             // 'show_on' => static function (\WP_Post $post): bool {
             //     return get_page_template_slug($post->ID) === 'page-nosotros.php'
             //         || in_array($post->post_name, ['nosotros', 'about-us'], true);
@@ -61,8 +61,8 @@ class HeroStandard extends MetaBlock
     protected function getData(int|false $postId): array
     {
         return [
-            'heading'  => $this->getMeta($postId, 'hero_standard_heading') ?: __('Conoce CH Capital', 'taw-theme'),
-            'subtitle' => $this->getMeta($postId, 'hero_standard_subtitle') ?: __('Más de dos décadas construyendo confianza, crecimiento y oportunidades en el sector financiero mexicano.', 'taw-theme'),
+            'heading'  => $this->getMeta($postId, 'hero_standard_heading') ?: null,
+            'subtitle' => $this->getMeta($postId, 'hero_standard_subtitle') ?: null,
             'image_id' => (int) $this->getMeta($postId, 'hero_standard_image'),
         ];
     }

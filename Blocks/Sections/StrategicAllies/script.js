@@ -17,7 +17,11 @@ function initStrategicAllies() {
     });
 }
 
-// First page load
-document.addEventListener('DOMContentLoaded', initStrategicAllies);
+// First load — guard handles both normal load and Swup script injection (readyState is already 'complete').
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStrategicAllies);
+} else {
+    initStrategicAllies();
+}
 // Swup navigation — taw:page-view is dispatched by app.js after every content swap.
 document.addEventListener('taw:page-view', initStrategicAllies);
