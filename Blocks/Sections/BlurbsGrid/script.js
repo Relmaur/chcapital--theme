@@ -1,5 +1,4 @@
 import PhotoSwipeLightbox from 'photoswipe/lightbox'
-import 'photoswipe/dist/photoswipe.css'
 
 /**
  * Idempotent PhotoSwipe init — same pattern as LightboxImage/script.js.

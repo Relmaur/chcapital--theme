@@ -6,7 +6,7 @@ function initTestimonials(root) {
   const nextBtn  = root.querySelector('.testimonials__btn--next')
   const dotsWrap = root.querySelector('.testimonials__dots')
 
-  if (!viewport) return
+  if (!viewport) return false
 
   const embla = EmblaCarousel(viewport, { loop: true, align: 'start' })
 
@@ -39,14 +39,20 @@ function initTestimonials(root) {
     embla.on('select', syncDots)
     syncDots()
   }
+
+  // Register cleanup so Swup can destroy this instance before replacing content.
+  window._tawCleanup?.add(() => embla.destroy())
+  return true
 }
 
 function initPage() {
   // data-testimonials-ready guards against double-init; the attribute is absent
   // on server-rendered elements so it's automatically clear after every Swup swap.
+  // Guard is set only after successful init so a failed init can be retried.
   document.querySelectorAll('.testimonials__embla:not([data-testimonials-ready])').forEach(root => {
-    root.setAttribute('data-testimonials-ready', '')
-    initTestimonials(root)
+    if (initTestimonials(root)) {
+      root.setAttribute('data-testimonials-ready', '')
+    }
   })
 }
 

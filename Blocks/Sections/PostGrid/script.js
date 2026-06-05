@@ -27,6 +27,15 @@ const registerVideoModal = () => {
     }));
 };
 
-window._alpineStarted
-    ? registerVideoModal()
-    : document.addEventListener('alpine:init', registerVideoModal);
+if (window._alpineStarted) {
+    registerVideoModal();
+    // This script may have loaded after Alpine.initTree already ran on the new
+    // content (SwupHeadPlugin injects scripts asynchronously). Re-initialize any
+    // [x-data="videoModal"] elements that were skipped due to the timing gap.
+    document.querySelectorAll('[x-data="videoModal"]').forEach(el => {
+        Alpine.destroyTree(el);
+        Alpine.initTree(el);
+    });
+} else {
+    document.addEventListener('alpine:init', registerVideoModal);
+}

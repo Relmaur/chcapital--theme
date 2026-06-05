@@ -1,5 +1,4 @@
 import PhotoSwipeLightbox from 'photoswipe/lightbox'
-import 'photoswipe/dist/photoswipe.css'
 
 /**
  * Initialise PhotoSwipe for every [data-pswp-gallery] on the page.

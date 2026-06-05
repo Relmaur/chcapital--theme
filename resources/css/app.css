@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "photoswipe/dist/photoswipe.css";
 
 /* Scan all theme PHP files for Tailwind class names */
 @source "../../**/*.php";

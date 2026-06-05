@@ -1,7 +1,6 @@
 import EmblaCarousel from 'embla-carousel'
 import AutoPlay from 'embla-carousel-autoplay'
 import PhotoSwipeLightbox from 'photoswipe/lightbox'
-import 'photoswipe/dist/photoswipe.css'
 
 /**
  * Idempotent PhotoSwipe init — shared with LightboxImage / BlurbsGrid.
@@ -24,7 +23,7 @@ function initGallery(root) {
   const nextBtn     = root.querySelector('.image-gallery__btn--next')
   const dotsWrap    = root.querySelector('.image-gallery__dots')
 
-  if (!viewport) return
+  if (!viewport) return false
 
   const embla = EmblaCarousel(
     viewport,
@@ -61,12 +60,18 @@ function initGallery(root) {
     embla.on('select', syncDots)
     syncDots()
   }
+
+  // Register cleanup so Swup can destroy this instance before replacing content.
+  window._tawCleanup?.add(() => embla.destroy())
+  return true
 }
 
 function initPage() {
   document.querySelectorAll('.image-gallery__embla:not([data-gallery-ready])').forEach(root => {
-    root.setAttribute('data-gallery-ready', '')
-    initGallery(root)
+    // Set guard only after a successful init to allow retry if initGallery returns early.
+    if (initGallery(root)) {
+      root.setAttribute('data-gallery-ready', '')
+    }
   })
   initPhotoSwipe()
 }

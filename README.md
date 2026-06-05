@@ -8,6 +8,8 @@ No Gutenberg blocks. No ACF dependency. No bloat. Just PHP classes, templates, a
 
 The framework internals (block system, metabox engine, Vite bridge) ship as the **[`taw/core`](https://github.com/Relmaur/taw-core) composer package** — versioned independently so you can update the framework across all your TAW sites with a single `composer update taw/core`.
 
+> **Framework API reference:** The [`taw/core` README](https://github.com/Relmaur/taw-core#readme) is the authoritative source for all framework internals — field types, Metabox config options, ViteLoader API, Visual Editor, and more. When this theme README and the `taw/core` README disagree, `taw/core` wins.
+
 ---
 
 ## Why TAW?
@@ -20,9 +22,9 @@ The framework internals (block system, metabox engine, Vite bridge) ship as the 
 
 **A real data layer.** MetaBlocks own their data through a bespoke metabox framework. No plugin dependencies for custom fields — field registration, rendering, retrieval, validation, and sanitization are all built in.
 
-**Rich field types.** `text`, `textarea`, `wysiwyg`, `image`, `url`, `number`, `range`, `select`, `checkbox`, `color`, `group`, `repeater`, `post_select` — with conditional logic, tabbed layouts, and responsive grid placement.
+**Rich field types.** `text`, `textarea`, `wysiwyg`, `image`, `url`, `number`, `range`, `select`, `checkbox`, `color`, `group`, `repeater`, `post_select`, `datepicker` — with conditional logic, tabbed layouts, and responsive grid placement.
 
-**Built-in form system.** `Form` handles CSRF, honeypot spam protection, field validation, PRG redirect, and email delivery. Drop it into any template with a config array — no plugin required.
+**Built-in form system.** `Form` handles CSRF, honeypot spam protection, field validation, AJAX submission (no page reload), and email delivery. Register it in your block's `boot()` method, display it in a template — no plugin required.
 
 **Transactional email.** `Mailer` wraps `wp_mail()` with a fluent API and MJML/HTML template support. Write templates once in MJML, compile to HTML, deploy. Includes a `MailTester` admin page for testing templates without real submissions.
 
@@ -30,11 +32,11 @@ The framework internals (block system, metabox engine, Vite bridge) ship as the 
 
 **Theme-level options.** `OptionsPage` brings the same config-driven field experience to site-wide settings stored in `wp_options` — tabbed UI, validation, and a clean retrieval API included.
 
-**Modern frontend, classic WordPress.** Tailwind v4 for utility CSS, Alpine.js for interactivity, Vite for instant HMR — all wired into WordPress through a lightweight bridge. No React, no REST API overhead.
+**Modern frontend, classic WordPress.** Tailwind v4 for utility CSS, Alpine.js for interactivity, Swup for SPA-style page transitions, and Vite for instant HMR — all wired into WordPress through a lightweight bridge. No React, no REST API overhead.
 
 **AI-native DX.** Ships with `AGENTS.md`, `CLAUDE.md`, and Copilot/Windsurf instructions so any AI coding assistant understands the architecture out of the box.
 
-**Visual Editor** *(Work in Progress)* — a live content page editor is under active development inside `taw/core` (`TAW\Core\Editor\VisualEditor`). It is not ready for production use.
+**Visual Editor** — a live content page editor for authenticated users. Activated automatically by `Theme::boot()`. An **Edit Visually** button appears in the admin bar; appending `?taw_visual_edit=1` to any URL activates the editing shell.
 
 ---
 
@@ -89,7 +91,7 @@ composer dump-autoload
 
 namespace TAW\Blocks\Hero;
 
-use TAW\Core\MetaBlock;
+use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;
 
 class Hero extends MetaBlock
@@ -99,9 +101,9 @@ class Hero extends MetaBlock
     protected function registerMetaboxes(): void
     {
         new Metabox([
-            'id'     => 'taw_hero',
-            'title'  => 'Hero Section',
-            'screen' => 'page',
+            'id'      => 'taw_hero',
+            'title'   => 'Hero Section',
+            'screens' => ['page'],
             'fields' => [
                 ['id' => 'hero_heading', 'label' => 'Heading', 'type' => 'text'],
                 ['id' => 'hero_image',   'label' => 'Image',   'type' => 'image'],
@@ -139,7 +141,7 @@ class Hero extends MetaBlock
 ```php
 <?php
 // front-page.php
-use TAW\Core\BlockRegistry;
+use TAW\Core\Block\BlockRegistry;
 
 BlockRegistry::queue('hero');
 get_header();
@@ -165,19 +167,19 @@ That's it. No registration step. The block auto-discovers itself, its metabox ap
 
 ### UI Block (Block)
 
-UI Blocks extend `TAW\Core\Block` and define a `defaults()` method instead of metaboxes:
+UI Blocks extend `TAW\Core\Block\Block` and define a `defaultData()` method instead of metaboxes:
 
 ```php
 // Blocks/Button/Button.php
 namespace TAW\Blocks\Button;
 
-use TAW\Core\Block;
+use TAW\Core\Block\Block;
 
 class Button extends Block
 {
     protected string $id = 'button';
 
-    protected function defaults(): array
+    protected function defaultData(): array
     {
         return [
             'text'   => '',
@@ -215,7 +217,7 @@ UI Blocks compose naturally inside MetaBlocks:
 ```php
 <?php
 // front-page.php
-use TAW\Core\BlockRegistry;
+use TAW\Core\Block\BlockRegistry;
 
 BlockRegistry::queue('hero', 'features', 'stats', 'testimonials', 'cta');
 get_header();
@@ -254,243 +256,51 @@ get_header();
 
 ---
 
-## Metabox Field Types
+## Metabox System
 
-All fields share common options. The `type` key selects the field type.
+> **Full reference: [taw/core README → Metabox System](https://github.com/Relmaur/taw-core#metabox-system)**
+> The `taw/core` repository is the single source of truth for all Metabox field types, options, retrieval API, repeater nesting, conditional logic, and tab configuration. The notes below are a quick orientation only — always defer to that README for authoritative detail.
 
-### Common field options
-
-| Option        | Type       | Description                                                              |
-| ------------- | ---------- | ------------------------------------------------------------------------ |
-| `id`          | `string`   | Unique field ID (without prefix)                                         |
-| `label`       | `string`   | Label shown above the field                                              |
-| `type`        | `string`   | Field type (see below)                                                   |
-| `description` | `string`   | Help text shown below the field                                          |
-| `placeholder` | `string`   | Input placeholder text                                                   |
-| `default`     | `mixed`    | Default value                                                            |
-| `required`    | `bool`     | Marks field as required — validation runs on save                        |
-| `validate`    | `callable` | Custom validation callback: `fn($value): true\|string`                   |
-| `sanitize`    | `string`   | Set to `'code'` to preserve raw HTML for `unfiltered_html` users         |
-| `width`       | `string`   | Column width as percentage (e.g., `'50'`, `'33.33'`). Default `'100'`   |
-| `conditions`  | `array`    | Conditional logic — show/hide based on other field values (see below)    |
-
-### Field type reference
-
-| Type           | Description                                                     | Extra options                                        |
-| -------------- | --------------------------------------------------------------- | ---------------------------------------------------- |
-| `text`         | Single-line text input                                          | `placeholder`                                        |
-| `textarea`     | Multi-line text area                                            | `placeholder`, `rows` (default 4)                    |
-| `wysiwyg`      | WordPress rich-text editor (TinyMCE)                            | `rows` (default 8), `media_buttons`, `teeny`         |
-| `url`          | URL input with browser validation                               | `placeholder`                                        |
-| `number`       | Numeric input                                                   | `min`, `max`, `step`, `placeholder`                  |
-| `range`        | Slider with a live value display                                | `min`, `max`, `step`, `unit` (e.g. `'px'`), `default` |
-| `select`       | Dropdown list                                                   | `options` (assoc array: `value => label`)            |
-| `checkbox`     | Toggle switch (saves `'1'` or `'0'`)                            |                                                      |
-| `color`        | WordPress color picker (hex)                                    | `default`                                            |
-| `image`        | WordPress media library image picker (saves attachment ID)      |                                                      |
-| `group`        | Flat group of sub-fields sharing a key prefix                   | `fields` (array of field defs)                       |
-| `repeater`     | Dynamic list of rows — each row has the same set of sub-fields  | `fields`, `min`, `max`                               |
-| `post_select`  | Searchable post picker powered by the TAW REST endpoint         | `post_type`, `multiple`, `max`                       |
-
-### Example: full field set
-
-```php
-new Metabox([
-    'id'     => 'taw_hero',
-    'title'  => 'Hero Section',
-    'screen' => 'page',
-    'fields' => [
-        // Layout with widths
-        [
-            'id' => 'heading',     
-            'label' => 'Heading',     
-            'type' => 'text',     
-            'width' => '50', 
-            'required' => true
-        ],
-        [
-            'id' => 'subheading',  
-            'label' => 'Subheading',  
-            'type' => 'text',     
-            'width' => '50'
-        ],
-
-        // Rich text
-        [
-            'id' => 'body',        
-            'label' => 'Body',        
-            'type' => 'wysiwyg', 
-            'rows' => 6
-        ],
-
-        // Select with options
-        [
-            'id' => 'style',
-            'label' => 'Style',
-            'type' => 'select',
-            'options' => ['light' => 'Light', 'dark' => 'Dark']
-        ],
-
-        // Toggle
-        [
-            'id' => 'show_cta',    
-            'label' => 'Show CTA',    
-            'type' => 'checkbox'
-        ],
-
-        // Color picker
-        [
-            'id' => 'bg_color',    
-            'label' => 'Background',  
-            'type' => 'color', 
-            'default' => '#ffffff'
-        ],
-
-        // Range slider
-        [
-            'id' => 'min_height',
-            'label' => 'Min Height',
-            'type' => 'range',
-            'min' => 400,
-            'max' => 900,
-            'step' => 50,
-            'unit' => 'px',
-            'default' => 600
-        ],
-
-        // Image
-        [
-            'id' => 'image',       
-            'label' => 'Background Image', 
-            'type' => 'image'
-        ],
-
-        // Post selector (single)
-        [
-            'id' => 'featured_post', 
-            'label' => 'Featured Post', 
-            'type' => 'post_select', 
-            'post_type' => 'post'
-        ],
-
-        // Post selector (multi, with max)
-        [
-            'id' => 'related',
-            'label' => 'Related Posts',
-            'type' => 'post_select',
-            'post_type' => 'post',
-            'multiple' => true,
-            'max' => 3
-        ],
-    ],
-]);
-```
-
----
-
-## Conditional Fields
-
-Fields can show or hide based on other field values. Conditions are evaluated live in the admin UI using Alpine.js, and also server-side during save.
-
-```php
-'fields' => [
-    ['id' => 'show_cta',   'label' => 'Show CTA',    'type' => 'checkbox'],
-    ['id' => 'cta_text',   'label' => 'CTA Text',    'type' => 'text',
-     'conditions' => [
-         ['field' => 'show_cta', 'operator' => '==', 'value' => '1'],
-     ]],
-    ['id' => 'cta_url',    'label' => 'CTA URL',     'type' => 'url',
-     'conditions' => [
-         ['field' => 'show_cta', 'operator' => '==', 'value' => '1'],
-     ]],
-],
-```
-
-**Supported operators:** `==`, `!=`, `contains`, `empty`, `!empty`
-
-All conditions in the array use AND logic — every condition must pass for the field to show.
-
----
-
-## Tabbed Metaboxes
-
-Group fields into tabs using the `tabs` key. Each tab references field IDs from the `fields` array.
-
-```php
-new Metabox([
-    'id'     => 'taw_hero',
-    'title'  => 'Hero Section',
-    'screen' => 'page',
-    'fields' => [
-        ['id' => 'heading',   'label' => 'Heading',   'type' => 'text'],
-        ['id' => 'image',     'label' => 'Image',     'type' => 'image'],
-        ['id' => 'bg_color',  'label' => 'Background','type' => 'color'],
-        ['id' => 'show_cta',  'label' => 'Show CTA',  'type' => 'checkbox'],
-        ['id' => 'cta_text',  'label' => 'CTA Text',  'type' => 'text'],
-    ],
-    'tabs' => [
-        ['label' => 'Content', 'fields' => ['heading', 'image']],
-        ['label' => 'Design',  'fields' => ['bg_color']],
-        ['label' => 'CTA',     'fields' => ['show_cta', 'cta_text']],
-    ],
-]);
-```
-
-### Other Metabox config options
-
-| Option     | Default      | Description                                                       |
-| ---------- | ------------ | ----------------------------------------------------------------- |
-| `screen`   | `'page'`     | Post type to attach to (e.g. `'post'`, `'page'`, custom type)    |
-| `context`  | `'normal'`   | Position: `'normal'`, `'side'`, `'advanced'`                     |
-| `priority` | `'high'`     | Order: `'high'`, `'default'`, `'low'`                            |
-| `prefix`   | `'_taw_'`    | Meta key prefix applied to all field IDs                         |
-| `icon`     | *(none)*     | SVG string — displayed as the metabox icon                        |
-| `show_on`  | *(none)*     | `callable(WP_Post): bool` — return `false` to hide the metabox   |
-
----
-
-## Metabox Retrieval API
-
-Use these static helpers inside `getData()` or anywhere in your templates.
+Register a metabox with a config array. The `screens` key accepts post types, page template filenames, and page slugs — mixed in the same array:
 
 ```php
 use TAW\Core\Metabox\Metabox;
 
-// Plain text / any scalar value
-$heading = Metabox::get($postId, 'hero_heading');
-
-// Checkbox → boolean (saves as '1'/'0', returns bool)
-$showCta = Metabox::get_bool($postId, 'show_cta');
-
-// Image attachment ID → URL
-$imageUrl = Metabox::get_image_url($postId, 'hero_image', 'large');
-
-// Color with fallback
-$bgColor = Metabox::get_color($postId, 'bg_color', '#ffffff');
-
-// post_select → array of post IDs (works for single and multi)
-$featuredId  = Metabox::get_posts($postId, 'featured_post')[0] ?? null;
-$relatedIds  = Metabox::get_posts($postId, 'related_posts');
-
-// repeater → array of rows, each an associative array
-$teamMembers = Metabox::get_repeater($postId, 'team_members');
-foreach ($teamMembers as $member) {
-    echo esc_html($member['name'] ?? '');
-    echo esc_html($member['role'] ?? '');
-}
+new Metabox([
+    'id'      => 'taw_hero',
+    'title'   => 'Hero Section',
+    'screens' => ['page'],                    // post type, slug, or template filename
+    'fields'  => [
+        ['id' => 'heading', 'label' => 'Heading', 'type' => 'text',  'required' => true, 'width' => '50'],
+        ['id' => 'image',   'label' => 'Image',   'type' => 'image', 'width' => '50'],
+    ],
+    'tabs' => [
+        ['id' => 'content', 'label' => 'Content', 'fields' => ['heading', 'image']],
+    ],
+]);
 ```
 
-Inside a `MetaBlock` you can also use the convenience wrappers (which delegate to `Metabox::get*`):
+**Field types:** `text`, `textarea`, `wysiwyg`, `url`, `number`, `range`, `select`, `checkbox`, `color`, `image`, `files`, `group`, `repeater`, `post_select`, `datepicker`
+
+**Common field options:** `id`, `label`, `type`, `description`, `placeholder`, `default`, `required`, `width`, `conditions`
+
+**Retrieval (inside `MetaBlock::getData()` or any template):**
 
 ```php
-protected function getData(int|false $postId): array
-{
-    return [
-        'heading'   => $this->getMeta($postId, 'hero_heading'),
-        'image_url' => $this->getImageUrl($postId, 'hero_image', 'large'),
-    ];
-}
+// Convenience wrappers on MetaBlock
+$this->getMeta($postId, 'hero_heading');
+$this->getImageUrl($postId, 'hero_image', 'large');
+
+// Static helpers on Metabox
+Metabox::get($postId, 'hero_heading');
+Metabox::get_bool($postId, 'show_cta');
+Metabox::get_image_url($postId, 'hero_image', 'large');
+Metabox::get_color($postId, 'bg_color', '#ffffff');
+Metabox::get_posts($postId, 'related_posts');     // post_select → int[]
+Metabox::get_repeater($postId, 'team_members');   // repeater → array of rows
 ```
+
+→ For conditional fields, repeater nesting, tabs, `show_on`, `context`, `prefix`, and the full options table, see the **[taw/core README](https://github.com/Relmaur/taw-core#metabox-system)**.
 
 ---
 
@@ -514,29 +324,30 @@ The `repeater` field type creates a sortable, dynamic list of rows. Each row con
 ]
 ```
 
-Sub-fields support the same types as top-level fields (including `image`, `color`, `post_select`, etc.). Rows are drag-and-drop sortable and individually collapsible.
+Sub-fields support the same types as top-level fields (including nested repeaters). Rows are drag-and-drop sortable and individually collapsible. Retrieve with `Metabox::get_repeater()`.
 
-Retrieve with `Metabox::get_repeater()` (see above).
+By default rows render as a collapsible accordion. Use `layout` to switch to a tabbed UI:
 
----
-
-## Group Field
-
-The `group` type nests related sub-fields under a shared key prefix. Unlike a repeater, there is always exactly one row.
+| `layout` value | Description |
+|---|---|
+| _(omitted)_ | Accordion rows (default) |
+| `tabbed_horizontal` | Tabs along the top, content below |
+| `tabbed_vertical` | Tabs stacked in a left column, content on the right |
 
 ```php
 [
-    'id'    => 'hero_cta',
-    'label' => 'CTA Button',
-    'type'  => 'group',
+    'id'     => 'slides',
+    'label'  => 'Slides',
+    'type'   => 'repeater',
+    'layout' => 'tabbed_horizontal',
     'fields' => [
-        ['id' => 'text', 'label' => 'Text', 'type' => 'text',  'width' => '50'],
-        ['id' => 'url',  'label' => 'URL',  'type' => 'url',   'width' => '50'],
+        ['id' => 'title', 'label' => 'Title', 'type' => 'text'],
+        ['id' => 'image', 'label' => 'Image', 'type' => 'image'],
     ],
 ]
 ```
 
-Group sub-fields are stored as separate meta keys: `_taw_hero_cta_text`, `_taw_hero_cta_url`. Retrieve them with `Metabox::get($postId, 'hero_cta_text')`.
+→ Full repeater and `group` field documentation: **[taw/core README](https://github.com/Relmaur/taw-core#metabox-system)**
 
 ---
 
@@ -571,7 +382,7 @@ new OptionsPage([
 ### Retrieval
 
 ```php
-use TAW\Core\OptionsPage;
+use TAW\Core\OptionsPage\OptionsPage;
 
 $phone = OptionsPage::get('company_phone');
 $logo  = OptionsPage::get_image_url('logo', 'medium');
@@ -642,19 +453,19 @@ if ($menu && $menu->hasItems()) {
 use TAW\Helpers\Image;
 
 // Above-the-fold hero (eager, high priority)
-echo Image::render($hero_id, 'full', 'Hero image', ['above_fold' => true]);
+echo Image::render($hero_id, 'full', ['above_fold' => true]);
 
 // Regular image (lazy, low priority — the default)
-echo Image::render(get_post_thumbnail_id(), 'large', 'Post thumbnail');
+echo Image::render(get_post_thumbnail_id(), 'large');
 
 // With CSS class and custom sizes
-echo Image::render($id, 'large', 'Team photo', [
+echo Image::render($id, 'large', [
     'class' => 'rounded-lg shadow-md',
     'sizes' => '(max-width: 768px) 100vw, 50vw',
 ]);
 
 // With arbitrary extra attributes
-echo Image::render($id, 'medium', 'Logo', [
+echo Image::render($id, 'medium', [
     'attr' => ['id' => 'site-logo', 'data-hero' => 'true'],
 ]);
 ```
@@ -664,7 +475,7 @@ echo Image::render($id, 'medium', 'Logo', [
 Generate a `<link rel="preload">` for your single most important image. Call before `wp_head()` or hook at priority 1–2.
 
 ```php
-echo Image::preload_tag($hero_id, 'full');
+echo Image::preloadTag($hero_id, 'full');
 // → <link rel="preload" href="..." as="image" imagesrcset="..." imagesize="...">
 ```
 
@@ -674,14 +485,14 @@ echo Image::preload_tag($hero_id, 'full');
 
 ### Entry points
 
-| File                           | Role                                                              |
-| ------------------------------ | ----------------------------------------------------------------- |
-| `resources/js/app.js`          | Main JS entry — imports `app.css` and `app.scss`                  |
-| `resources/css/app.css`        | Tailwind v4 directives (imported by `app.js`, not a Vite entry)   |
-| `resources/scss/app.scss`      | Global custom SCSS — `@use 'fonts'` lives here                    |
-| `resources/scss/critical.scss` | Above-the-fold CSS — inlined in `<head>` as a `<style>` tag       |
-| `resources/scss/_fonts.scss`   | `@font-face` declarations — never add these to `critical.scss`    |
-| `resources/fonts/`             | Self-hosted WOFF2 font files                                      |
+| File                           | Role                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| `resources/js/app.js`          | Main JS entry — Alpine, Swup, all block DOM init, imports `app.css`/`app.scss`  |
+| `resources/css/app.css`        | Tailwind v4 directives + any globally-needed third-party CSS (e.g. PhotoSwipe)  |
+| `resources/scss/app.scss`      | Global custom SCSS — `@use 'fonts'` lives here                                  |
+| `resources/scss/critical.scss` | Above-the-fold CSS — inlined in `<head>` as a `<style>` tag                     |
+| `resources/scss/_fonts.scss`   | `@font-face` declarations — never add these to `critical.scss`                  |
+| `resources/fonts/`             | Self-hosted WOFF2 font files                                                    |
 
 ### Production asset loading
 
@@ -690,17 +501,28 @@ echo Image::preload_tag($hero_id, 'full');
 - JS is loaded as an ES module (`type="module"`).
 - All filenames are content-hashed for cache-busting.
 
-### Asset helper functions (from `vite-loader.php`)
+### Asset helpers (`TAW\Support\ViteLoader`)
 
-These are autoloaded globally — use them anywhere in your templates.
+`ViteLoader` is the OOP Vite bridge shipped in `taw/core`. It is PSR-4 autoloaded — no explicit include needed.
 
 ```php
-// Resolve a theme asset URL — returns hashed prod URL or dev server URL
-$fontUrl = vite_asset_url('resources/fonts/Inter-Regular.woff2');
+use TAW\Support\ViteLoader;
 
-// Check if the Vite dev server is running
-if (vite_is_dev()) { /* dev-only logic */ }
+// Resolve any theme asset URL — returns dev-server URL in dev, hashed build URL in prod
+$fontUrl = ViteLoader::assetUrl('resources/fonts/Inter-Regular.woff2');
+
+// Check if the Vite dev server is running (replaces the old vite_is_dev())
+if (ViteLoader::isDevServerRunning()) { /* dev-only logic */ }
+
+// Enqueue an additional Vite entry point (e.g. a standalone block script)
+ViteLoader::enqueueAsset('my-block', 'resources/js/my-block.js');
+
+// Override the main entry point — call BEFORE Theme::boot()
+ViteLoader::init('src/main.ts');
+Theme::boot();
 ```
+
+> **Note:** The legacy procedural functions `vite_asset_url()` and `vite_is_dev()` still exist inside `vite-loader.php` but are **not** in the composer `files` autoload and will not be available globally. Use `ViteLoader` instead.
 
 ### Block assets
 
@@ -710,47 +532,323 @@ Each block can have a `style.scss` (or `style.css`) and a `script.js`. Both are 
 Blocks/Hero/
 ├── Hero.php
 ├── index.php
-├── style.scss   ← per-block CSS
-└── script.js    ← per-block JS (loaded in footer, type="module")
+├── style.scss   ← per-block CSS (enqueued as <link> in <head>)
+└── script.js    ← per-block JS (type="module")
 ```
 
 The `BlockRegistry::queue('id')` call schedules assets for `<head>`. If you forget to queue, `BlockRegistry::render()` enqueues assets as a fallback (they land after `wp_head`, but a `<link>` is printed inline).
+
+**Block script responsibilities:** When a view-transition library is used (TAW ships with Swup), each block script only runs once — on the first page load. DOM initialization (Embla carousels, PhotoSwipe lightboxes, marquees, animations) should be handled centrally in `app.js` so it runs on every navigation. A block `script.js` is therefore best used for:
+
+1. **Alpine component registration** — `Alpine.data('componentName', factory)` for any `x-data="componentName"` elements in the block's template.
+2. **One-time global setup** — anything that binds to the document/window and doesn't need to re-run per navigation.
+
+See the **[Using JavaScript View Transition Libraries](#using-javascript-view-transition-libraries)** section below for the full lifecycle and patterns.
+
+---
+
+## Using JavaScript View Transition Libraries
+
+TAW ships with [Swup v4](https://swup.js.org/) for SPA-style page transitions, but the architectural patterns below apply equally to Barba.js, Taxi.js, the native View Transitions API, or any library that swaps page content without a full browser reload.
+
+### The core problem
+
+A view-transition library intercepts link clicks, fetches the new page, and **swaps a portion of the DOM** (in TAW, that portion is `<main id="content">`). Everything outside that container — the `<header>`, `<footer>`, and all scripts already loaded — stays alive for the whole session.
+
+This creates a fundamental mismatch: block JavaScript files execute **once** on the initial page load and never again. When the user navigates to a page that has a block whose script wasn't loaded on the first page, the DOM for that block appears but its JavaScript initialization never runs.
+
+### Root cause: block scripts live outside the swapped container
+
+WordPress enqueues block scripts in `<body>` (outside `<main id="content">`). A view-transition library replaces `#content`'s HTML on each navigation but leaves everything else untouched. Any script registered for a block that wasn't on the landing page is therefore **never executed** during the session — the block renders but stays inert.
+
+The two naive workarounds both fail:
+
+- **Re-running scripts on each swap** — if the library re-evaluates `<script>` tags inside the swapped container, scripts in `<body>` (outside the container) are still missed.
+- **Delegating to a custom event** — dispatching `myLib:page-view` and having each block script listen to it works only for scripts that have already loaded; a script that has never run has no listener to fire.
+
+### The reliable fix: centralize initialization in `app.js`
+
+The only script that reliably executes on every page is the **main entry point** — `app.js`. Moving all DOM-initialization logic there eliminates the timing dependency entirely.
+
+```js
+// app.js — import everything needed for all block types
+import EmblaCarousel      from 'embla-carousel';
+import AutoPlay           from 'embla-carousel-autoplay';
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
+
+// Define one init function per block type
+function initGalleries()       { /* Embla on .image-gallery__embla    */ }
+function initTestimonials()    { /* Embla on .testimonials__embla     */ }
+function initPhotoSwipe()      { /* PhotoSwipe on [data-pswp-gallery] */ }
+function initStrategicAllies() { /* marquee on .strategic-allies__marquee */ }
+function initChangingNumbers() { /* count-up on [data-target]        */ }
+
+// Run everything on first load AND after every navigation
+function initAll() {
+    initOrnaments();
+    initGalleries();
+    initTestimonials();
+    initPhotoSwipe();
+    initStrategicAllies();
+    initChangingNumbers();
+}
+
+document.addEventListener('DOMContentLoaded', initAll);
+
+// Hook into your library's "content replaced" lifecycle event
+// (Swup: page:view | Barba: after | native VT API: after transition)
+yourTransitionLibrary.on('page:view', initAll);
+```
+
+**If you add a new block that needs per-navigation initialization, add its init function to `initAll()`.** Never rely solely on a block script's event listener.
+
+### Make every init function idempotent
+
+Because `initAll()` runs after every navigation — and block scripts may also run their own initialization as a fallback — each function must be safe to call multiple times on the same page.
+
+The pattern: set a guard attribute on the element after initialization. Check for its absence before running.
+
+```js
+function initGalleries() {
+    // :not([data-gallery-ready]) means "hasn't been initialized yet"
+    document.querySelectorAll('.image-gallery__embla:not([data-gallery-ready])').forEach(root => {
+        const viewport = root.querySelector('.image-gallery__viewport');
+        if (!viewport) return; // guard against partial / broken DOM
+
+        const embla = EmblaCarousel(viewport, { loop: true });
+        // ...setup buttons, dots, etc...
+
+        root.setAttribute('data-gallery-ready', ''); // mark as done
+        window._tawCleanup.add(() => embla.destroy()); // register teardown
+    });
+}
+```
+
+Guard attributes are only present on **live** DOM nodes. When the transition library swaps `#content`, the new HTML comes from the server without any guard attributes, so `initAll()` correctly re-initializes all blocks on the incoming page.
+
+### Teardown before the swap
+
+Libraries like Embla or Splide attach internal `ResizeObserver`s and event listeners to DOM nodes. If those nodes are removed without calling `.destroy()`, the observers keep firing against detached elements — a memory leak that accumulates across navigations.
+
+Register a teardown callback immediately after creating any such instance:
+
+```js
+// window._tawCleanup is a Set<() => void> initialized in app.js
+window._tawCleanup.add(() => embla.destroy());
+```
+
+Hook into your library's **before-swap** lifecycle event to run and clear all registered teardowns:
+
+```js
+// Swup:
+swup.hooks.before('content:replace', () => {
+    window._tawCleanup.forEach(fn => fn());
+    window._tawCleanup.clear();
+});
+
+// Barba.js:
+barba.hooks.before(() => {
+    window._tawCleanup.forEach(fn => fn());
+    window._tawCleanup.clear();
+});
+```
+
+### Alpine.js lifecycle
+
+Alpine binds reactive state to specific DOM nodes. When those nodes are replaced, the old bindings must be cleaned up (`Alpine.destroyTree`) and the new nodes must be initialized (`Alpine.initTree`). Alpine must only be **started** once — never call `Alpine.start()` again after the first page load.
+
+```js
+// Before the swap — destroy Alpine on the outgoing content
+yourLib.on('before-swap', () => {
+    Alpine.destroyTree(document.getElementById('content'));
+});
+
+// After the swap — initialize Alpine on the incoming content
+yourLib.on('after-swap', () => {
+    Alpine.initTree(document.getElementById('content'));
+});
+```
+
+Anything outside `#content` (e.g. a header menu component) is never touched by these calls and stays initialized throughout the session.
+
+### Alpine component registration from block scripts
+
+Block scripts that register named Alpine components (`Alpine.data('name', factory)`) must handle two scenarios: the script running before Alpine starts (first page load) and the script being injected and executed after Alpine has already started and called `initTree` (subsequent navigations).
+
+```js
+// Blocks/PostGrid/script.js
+
+const registerVideoModal = () => {
+    Alpine.data('videoModal', () => ({
+        isOpen: false, embedUrl: '',
+        openVideo(url) { this.embedUrl = url; this.isOpen = true; },
+        close()        { this.isOpen = false; this.embedUrl = ''; },
+    }));
+};
+
+if (window._alpineStarted) {
+    // The script loaded after Alpine.initTree already ran.
+    // Register the component, then re-initialize any elements that were
+    // processed without it (Alpine initialized them with empty data).
+    registerVideoModal();
+    document.querySelectorAll('[x-data="videoModal"]').forEach(el => {
+        Alpine.destroyTree(el);
+        Alpine.initTree(el);
+    });
+} else {
+    // Normal first-load path: register before Alpine.start() is called.
+    document.addEventListener('alpine:init', registerVideoModal);
+}
+```
+
+`window._alpineStarted` is set to `true` after `Alpine.start()` returns. Block scripts check this flag to know which path to take.
+
+### The `taw:page-view` custom event
+
+`app.js` dispatches a `taw:page-view` `CustomEvent` on `document` after `initAll()` completes on every navigation. Block scripts that need to react to page changes beyond what `initAll()` covers can listen to it:
+
+```js
+document.addEventListener('taw:page-view', () => {
+    updateActiveMenuLinks(); // example: logic specific to this block
+});
+```
+
+This event is also used by block scripts as a **fallback** for their own initialization. Since `app.js`'s `initAll()` runs first and sets the guard attributes, any duplicate attempt by a block script's listener is a no-op — the guards prevent double-initialization.
+
+### PhotoSwipe CSS — put it in your main stylesheet
+
+In dev mode, `import 'photoswipe/dist/photoswipe.css'` inside a JavaScript module makes Vite inject the CSS via a `<style>` tag through the HMR module system. When multiple entry points (e.g. `app.js` and several block scripts) each import the same CSS file, the HMR registry tracks multiple owners and can produce unreliable style injection.
+
+**The fix:** import third-party CSS that is needed globally into your main CSS entry rather than into JS files:
+
+```css
+/* resources/css/app.css */
+@import "tailwindcss";
+@import "photoswipe/dist/photoswipe.css"; /* always a real stylesheet, never JS-injected */
+```
+
+This keeps it as a genuine stylesheet in both dev and production — no JS-injection conflicts, no HMR edge cases, and the CSS is always available regardless of which block scripts have loaded.
+
+### In this theme (Swup v4)
+
+The transition animation is a simple opacity fade on `#content`:
+
+```scss
+#content { opacity: 1; transition: opacity 180ms ease; }
+html.is-animating #content { opacity: 0; }
+```
+
+Swup adds `html.is-animating` when navigation starts and removes it after the enter animation ends. The same CSS rule drives both the exit and the enter.
+
+Plugins:
+
+| Plugin | Purpose |
+|---|---|
+| `@swup/head-plugin` (`persistAssets: true`) | Syncs `<head>` elements; keeps already-loaded scripts across navigations |
+| `@swup/scroll-plugin` | Scrolls to top after each swap |
+| `@swup/preload-plugin` | Preloads target page on hover/focus |
 
 ---
 
 ## Forms
 
-`TAW\Core\Form\Form` is a configuration-driven frontend form that handles everything in one place: CSRF (nonces), honeypot spam protection, field validation, PRG redirect after success, and email delivery.
+`TAW\Core\Form\Form` is a configuration-driven frontend form that handles everything: CSRF (nonces), honeypot spam protection, field validation, AJAX submission via `admin-ajax.php` (no page reload), and email delivery.
+
+**Forms must be registered in the block's `boot()` method** — not in templates — so the AJAX handler exists on every request. Wrap the call in `add_action('init', ...)` so translations are safe:
 
 ```php
 use TAW\Core\Form\Form;
 
-$form = new Form([
-    'id'           => 'contact',
-    'submit_label' => 'Send Message',
-    'messages'     => ['success' => "Thanks! We'll be in touch."],
-    'email' => [
-        'to_self'   => ['subject' => 'New contact',      'template' => 'contact-self'],
-        'to_client' => ['subject' => 'Got your message', 'template' => 'contact-client'],
-    ],
-    'fields' => [
-        ['id' => 'name',    'label' => 'Name',    'type' => 'text',     'required' => true],
-        ['id' => 'email',   'label' => 'Email',   'type' => 'email',    'required' => true],
-        ['id' => 'message', 'label' => 'Message', 'type' => 'textarea', 'required' => true],
-    ],
-]);
-$form->render();
+// In your MetaBlock::boot():
+public static function boot(): void
+{
+    add_action('init', static function () {
+        Form::register([
+            'id'           => 'contact',
+            'submit_label' => 'Send Message',
+            'messages'     => ['success' => "Thanks! We'll be in touch."],
+            'email' => [
+                'to_self'   => ['subject' => 'New contact',      'template' => 'contact-self'],
+                'to_client' => ['subject' => 'Got your message', 'template' => 'contact-client'],
+            ],
+            'fields' => [
+                ['id' => 'name',    'label' => 'Name',    'type' => 'text',     'required' => true],
+                ['id' => 'email',   'label' => 'Email',   'type' => 'email',    'required' => true],
+                ['id' => 'message', 'label' => 'Message', 'type' => 'textarea', 'required' => true],
+            ],
+        ]);
+    });
+}
+
+// In the block's index.php template:
+Form::display('contact');
 ```
 
-**Form field types:** `text`, `email`, `textarea`, `select`, and any standard HTML input type (e.g. `tel`, `date`). Fields support `required`, `placeholder`, `rows`.
+**Input field types:** `text`, `email`, `tel`, `url`, `number`, `textarea`, `select`, `radio` (pass `options`; accepts `layout`), `checkbox`, `checkbox_group` (pass `options`; stored as comma-separated string), `date` (accepts `min_date`, `max_date`). Any other value is passed straight through as the HTML `type` attribute.
+
+**Structural field types** (cosmetic only — no `id`, no validation, no submission data): `heading` (dark section banner with `label` and optional `subtitle`), `divider` (`<hr>`), `html` (raw HTML via `content` key, rendered with `wp_kses_post`).
+
+```php
+['type' => 'heading', 'label' => '1. Personal Data', 'subtitle' => 'General identification'],
+['type' => 'divider'],
+['type' => 'html', 'content' => '<p class="text-sm text-gray-500">All fields marked * are required.</p>'],
+```
+
+All input fields accept: `id`, `label`, `type`, `required`, `placeholder`, `width`, and `conditions`. All fields (including structural) accept `width` for column placement.
+
+**Conditional fields — AND / OR logic:** By default all conditions are combined with AND. Add `'relation' => 'any'` to switch to OR:
+
+```php
+[
+    'id'         => 'spouse_name',
+    'type'       => 'text',
+    'label'      => 'Spouse / Partner name',
+    'conditions' => [
+        'relation' => 'any',
+        'rules'    => [
+            ['field' => 'estado_civil', 'operator' => '==', 'value' => 'married'],
+            ['field' => 'estado_civil', 'operator' => '==', 'value' => 'cohabiting'],
+        ],
+    ],
+],
+```
+
+Supported operators: `==`, `!=`, `>`, `<`, `>=`, `<=`, `contains`. Conditions are enforced in JS and on the server — hidden fields are excluded from `FormData` and re-validated on the server regardless of client-side state.
+
+**Multi-step forms:** Replace the top-level `fields` key with `steps`. Each step has a `title` (shown in a numbered indicator) and its own `fields` array. The same field types, widths, and conditions work identically inside steps.
+
+```php
+Form::register([
+    'id'           => 'application',
+    'submit_label' => 'Submit',
+    'next_label'   => 'Continue',   // optional; default "Next"
+    'prev_label'   => 'Back',       // optional; default "Back"
+    'messages'     => ['success' => 'Your form has been received.'],
+    'steps' => [
+        [
+            'title'  => 'Personal Info',
+            'fields' => [
+                ['type' => 'heading', 'label' => '1. General Data'],
+                ['id' => 'nombre',    'label' => 'Name',  'type' => 'text', 'required' => true, 'width' => 50],
+                ['id' => 'email',     'label' => 'Email', 'type' => 'email', 'required' => true, 'width' => 50],
+            ],
+        ],
+        [
+            'title'  => 'Declaration',
+            'fields' => [
+                ['type' => 'html', 'content' => '<p>I declare that all information provided is true.</p>'],
+                ['id' => 'confirm', 'label' => 'I confirm', 'type' => 'checkbox', 'required' => true],
+            ],
+        ],
+    ],
+]);
+```
+
+**How it works:** Next validates required fields in the current step (client-side) before advancing. Back navigates without validation. Submit only appears on the last step. All fields from all steps are submitted in a single AJAX request; if server validation fails, the form auto-navigates back to the step containing the first failing field.
 
 If both `email.to_self.template` and `email.to_client.template` are set, delivery uses `Mailer` + `MailTemplate` (see below). Otherwise falls back to plain-text `wp_mail()`.
 
-`TAW\Core\Form\SubmissionsHandler` stores successful submissions as a `taw_submission` CPT in WP Admin and optionally forwards them via webhook (n8n, Zapier, Make, etc.). Activate it in `functions.php`:
-
-```php
-new \TAW\Core\Form\SubmissionsHandler();
-```
+`TAW\Core\Form\SubmissionsHandler` stores successful submissions as a `taw_submission` CPT in WP Admin and optionally forwards them via webhook (n8n, Zapier, Make, etc.). **Auto-wired by `Theme::boot()`** — no manual instantiation needed.
 
 ---
 
@@ -880,17 +978,40 @@ Updates are cached for 6 hours to avoid GitHub rate limits. The updater prefers 
 
 ---
 
+## CSS Studio — Visual Dev Editor
+
+CSS Studio is a browser-based visual editor that streams live-page edits directly to your AI coding assistant. It is pre-installed in this theme.
+
+**Requires:** Node package `cssstudio` (installed), Vite dev server running (`npm run dev`), and the toggle enabled in WP Admin.
+
+**Toggle:** WP Admin → TAW Settings → Developer Tools → Enable CSS Studio
+
+**Start a session (inside Claude Code / your AI agent):**
+```
+/studio
+```
+
+When active, every change you make in the visual panel — text edits, style tweaks, attribute changes — is sent to the agent as structured data and applied to the source files automatically. The agent follows TAW-specific rules:
+
+- **Text/content edits:** if the element is already wired to a metabox field, the agent leaves the template alone and tells you to update the content in WP Admin. If it's hardcoded, it asks whether to keep it that way or wire it to a new metabox field.
+- **Style edits:** the agent always asks where to apply the change — Tailwind classes in the template, per-block SCSS (`style.scss`), or global SCSS.
+
+---
+
 ## Tech Stack
 
 | Technology                                                                 | Role                                                             |
 | -------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [Tailwind CSS v4](https://tailwindcss.com/)                                | Utility-first CSS via the official Vite plugin                   |
-| [Alpine.js v3](https://alpinejs.dev/)                                      | Lightweight reactivity for interactive components                |
-| [Vite v7](https://vitejs.dev/)                                             | Build tool with instant HMR in development                       |
-| [SCSS](https://sass-lang.com/)                                             | Optional custom styles — global and per-block                    |
-| [Symfony Console](https://symfony.com/doc/current/components/console.html) | CLI scaffolding commands (`bin/taw`) — shipped inside `taw/core` |
-| PHP 8.1+                                                                   | PSR-4 autoloading via Composer                                   |
-| [`taw/core`](https://github.com/Relmaur/taw-core)                          | Versioned composer package containing all framework internals    |
+| [Tailwind CSS v4](https://tailwindcss.com/)                                | Utility-first CSS via the official Vite plugin                    |
+| [Alpine.js v3](https://alpinejs.dev/)                                      | Lightweight reactivity for interactive components                 |
+| [Swup v4](https://swup.js.org/)                                            | SPA-style page transitions — swaps `#content` without full reload |
+| [Embla Carousel](https://www.embla-carousel.com/)                          | Touch-friendly carousels (galleries, testimonials)                |
+| [PhotoSwipe v5](https://photoswipe.com/)                                   | Lightbox for images — lazy-loads the core on first open           |
+| [Vite v7](https://vitejs.dev/)                                             | Build tool with instant HMR in development                        |
+| [SCSS](https://sass-lang.com/)                                             | Optional custom styles — global and per-block                     |
+| [Symfony Console](https://symfony.com/doc/current/components/console.html) | CLI scaffolding commands (`bin/taw`) — shipped inside `taw/core`  |
+| PHP 8.1+                                                                   | PSR-4 autoloading via Composer                                    |
+| [`taw/core`](https://github.com/Relmaur/taw-core)                          | Versioned composer package containing all framework internals     |
 
 ### Architecture at a Glance
 
@@ -906,11 +1027,14 @@ Updates are cached for 6 hours to avoid GitHub rate limits. The updater prefers 
 | Forms             | Config-driven `Form` with CSRF, honeypot, validation, PRG (`TAW\Core\Form` in `taw/core`) |
 | Mail              | Fluent `Mailer` + MJML/HTML `MailTemplate` (`TAW\Core\Mail` in `taw/core`)              |
 | SVG               | Sanitized uploads + inline/img rendering (`TAW\Helpers\Svg` in `taw/core`)              |
-| Asset pipeline    | `utilities.php` (autoloaded from `taw/core`) + `BlockRegistry` queue system             |
-| Critical CSS      | `critical.scss` compiled and inlined in `<head>`                                        |
+| Asset pipeline    | `TAW\Support\ViteLoader` (PSR-4 from `taw/core`) — dev detection, manifest, enqueue, preloads |
+| Critical CSS      | `critical.scss` compiled and inlined in `<head>` via `ViteLoader::inlineCriticalCss()`  |
 | Async CSS         | Main CSS loaded non-render-blocking via `media="print"` + `onload` swap                 |
-| Fonts             | Self-hosted WOFF2 with preloads via `vite_asset_url()` (autoloaded from `taw/core`)     |
+| Fonts             | Self-hosted WOFF2 with preloads via `ViteLoader::assetUrl()` (from `taw/core`)          |
 | Performance       | `performance.php` removes WP bloat, adds resource hints (autoloaded from `taw/core`)    |
+| Page transitions  | Swup v4 swaps `#content`; `app.js` owns all block DOM init via `initAll()` on `page:view` |
+| Alpine lifecycle  | `destroyTree` / `initTree` on content swap; `Alpine.start()` called once only           |
+| Embla teardown    | `window._tawCleanup` Set — callbacks registered after init, flushed before each swap    |
 | Theme updates     | GitHub Releases-based auto-updater (`TAW\Core\Theme\ThemeUpdater` in `taw/core`)        |
 | Framework updates | `composer update taw/core` — update across all sites independently                      |
 
@@ -948,7 +1072,7 @@ taw-theme/
 │               │   ├── Rest/      #   SearchEndpoints, VisualEditorEndpoint
 │               │   ├── Form/      #   Form, SubmissionsHandler
 │               │   ├── Mail/      #   Mailer, MailTemplate, MailTester
-│               │   └── Editor/    #   VisualEditor (WIP)
+│               │   └── Editor/    #   VisualEditor — inline frontend editor
 │               ├── Helpers/   #   Framework, Image, Svg, Dump, Editor
 │               ├── CLI/       #   make:block, export:block, import:block commands
 │               └── Support/   #   utilities.php, performance.php (autoloaded)
