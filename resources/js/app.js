@@ -61,11 +61,13 @@ const swup = new Swup({
     // media/file links (images, PDFs, etc.) — those must reach PhotoSwipe or
     // the browser's native handler without Swup interfering.
     // Swup already skips external origins and target="_blank" by default.
-    ignoreVisit: (url) => {
+    ignoreVisit: (url, { el } = {}) => {
         try {
             const u = new URL(url, window.location.href);
             // Same-page anchor navigation
             if (u.pathname === window.location.pathname && u.hash) return true;
+            // WordPress admin bar links (Edit, Edit Visually, Exit Editor, etc.)
+            if (el?.closest('#wpadminbar')) return true;
             // WordPress admin / login
             if (u.pathname.startsWith('/wp-admin') || u.pathname.startsWith('/wp-login')) return true;
             // Media / file links — images, PDFs, ZIPs, etc.
@@ -108,14 +110,34 @@ swup.hooks.on('content:replace', () => {
     if (content) Alpine.initTree(content);
 });
 
-// ── 7. Alpine start ───────────────────────────────────────────────────────────
+// ── 7. Alpine components ──────────────────────────────────────────────────────
+//
+// Register shared Alpine components here so they are always available,
+// regardless of which block scripts have loaded. This avoids a Swup race
+// condition where Alpine.initTree(content) fires on content:replace before
+// the block's script.js has been injected and executed by SwupHeadPlugin.
+
+Alpine.data('videoModal', () => ({
+    isOpen:   false,
+    embedUrl: '',
+
+    openVideo(url) {
+        this.embedUrl = url;
+        this.isOpen   = true;
+        document.documentElement.style.overflow = 'hidden';
+    },
+
+    close() {
+        this.isOpen   = false;
+        this.embedUrl = '';
+        document.documentElement.style.overflow = '';
+    },
+}));
+
+// ── 8. Alpine start ───────────────────────────────────────────────────────────
 //
 // Start Alpine ONCE on first page load.  On subsequent Swup navigations
 // the initTree / destroyTree calls above handle re-initialization.
-//
-// window._alpineStarted is used by block scripts to detect whether Alpine has
-// already started (so they can call Alpine.data() directly instead of waiting
-// for the 'alpine:init' event which only fires once on first load).
 
 document.addEventListener('DOMContentLoaded', () => {
     Alpine.start();

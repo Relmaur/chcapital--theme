@@ -2,6 +2,7 @@
 
 use TAW\Core\Theme\Theme;
 use TAW\Support\ViteLoader;
+use TAW\Core\Editor\VisualEditor;
 
 /**
  * TAW Theme — Developer Customisations
@@ -14,6 +15,11 @@ require_once get_template_directory() . '/vendor/autoload.php';
 
 require_once get_template_directory() . '/inc/options.php';
 require_once get_template_directory() . '/inc/multimedia-cpts.php';
+
+/**
+ * Enable the visual editor.
+ */
+VisualEditor::enable();
 
 Theme::boot();
 

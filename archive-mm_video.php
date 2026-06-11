@@ -7,8 +7,8 @@
  * (or a single flat grid if no terms exist). Each card opens a video modal.
  *
  * Assets are loaded by queuing the post_grid--videos variation before get_header().
- * This enqueues PostGrid's style.css and script.js (videoModal Alpine component)
- * without rendering that block's metabox-driven content.
+ * This enqueues PostGrid's style.css without rendering the block's metabox-driven content.
+ * The videoModal Alpine component is registered globally in app.js.
  */
 
 use TAW\Core\Block\BlockRegistry;
