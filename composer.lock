@@ -788,16 +788,16 @@
         },
         {
             "name": "taw/core",
-            "version": "v1.16.5",
+            "version": "v1.16.52",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Relmaur/taw-core.git",
-                "reference": "1158217d498a6a32d31031e0df599ab8248cff78"
+                "reference": "1cc2e774c916e583ac297f7b62bc31695b69dd41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Relmaur/taw-core/zipball/1158217d498a6a32d31031e0df599ab8248cff78",
-                "reference": "1158217d498a6a32d31031e0df599ab8248cff78",
+                "url": "https://api.github.com/repos/Relmaur/taw-core/zipball/1cc2e774c916e583ac297f7b62bc31695b69dd41",
+                "reference": "1cc2e774c916e583ac297f7b62bc31695b69dd41",
                 "shasum": ""
             },
             "require": {
@@ -832,10 +832,10 @@
             ],
             "description": "TAW Theme Framework — block system, metabox engine, Vite asset pipeline for WordPress",
             "support": {
-                "source": "https://github.com/Relmaur/taw-core/tree/v1.16.5",
+                "source": "https://github.com/Relmaur/taw-core/tree/v1.16.52",
                 "issues": "https://github.com/Relmaur/taw-core/issues"
             },
-            "time": "2026-06-11T05:38:41+00:00"
+            "time": "2026-06-24T18:07:12+00:00"
         }
     ],
     "packages-dev": [],

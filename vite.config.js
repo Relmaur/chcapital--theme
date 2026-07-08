@@ -1,11 +1,35 @@
 import { defineConfig } from 'vite';
 import fullReload from 'vite-plugin-full-reload';
 import tailwindcss from '@tailwindcss/vite';
-import { readdirSync } from 'fs';
+import { readdirSync, writeFileSync, unlinkSync, mkdirSync } from 'fs';
+import { dirname } from 'path';
 
 const componentAssets = readdirSync('Blocks', { recursive: true })
     .filter(f => f.endsWith('style.css') || f.endsWith('style.scss') || f.endsWith('script.js'))
     .map(f => `Blocks/${f}`);
+
+/**
+ * Writes public/build/hot with the dev server URL on start.
+ * PHP detects dev mode by checking for this file rather than probing the port.
+ * The file is removed when the server stops, and emptyOutDir wipes it on build.
+ */
+function hotFilePlugin(hotPath = 'public/build/hot') {
+    const cleanup = () => { try { unlinkSync(hotPath); } catch {} };
+    return {
+        name: 'taw-hot-file',
+        configureServer(server) {
+            server.httpServer?.once('listening', () => {
+                mkdirSync(dirname(hotPath), { recursive: true });
+                const { port } = server.httpServer.address();
+                writeFileSync(hotPath, `http://localhost:${port}`);
+            });
+            process.on('exit', cleanup);
+            for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+                process.on(sig, () => { cleanup(); process.exit(); });
+            }
+        },
+    };
+}
 
 export default defineConfig(({ command }) => ({
     // './' makes font/asset URLs relative in the compiled CSS so they
@@ -14,6 +38,7 @@ export default defineConfig(({ command }) => ({
     // scripts are served cross-origin (localhost:5173 → taw.local).
     base: command === 'build' ? './' : '/',
     plugins: [
+        hotFilePlugin(),
         tailwindcss(),
         fullReload(['**/*.php', 'resources/views/**/*.twig']),
     ],
