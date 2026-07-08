@@ -9,35 +9,34 @@ use TAW\Core\Metabox\Metabox;
 
 class LogoList extends MetaBlock
 {
-    protected string $id = 'logo_list_about';
+    protected string $id = 'logo_list';
 
     protected function registerMetaboxes(): void
     {
         new Metabox([
-            'id'     => 'taw_logo_list_about',
+            'id'     => 'taw_logo_list',
             'title'  => __('Section - Logo List', 'taw-theme'),
             'icon' => get_template_directory_uri() . '/resources/static/svg/ch-isotype.svg',
-            'screen' => ['page-nosotros.php'],
-            'show_on' => static function (\WP_Post $post): bool {
-                return get_page_template_slug($post->ID) === 'page-about-us.php'
-                    || in_array($post->post_name, ['nosotros', 'about-us'], true);
-            },
+            'screens' => [
+                'front-page.php',
+                'page-nosotros.php',
+            ],
             'fields' => [
                 [
-                    'id'    => 'logo_list_about_heading',
+                    'id'    => 'logo_list_heading',
                     'label' => __('Heading', 'taw-theme'),
                     'type'  => 'text',
                     'width' => '50',
                 ],
                 [
-                    'id'    => 'logo_list_about_subheading',
+                    'id'    => 'logo_list_subheading',
                     'label' => __('Subheading', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 2,
                     'width' => '50',
                 ],
                 [
-                    'id'     => 'logo_list_about_items',
+                    'id'     => 'logo_list_items',
                     'label'  => __('Logos', 'taw-theme'),
                     'type'   => 'repeater',
                     'layout' => 'tabbed_horizontal',
@@ -69,11 +68,11 @@ class LogoList extends MetaBlock
 
     protected function getData(int|false $postId): array
     {
-        $items = Metabox::get_repeater($postId, 'logo_list_about_items');
+        $items = Metabox::get_repeater($postId, 'logo_list_items');
 
         return [
-            'heading'    => $this->getMeta($postId, 'logo_list_about_heading') ?: __('Nuestros asociados', 'taw-theme'),
-            'subheading' => $this->getMeta($postId, 'logo_list_about_subheading') ?: null,
+            'heading'    => $this->getMeta($postId, 'logo_list_heading') ?: '',
+            'subheading' => $this->getMeta($postId, 'logo_list_subheading') ?: null,
             'items'      => $items ?: [],
         ];
     }

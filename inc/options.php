@@ -9,22 +9,101 @@ new OptionsPage([
     'icon'       => 'dashicons-screenoptions',
     'position'   => 2,
     'fields'     => [
-        ['id' => 'company_name',  'label' => __('Company Name', 'taw-theme'),      'type' => 'text', 'width' => '50'],
-        ['id' => 'company_phone', 'label' => __('Phone Number', 'taw-theme'),      'type' => 'text', 'width' => '50'],
-        ['id' => 'company_email', 'label' => __('Email Address', 'taw-theme'),     'type' => 'text', 'width' => '50'],
-        ['id' => 'company_address', 'label' => __('Address', 'taw-theme'),        'type' => 'wysiwyg', 'width' => '50'],
-        ['id' => 'footer_text',   'label' => __('Footer Copyright', 'taw-theme'),  'type' => 'textarea'],
-        ['id' => 'social_facebook',  'label' => __('Facebook URL', 'taw-theme'),   'type' => 'url'],
-        ['id' => 'social_instagram', 'label' => __('Instagram URL', 'taw-theme'),  'type' => 'url'],
-        ['id' => 'social_twitter',   'label' => __('X (Twitter) URL', 'taw-theme'), 'type' => 'url'],
-        ['id' => 'social_linkedin',  'label' => __('LinkedIn URL', 'taw-theme'),   'type' => 'url'],
-        ['id' => 'social_youtube',   'label' => __('YouTube URL', 'taw-theme'),    'type' => 'url'],
-        ['id' => 'css_studio_enabled', 'label' => __('Enable CSS Studio', 'taw-theme'), 'type' => 'checkbox'],
+        [
+            'id' => 'general_contact',
+            'label' => __('General', 'taw-theme'),
+            'type' => 'group',
+            'fields' => [
+                ['id' => 'email', 'label' => __('Email', 'taw-theme'), 'type' => 'text', 'width' => '50'],
+                ['id' => 'phone', 'label' => __('Phone', 'taw-theme'), 'type' => 'text', 'width' => '50'],
+            ],
+        ],
+        [
+            'id' => 'division_financiera',
+            'label' => __('División Financiera', 'taw-theme'),
+            'type' => 'group',
+            'fields' => [
+                ['id' => 'email', 'label' => __('Email', 'taw-theme'), 'type' => 'text', 'width' => '50'],
+                ['id' => 'phone', 'label' => __('Phone', 'taw-theme'), 'type' => 'text', 'width' => '50'],
+            ],
+        ],
+        [
+            'id' => 'division_fiduciaria',
+            'label' => __('División Fiduciaria', 'taw-theme'),
+            'type' => 'group',
+            'fields' => [
+                ['id' => 'email', 'label' => __('Email', 'taw-theme'), 'type' => 'text', 'width' => '50'],
+                ['id' => 'phone', 'label' => __('Phone', 'taw-theme'), 'type' => 'text', 'width' => '50'],
+            ],
+        ],
+        [
+            'id' => 'company_name',
+            'label' => __('Company Name', 'taw-theme'),
+            'type' => 'text',
+            'width' => '100',
+        ],
+        [
+            'id' => 'company_address',
+            'label' => __('Address', 'taw-theme'),
+            'type' => 'wysiwyg',
+            'width' => '100',
+        ],
+        [
+            'id' => 'footer_text',
+            'label' => __('Footer Copyright', 'taw-theme'),
+            'type' => 'textarea'
+        ],
+        [
+            'id' => 'social_facebook',
+            'label' => __('Facebook URL', 'taw-theme'),
+            'type' => 'url'
+        ],
+        [
+            'id' => 'social_instagram',
+            'label' => __('Instagram URL', 'taw-theme'),
+            'type' => 'url'
+        ],
+        [
+            'id' => 'social_twitter',
+            'label' => __('X (Twitter) URL', 'taw-theme'),
+            'type' => 'url'
+        ],
+        [
+            'id' => 'social_linkedin',
+            'label' => __('LinkedIn URL', 'taw-theme'),
+            'type' => 'url'
+        ],
+        [
+            'id' => 'social_youtube',
+            'label' => __('YouTube URL', 'taw-theme'),
+            'type' => 'url'
+        ],
+        [
+            'id' => 'css_studio_enabled',
+            'label' => __('Enable CSS Studio', 'taw-theme'),
+            'type' => 'checkbox'
+        ],
     ],
     'tabs' => [
-        ['id' => 'general', 'label' => __('General', 'taw-theme'), 'fields' => ['company_name', 'company_phone', 'company_email', 'company_address']],
-        ['id' => 'footer',  'label' => __('Footer', 'taw-theme'),  'fields' => ['footer_text']],
-        ['id' => 'social',  'label' => __('Social', 'taw-theme'),  'fields' => ['social_facebook', 'social_instagram', 'social_twitter', 'social_linkedin', 'social_youtube']],
-        ['id' => 'devtools', 'label' => __('Developer Tools', 'taw-theme'), 'fields' => ['css_studio_enabled']],
+        [
+            'id' => 'general',
+            'label' => __('General', 'taw-theme'),
+            'fields' => ['company_name', 'company_address', 'general_contact', 'division_financiera', 'division_fiduciaria']
+        ],
+        [
+            'id' => 'footer',
+            'label' => __('Footer', 'taw-theme'),
+            'fields' => ['footer_text']
+        ],
+        [
+            'id' => 'social',
+            'label' => __('Social', 'taw-theme'),
+            'fields' => ['social_facebook', 'social_instagram', 'social_twitter', 'social_linkedin', 'social_youtube']
+        ],
+        [
+            'id' => 'devtools',
+            'label' => __('Developer Tools', 'taw-theme'),
+            'fields' => ['css_studio_enabled']
+        ],
     ],
 ]);

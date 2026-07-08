@@ -16,12 +16,14 @@ $has_items         = !empty($items);
 <section class="logo-list ch-section" style="--placeholder-count: <?php echo $placeholder_count; ?>">
     <div class="section-container--sm">
 
-        <header class="logo-list__header">
-            <h2 class="section-title text-center"><?php echo esc_html($heading); ?></h2>
-            <?php if ($subheading) : ?>
-                <p class="logo-list__subheading"><?php echo esc_html($subheading); ?></p>
-            <?php endif; ?>
-        </header>
+        <?php if ($heading): ?>
+            <header class="logo-list__header">
+                <h2 class="section-title text-center"><?php echo esc_html($heading); ?></h2>
+                <?php if ($subheading) : ?>
+                    <p class="logo-list__subheading"><?php echo esc_html($subheading); ?></p>
+                <?php endif; ?>
+            </header>
+        <?php endif; ?>
 
         <div class="logo-list__grid">
 

@@ -100,7 +100,7 @@ class ContentBlock extends MetaBlock
                 'image_position' => 'right',
                 'defaults'       => [
                     'heading'    => 'Características del Crédito',
-                    'subheading' => 'Una vez firmado el convenio con CH Capital, tus colaboradores tendrán acceso al siguiente <strong>plan de beneficios</strong>:',
+                    // 'subheading' => 'Una vez firmado el convenio con CH Capital, tus colaboradores tendrán acceso al siguiente <strong>plan de beneficios</strong>:',
                     'content'    => '<ul>
                                     <li><strong>Montos.</strong> Desde 250 mil pesos.</li>
                                     <li><strong>Comisiones.</strong> De 3% a 5%</li>

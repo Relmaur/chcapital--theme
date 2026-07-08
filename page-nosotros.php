@@ -15,7 +15,7 @@ BlockRegistry::queue(
     'mision_vision_values',
     'our_team',
     'strategic_allies',
-    'logo_list_about'
+    'logo_list'
 );
 
 // 2. get_header() triggers wp_enqueue_scripts → assets land in <head>
@@ -32,6 +32,6 @@ get_header();
 
 <?php BlockRegistry::render('strategic_allies'); ?>
 
-<?php BlockRegistry::render('logo_list_about'); ?>
+<?php BlockRegistry::render('logo_list'); ?>
 
 <?php get_footer(); ?>
