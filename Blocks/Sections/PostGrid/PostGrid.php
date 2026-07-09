@@ -70,6 +70,16 @@ class PostGrid extends MetaBlock
                     'type'  => 'text',
                     'width' => '100',
                 ],
+                [
+                    'id'          => 'post_grid_' . $v . '_selected_posts',
+                    'label'       => __('Elementos a mostrar (opcional)', 'taw-theme'),
+                    'description' => __('Elige hasta 3 elementos específicos para esta cuadrícula. Si no seleccionas ninguno, se muestran automáticamente los 3 más recientes.', 'taw-theme'),
+                    'type'        => 'post_select',
+                    'post_type'   => $c['post_type'],
+                    'multiple'    => true,
+                    'max'         => 3,
+                    'width'       => '100',
+                ],
             ],
         ]);
     }
@@ -79,13 +89,26 @@ class PostGrid extends MetaBlock
         $v = $this->variation;
         $c = self::varConfig($v);
 
-        $posts = get_posts([
-            'post_type'      => $c['post_type'],
-            'posts_per_page' => 3,
-            'post_status'    => 'publish',
-            'orderby'        => 'date',
-            'order'          => 'DESC',
-        ]);
+        $selected_raw = $this->getMeta($postId, 'post_grid_' . $v . '_selected_posts');
+        $selected_ids = $selected_raw ? array_map('intval', (array) (json_decode((string) $selected_raw, true) ?: [])) : [];
+
+        if (!empty($selected_ids)) {
+            $posts = get_posts([
+                'post_type'      => $c['post_type'],
+                'post__in'       => $selected_ids,
+                'orderby'        => 'post__in',
+                'posts_per_page' => count($selected_ids),
+                'post_status'    => 'publish',
+            ]);
+        } else {
+            $posts = get_posts([
+                'post_type'      => $c['post_type'],
+                'posts_per_page' => 3,
+                'post_status'    => 'publish',
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ]);
+        }
 
         $items = array_map(
             fn(\WP_Post $post): array => $this->buildItem($post, $c['post_type']),

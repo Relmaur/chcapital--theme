@@ -12,6 +12,7 @@ use TAW\Core\Block\BlockRegistry;
 BlockRegistry::queue(
     'hero_standard',
     'content_block--company_benefits',
+    'cta',
     'content_block--employee_benefits',
     'content_block--characteristics',
     'content_block--requirements',
@@ -28,6 +29,8 @@ get_header();
 <?php BlockRegistry::render('hero_standard'); ?>
 
 <?php BlockRegistry::render('content_block--company_benefits'); ?>
+
+<?php BlockRegistry::render('cta'); ?>
 
 <?php BlockRegistry::render('content_block--employee_benefits'); ?>
 

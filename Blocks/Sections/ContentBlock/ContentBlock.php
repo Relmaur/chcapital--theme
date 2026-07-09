@@ -34,7 +34,6 @@ class ContentBlock extends MetaBlock
             'escrow_intro',
             'escrow_benefits',
             'escrow_history',
-            'escrow_realestate',
             'escrow_contract',
         ];
     }
@@ -124,8 +123,8 @@ class ContentBlock extends MetaBlock
                     'subheading' => 'Un proceso sencillo y transparente, diseñado para que obtengas tu financiamiento a tiempo.',
                     'content'    => '<ol>
                                     <li><span><strong>Solicitud</strong>— Completa el formulario de contacto o llámanos directamente.</span></li>
-                                    <li><span><strong>Análisis</strong>— Nuestro equipo evalúa tu perfil crediticio y las condiciones del crédito.</span></li>
-                                    <li><span><strong>Propuesta</strong>— Te presentamos una oferta personalizada con los términos y condiciones.</span></li>
+                                    <li><span><strong>Análisis</strong>— Evaluamos tu solicitud y, si cumples con los requisitos, tendrás una respuesta en 24 horas.</li>
+                                    <li><span><strong>Propuesta</strong>— Si tu crédito ha sido aprobado, te entregaremos la documentación necesaria para continuar con el proceso.</li>
                                     <li><span><strong>Formalización</strong>— Firma del contrato y constitución de la garantía.</span></li>
                                     <li><span><strong>Dispersión</strong>— Depósito del monto aprobado en tu cuenta.</span></li>
                                     </ol>',
@@ -231,9 +230,15 @@ class ContentBlock extends MetaBlock
                 'layout'         => 'two_columns',
                 'image_position' => 'right',
                 'defaults'       => [
-                    'heading'    => '¿Qué es el Escrow?',
+                    'heading'    => 'Escrow: Certeza en cada operación, confianza en cada decisión.',
                     'subheading' => '',
-                    'content'    => '<p>El término <em>escrow</em> se traduce como "depósito, garantía, fideicomiso o fianza". En CH Capital, representa <strong>una estructura de control que transforma acuerdos en resultados verificables</strong>: los recursos permanecen en custodia de un tercero imparcial y se liberan únicamente al cumplirse las condiciones pactadas.</p>',
+                    'content'    => '
+                        <p>En CH CAPITAL, el Escrow no es sólo un servicio: es una estructura de control que transforma acuerdos en resultados verificables.<br/><br/>
+                        Protege tus recursos y <strong>asegura el cumplimiento de acuerdos</strong> mediante un mecanismo imparcial que sólo libera el dinero cuando las condiciones pactadas se han cumplido.  
+                        Un <strong>Escrow</strong> es una solución que permite realizar operaciones con mayor seguridad, especialmente cuando intervienen montos relevantes o partes que requieren certeza en el cumplimiento.<br/><br/>
+                        Su funcionamiento es simple y sólido: los recursos asociados a la operación quedan bajo custodia de un tercero imparcial -como CH CAPITAL- quien los administra y los libera únicamente cuando se cumplen las condiciones previamente establecidas en el contrato suscrito por las partes.<br/><br/> 
+                        El resultado es claro. Los recursos nunca quedan en manos de las partes, sino bajo control de un tercero imparcial que actúa conforme a reglas definidas, eliminando incertidumbre y reduciendo riesgos.</p>
+                    ',
                 ],
             ],
 
@@ -266,19 +271,6 @@ class ContentBlock extends MetaBlock
                     'heading'    => 'Origen de la figura',
                     'subheading' => '',
                     'content'    => '<p>La figura del Escrow tiene sus raíces en el comercio romano, donde los <em>argentarii</em> actuaban como banqueros neutrales que custodiaban bienes o dinero durante transacciones complejas. En la Edad Media, el derecho anglosajón consolidó el principio de custodia neutral en operaciones inmobiliarias, estableciendo la base del Escrow moderno: un tercero imparcial que garantiza el cumplimiento de las condiciones pactadas antes de liberar los recursos.</p>',
-                ],
-            ],
-
-            'escrow_realestate' => [
-                'label'          => 'Section — Escrow en operaciones inmobiliarias',
-                'screens'        => ['page-escrow.php'],
-                'bg'             => 'bg-lightgray',
-                'layout'         => 'two_columns',
-                'image_position' => 'left',
-                'defaults'       => [
-                    'heading'    => 'El Contrato Escrow en operaciones inmobiliarias',
-                    'subheading' => 'Certeza para compradores, vendedores y brokers',
-                    'content'    => '<p>El Escrow resuelve la incertidumbre entre las partes vendedora y compradora: los fondos quedan protegidos hasta que se cumplan los plazos y condiciones pactadas, brindando certeza sobre el momento de pago, la firma de la escritura y el pago de comisiones a los intermediarios.</p>',
                 ],
             ],
 

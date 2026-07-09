@@ -25,6 +25,24 @@ $terms = get_terms([
     'order'      => 'ASC',
 ]);
 $has_terms = !empty($terms) && !is_wp_error($terms);
+
+// Custom display order — slugs not listed here fall back to alphabetical, after the listed ones.
+$video_type_order = [
+    'webinars',
+    'casos-de-empresarios',
+    'aniversarios',
+];
+
+if ($has_terms) {
+    usort($terms, function ($a, $b) use ($video_type_order) {
+        $posA = array_search($a->slug, $video_type_order, true);
+        $posB = array_search($b->slug, $video_type_order, true);
+        $posA = $posA === false ? PHP_INT_MAX : $posA;
+        $posB = $posB === false ? PHP_INT_MAX : $posB;
+
+        return $posA <=> $posB ?: strcmp($a->name, $b->name);
+    });
+}
 ?>
 
 <!-- ── Hero ─────────────────────────────────────────────────────────── -->
@@ -72,43 +90,44 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
             ]);
             if (empty($videos)) continue;
     ?>
-    <section class="post-grid ch-section">
-        <div class="section-container--sm">
-            <h2 class="section-title"><?php echo esc_html($term->name); ?></h2>
-            <div class="post-grid__grid">
-                <?php foreach ($videos as $video) :
-                    $raw_url   = (string) get_post_meta($video->ID, '_taw_video_url', true);
-                    $embed_url = multimedia_get_embed_url($raw_url);
-                    $thumb_id  = (int) get_post_meta($video->ID, '_taw_video_thumbnail', true);
-                    $yt_thumb  = TAW\Blocks\Sections\PostGrid\PostGrid::youtubeThumbUrl($raw_url);
-                ?>
-                <button
-                    class="post-card post-card--video"
-                    type="button"
-                    x-on:click="openVideo('<?php echo esc_js($embed_url); ?>')"
-                    aria-label="<?php echo esc_attr(sprintf(__('Ver video: %s', 'taw-theme'), $video->post_title)); ?>"
-                >
-                    <div class="post-card__image">
-                        <?php if ($thumb_id) :
-                            echo Image::render($thumb_id, 'large', esc_attr($video->post_title), ['class' => 'post-card__thumb']);
-                        elseif ($yt_thumb) : ?>
-                            <img src="<?php echo esc_url($yt_thumb); ?>" alt="<?php echo esc_attr($video->post_title); ?>" class="post-card__thumb" loading="lazy">
-                        <?php else : ?>
-                            <div class="post-card__thumb-placeholder"></div>
-                        <?php endif; ?>
-                        <div class="post-card__play" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
+            <section class="post-grid ch-section">
+                <div class="section-container--sm">
+                    <h2 class="section-title"><?php echo esc_html($term->name); ?></h2>
+                    <div class="post-grid__grid">
+                        <?php foreach ($videos as $video) :
+                            $raw_url   = (string) get_post_meta($video->ID, '_taw_video_url', true);
+                            $embed_url = multimedia_get_embed_url($raw_url);
+                            $thumb_id  = (int) get_post_meta($video->ID, '_taw_video_thumbnail', true);
+                            $yt_thumb  = TAW\Blocks\Sections\PostGrid\PostGrid::youtubeThumbUrl($raw_url);
+                        ?>
+                            <button
+                                class="post-card post-card--video"
+                                type="button"
+                                x-on:click="openVideo('<?php echo esc_js($embed_url); ?>')"
+                                aria-label="<?php echo esc_attr(sprintf(__('Ver video: %s', 'taw-theme'), $video->post_title)); ?>">
+                                <div class="post-card__image">
+                                    <?php if ($thumb_id) :
+                                        echo Image::render($thumb_id, 'large', esc_attr($video->post_title), ['class' => 'post-card__thumb']);
+                                    elseif ($yt_thumb) : ?>
+                                        <img src="<?php echo esc_url($yt_thumb); ?>" alt="<?php echo esc_attr($video->post_title); ?>" class="post-card__thumb" loading="lazy">
+                                    <?php else : ?>
+                                        <div class="post-card__thumb-placeholder"></div>
+                                    <?php endif; ?>
+                                    <div class="post-card__play" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="post-card__body">
+                                    <h3 class="post-card__title"><?php echo esc_html($video->post_title); ?></h3>
+                                </div>
+                            </button>
+                        <?php endforeach; ?>
                     </div>
-                    <div class="post-card__body">
-                        <h3 class="post-card__title"><?php echo esc_html($video->post_title); ?></h3>
-                    </div>
-                </button>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
-    <?php
+                </div>
+            </section>
+        <?php
         endforeach;
 
     else :
@@ -121,43 +140,45 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
             'order'          => 'DESC',
         ]);
         if (!empty($all_videos)) :
-    ?>
-    <section class="post-grid ch-section">
-        <div class="section-container--sm">
-            <div class="post-grid__grid">
-                <?php foreach ($all_videos as $video) :
-                    $raw_url   = (string) get_post_meta($video->ID, '_taw_video_url', true);
-                    $embed_url = multimedia_get_embed_url($raw_url);
-                    $thumb_id  = (int) get_post_meta($video->ID, '_taw_video_thumbnail', true);
-                    $yt_thumb  = TAW\Blocks\Sections\PostGrid\PostGrid::youtubeThumbUrl($raw_url);
-                ?>
-                <button
-                    class="post-card post-card--video"
-                    type="button"
-                    x-on:click="openVideo('<?php echo esc_js($embed_url); ?>')"
-                    aria-label="<?php echo esc_attr(sprintf(__('Ver video: %s', 'taw-theme'), $video->post_title)); ?>"
-                >
-                    <div class="post-card__image">
-                        <?php if ($thumb_id) :
-                            echo Image::render($thumb_id, 'large', esc_attr($video->post_title), ['class' => 'post-card__thumb']);
-                        elseif ($yt_thumb) : ?>
-                            <img src="<?php echo esc_url($yt_thumb); ?>" alt="<?php echo esc_attr($video->post_title); ?>" class="post-card__thumb" loading="lazy">
-                        <?php else : ?>
-                            <div class="post-card__thumb-placeholder"></div>
-                        <?php endif; ?>
-                        <div class="post-card__play" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
+        ?>
+            <section class="post-grid ch-section">
+                <div class="section-container--sm">
+                    <div class="post-grid__grid">
+                        <?php foreach ($all_videos as $video) :
+                            $raw_url   = (string) get_post_meta($video->ID, '_taw_video_url', true);
+                            $embed_url = multimedia_get_embed_url($raw_url);
+                            $thumb_id  = (int) get_post_meta($video->ID, '_taw_video_thumbnail', true);
+                            $yt_thumb  = TAW\Blocks\Sections\PostGrid\PostGrid::youtubeThumbUrl($raw_url);
+                        ?>
+                            <button
+                                class="post-card post-card--video"
+                                type="button"
+                                x-on:click="openVideo('<?php echo esc_js($embed_url); ?>')"
+                                aria-label="<?php echo esc_attr(sprintf(__('Ver video: %s', 'taw-theme'), $video->post_title)); ?>">
+                                <div class="post-card__image">
+                                    <?php if ($thumb_id) :
+                                        echo Image::render($thumb_id, 'large', esc_attr($video->post_title), ['class' => 'post-card__thumb']);
+                                    elseif ($yt_thumb) : ?>
+                                        <img src="<?php echo esc_url($yt_thumb); ?>" alt="<?php echo esc_attr($video->post_title); ?>" class="post-card__thumb" loading="lazy">
+                                    <?php else : ?>
+                                        <div class="post-card__thumb-placeholder"></div>
+                                    <?php endif; ?>
+                                    <div class="post-card__play" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="post-card__body">
+                                    <h3 class="post-card__title"><?php echo esc_html($video->post_title); ?></h3>
+                                </div>
+                            </button>
+                        <?php endforeach; ?>
                     </div>
-                    <div class="post-card__body">
-                        <h3 class="post-card__title"><?php echo esc_html($video->post_title); ?></h3>
-                    </div>
-                </button>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
-    <?php endif; endif; ?>
+                </div>
+            </section>
+    <?php endif;
+    endif; ?>
 
     <!-- Video Modal -->
     <div
@@ -167,18 +188,16 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
         x-on:keydown.escape.window="close()"
         role="dialog"
         aria-modal="true"
-        aria-label="<?php esc_attr_e('Reproductor de video', 'taw-theme'); ?>"
-    >
+        aria-label="<?php esc_attr_e('Reproductor de video', 'taw-theme'); ?>">
         <div class="video-modal__backdrop" x-on:click="close()" aria-hidden="true"></div>
         <div class="video-modal__container">
             <button
                 class="video-modal__close"
                 type="button"
                 x-on:click="close()"
-                aria-label="<?php esc_attr_e('Cerrar video', 'taw-theme'); ?>"
-            >
+                aria-label="<?php esc_attr_e('Cerrar video', 'taw-theme'); ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-                    <path d="M18 6 6 18M6 6l12 12"/>
+                    <path d="M18 6 6 18M6 6l12 12" />
                 </svg>
             </button>
             <div class="video-modal__player">
@@ -188,8 +207,7 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
                         frameborder="0"
                         allowfullscreen
                         allow="autoplay; encrypted-media; picture-in-picture"
-                        title="<?php esc_attr_e('Video', 'taw-theme'); ?>"
-                    ></iframe>
+                        title="<?php esc_attr_e('Video', 'taw-theme'); ?>"></iframe>
                 </template>
             </div>
         </div>

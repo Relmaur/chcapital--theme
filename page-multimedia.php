@@ -33,10 +33,10 @@ get_header();
 
 <?php BlockRegistry::render('post_grid--videos'); ?>
 
-<?php BlockRegistry::render('post_grid--noticias'); ?>
+<?php BlockRegistry::render('post_grid--guias'); ?>
 
 <?php BlockRegistry::render('post_grid--galerias'); ?>
 
-<?php BlockRegistry::render('post_grid--guias'); ?>
+<?php BlockRegistry::render('post_grid--noticias'); ?>
 
 <?php get_footer(); ?>

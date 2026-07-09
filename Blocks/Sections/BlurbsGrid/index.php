@@ -54,9 +54,9 @@ $lb->enqueueAssets();
 
                 <?php if ($item['title'] || $item['subtitle']) : ?>
                 <div class="blurb-card__body">
-                    <?php if ($item['title']) : ?>
+                    <?php /* if ($item['title']) : ?>
                         <h3 class="blurb-card__title"><?php echo esc_html($item['title']); ?></h3>
-                    <?php endif; ?>
+                    <?php endif; */ ?>
                     <?php if ($item['subtitle']) : ?>
                         <p class="blurb-card__subtitle"><?php echo esc_html($item['subtitle']); ?></p>
                     <?php endif; ?>

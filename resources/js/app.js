@@ -48,8 +48,14 @@ const swup = new Swup({
         // previously-registered Alpine components from disappearing.
         new SwupHeadPlugin({ persistAssets: true }),
 
-        // Scrolls to the top of the page after every navigation.
-        new SwupScrollPlugin({ offset: 0, animateScroll: false }),
+        // Scrolls to the top of the page after every navigation. Cross-page
+        // links that carry a hash (e.g. /escrow/#contact-cta from another
+        // page) animate smoothly; plain top-of-page navigation still snaps
+        // instantly so regular page changes don't feel sluggish.
+        new SwupScrollPlugin({
+            offset: 0,
+            animateScroll: { betweenPages: false, samePageWithHash: true, samePage: true },
+        }),
 
         // Preloads the target page on link hover/focus — makes the swap feel
         // near-instant on fast connections.
@@ -429,13 +435,31 @@ swup.hooks.on('page:view', () => {
 // ── 10. Smooth scroll for anchor links ───────────────────────────────────────
 //
 // Delegated to the document so it works after every Swup swap without
-// re-registering per-element listeners.
+// re-registering per-element listeners. Matches both bare "#id" hrefs and
+// full-path links that resolve to the current page (e.g. "/escrow/#contact-cta"
+// typed into a CTA button field) — ignoreVisit above already keeps Swup from
+// intercepting either form, so this is what actually performs the scroll.
 
 document.addEventListener('click', (e) => {
-    const link = e.target.closest('a[href^="#"]');
+    const link = e.target.closest('a[href]');
     if (!link) return;
+
+    const href = link.getAttribute('href');
+    if (!href || href === '#') return;
+
+    let url;
+    try {
+        url = new URL(href, window.location.href);
+    } catch {
+        return;
+    }
+
+    const samePath = url.pathname.replace(/\/$/, '') === window.location.pathname.replace(/\/$/, '');
+    if (!samePath || !url.hash) return;
+
+    const target = document.getElementById(decodeURIComponent(url.hash.substring(1)));
+    if (!target) return;
+
     e.preventDefault();
-    const targetId = link.getAttribute('href').substring(1);
-    const target   = document.getElementById(targetId);
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });

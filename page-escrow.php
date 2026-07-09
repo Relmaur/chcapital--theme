@@ -12,9 +12,10 @@ use TAW\Core\Block\BlockRegistry;
 BlockRegistry::queue(
     'hero_standard',
     'content_block--escrow_intro',
+    'cta',
     'content_block--escrow_benefits',
     'content_block--escrow_history',
-    'content_block--escrow_realestate',
+    'image_showcase--escrow_realestate',
     'content_block--escrow_contract',
     'faqs',
     'contact_cta'
@@ -27,13 +28,15 @@ get_header();
 
 <?php BlockRegistry::render('content_block--escrow_intro'); ?>
 
+<?php BlockRegistry::render('cta'); ?>
+
 <?php BlockRegistry::render('content_block--escrow_benefits'); ?>
 
 <?php BlockRegistry::render('content_block--escrow_history'); ?>
 
-<?php BlockRegistry::render('content_block--escrow_realestate'); ?>
+<?php BlockRegistry::render('image_showcase--escrow_realestate'); ?>
 
-<?php BlockRegistry::render('content_block--escrow_contract'); ?>
+<?php // BlockRegistry::render('content_block--escrow_contract'); ?>
 
 <?php BlockRegistry::render('faqs'); ?>
 
