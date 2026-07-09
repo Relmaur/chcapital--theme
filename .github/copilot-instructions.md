@@ -8,9 +8,11 @@ A classic WordPress theme with a custom block system, Vite v7, Tailwind v4, Alpi
 
 ## Core Package
 
-Framework internals (`TAW\Core`, `TAW\Helpers`, `TAW\CLI`) live in the **`taw/core` composer package**, installed at `vendor/taw/core/src/`. The theme's own `inc/` only contains `options.php` and Metabox view templates. **Do not look for `TAW\Core` classes in `inc/`**, and do not edit anything inside `vendor/`.
+Framework internals (`TAW\Core`, `TAW\Helpers`, `TAW\CLI`) live in the **`taw/core` composer package** (https://github.com/Relmaur/taw-core), installed at `vendor/taw/core/src/`. The theme's own `inc/` only contains `options.php` and Metabox view templates. **Do not look for `TAW\Core` classes in `inc/`**, and do not edit anything inside `vendor/`.
 
-To update the framework: `composer update taw/core`.
+To update the framework: `composer update taw/core`. To update this theme's own shared scaffold (separate repo, https://github.com/Relmaur/taw-theme) from upstream without touching site-specific content: the `update-theme` skill.
+
+For authoritative/current API detail, prefer the `mcp__taw-docs__search_documentation` MCP tool (if available) over guessing.
 
 ## Key Architecture
 
@@ -33,6 +35,10 @@ Or manually create `Blocks/{Name}/{Name}.php` + `Blocks/{Name}/index.php` — no
 `OptionsPage` (from `taw/core`) stores site-wide settings in `wp_options` with the same field config as Metabox.
 - Configured in `inc/options.php`
 - Retrieve: `OptionsPage::get('field_id')`, `OptionsPage::get_image_url('field_id', 'size')`
+
+## Metabox Order
+
+`MetaboxOrder::lockFromTemplate()` — call once in `functions.php` after `Theme::boot()` — locks each page's metabox order to its template's `BlockRegistry::render()` sequence and disables drag-and-drop reordering. Use `MetaboxOrder::lock('page', ['id1', 'id2'])` for an explicit order.
 
 ## Navigation Menus
 
