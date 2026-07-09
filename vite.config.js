@@ -44,7 +44,7 @@ export default defineConfig(({ command }) => ({
     ],
     build: {
         outDir: 'public/build',
-        emptyDirOnBuild: true,
+        emptyOutDir: true,
         manifest: 'manifest.json',
         rollupOptions: {
             input: [
@@ -57,6 +57,14 @@ export default defineConfig(({ command }) => ({
     server: {
         host: 'localhost',
         port: 5173,
+        // Deliberately NOT auto-picking a free port on conflict. `origin` below
+        // is hardcoded to port 5173 (required for correct absolute font URLs —
+        // see the comment on `origin`); if Vite silently moved to a different
+        // port, that value would go stale with no error, and only fonts/some
+        // absolute-URL assets would quietly 404. Failing loudly here is safer:
+        // if this fails to start, something else has port 5173 — find it with
+        // `lsof -i :5173` and stop it (or reconfigure that other project),
+        // rather than just letting two dev servers collide.
         strictPort: true,
         cors: true,
         // Tell Vite to embed full absolute URLs for assets in injected CSS.
