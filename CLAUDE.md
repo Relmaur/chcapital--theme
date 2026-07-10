@@ -21,6 +21,7 @@ composer dump-autoload   # Rebuild classmap after new block classes
 php bin/taw make:block Name --type=meta --with-style  # Scaffold a new block
 php bin/taw export:block Name                         # Export block as ZIP
 php bin/taw import:block path/to/Block.zip            # Import block from ZIP
+composer run phpstan                                   # Static analysis (Blocks/, inc/) — also runs in CI
 ```
 
 ## Core Architecture

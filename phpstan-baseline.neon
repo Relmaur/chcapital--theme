@@ -1,0 +1,43 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Right side of && is always true\.$#'
+			identifier: booleanAnd.rightAlwaysTrue
+			count: 1
+			path: Blocks/Atoms/LightboxImage/index.php
+
+		-
+			message: '#^Variable \$classes in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: Blocks/Atoms/Link/index.php
+
+		-
+			message: '#^Variable \$icon_color on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 5
+			path: Blocks/Molecules/SocialMedia/index.php
+
+		-
+			message: '#^Variable \$prompt might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: Blocks/Molecules/SummarizeWithAI/index.php
+
+		-
+			message: '#^Variable \$bg on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: Blocks/Sections/ContentBlock/index.php
+
+		-
+			message: '#^Variable \$image_position on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: Blocks/Sections/ContentBlock/index.php
+
+		-
+			message: '#^Variable \$layout on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: Blocks/Sections/ContentBlock/index.php
