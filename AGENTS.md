@@ -973,6 +973,44 @@ Import a block from a ZIP archive exported by `export:block`.
 php bin/taw import:block path/to/Hero.zip
 ```
 
+### `inspect`
+
+Live introspection of the *current* site state — the registered blocks and their actual metabox field schemas, registered forms, the installed `taw/core` version, and whether `MetaboxOrder` is locked. Boots WordPress (needs `after_setup_theme`/`init` to have fired for the registries to be populated).
+
+```bash
+php bin/taw inspect          # human-readable summary (table output)
+php bin/taw inspect --json   # machine-readable, for AI agents / scripts
+```
+
+Prefer this over `grep`-ing `Blocks/*/*.php` by hand to answer "what blocks/fields/forms actually exist right now" — it reports live registry state, not static source.
+
+### `fields:get` / `fields:set`
+
+Read or write a single Metabox/OptionsPage field's value directly, without going through the wp-admin UI. Same read/write primitive `VisualEditorEndpoint` uses for its REST-driven saves — the field's type is resolved from the live `Metabox` registry, then dispatched to the matching type-aware getter/sanitizer. A repeater is read back as a decoded array and written with the exact sanitization a real admin form save would apply.
+
+```bash
+php bin/taw fields:get 42 hero_heading --json
+php bin/taw fields:get 42 team_members --json                        # repeater comes back as a decoded array
+
+php bin/taw fields:set 42 hero_heading "Welcome"
+php bin/taw fields:set 42 team_members --file=/tmp/team.json         # --file avoids shell JSON-quoting for repeater/array-shaped values
+php bin/taw fields:set 42 hero_heading "Welcome" --dry-run           # preview the sanitized result without writing
+```
+
+For a group sub-field, use the compound ID exactly as `inspect` reports it. **What this doesn't do:** it doesn't upload media (an `image`/`files` field value must already be a valid attachment ID), and it doesn't check whether a field's owning block is actually attached to the target post's post type or template.
+
+### Content-writing safety model
+
+`fields:set` itself has no interactive confirmation — it's a raw primitive. **All risk judgment belongs to whichever skill or agent is calling it.** Any skill that writes content via `fields:set` (`populate-content`, and the population step in `make-metablock`/`figma-to-block`/`build-page`) follows this model:
+
+1. **Always `--dry-run` first.** Never call `fields:set` for real without having already seen the sanitized preview.
+2. **Always confirm before overwriting a non-empty existing value.** Read the current value with `fields:get` first; if non-empty, show old vs. new and get explicit confirmation.
+3. **Always confirm before writing to a `publish`-status post**, regardless of whether the field is currently empty.
+4. **Batch operations get one confirmation for the whole plan, not one per field.** Show every post/field/value that will change before writing any of them.
+5. **Flag raw-HTML-permitting fields specifically** (`wysiwyg`, or `'sanitize' => 'code'`) when the source content comes from outside this conversation — `wp_kses_post()` is deliberately permissive, so confirm the content is trusted first.
+6. **Never touches core post data.** `fields:set` only ever writes Metabox/OptionsPage meta — never `post_title`, `post_content`, `post_status`.
+7. **No wildcard/glob mass-edits.** Every post ID and field a batch operation will touch must be enumerated and shown to the user up front.
+
 ---
 
 ## Image Helper
