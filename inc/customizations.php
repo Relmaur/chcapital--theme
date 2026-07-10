@@ -71,9 +71,12 @@ add_action('after_setup_theme', function () {
     ]);
 });
 
-add_action('init', function () {
-    load_theme_textdomain('taw-theme', get_template_directory() . '/languages');
-});
+// Textdomain loading is handled by Theme::bootstrapFullSite() itself, on an
+// earlier after_setup_theme priority than the callback above — don't add
+// load_theme_textdomain() here, it would just double-load. It used to be
+// wired to 'init' here, which ran even later than register_nav_menus()'
+// __() calls above and reliably tripped WordPress 6.7+'s
+// _load_textdomain_just_in_time doing_it_wrong notice on every request.
 
 // add_action('wp_nav_menu_item_custom_fields', function($item_id) {
 //     error_log('wp_nav_menu_item_custom_fields fired for item: ' . $item_id);
