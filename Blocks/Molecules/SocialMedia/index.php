@@ -5,7 +5,7 @@
  *
  * @var array    $social_media
  * @var string[] $only          Optional. Limit to these keys, e.g. ['facebook', 'twitter'].
- * @var string $icon_color      Optional. Tailwind color class for icons, e.g. 'text-primary' or 'text-gray-500'.
+ * @var string|null $icon_color Optional. Tailwind color class for icons, e.g. 'text-primary' or 'text-gray-500'.
  */
 
 if (!empty($only)) {

@@ -12,10 +12,10 @@
  * @var string $subheading
  * @var string $content        HTML from wysiwyg
  * @var string|null $content_disclaimer Optional small-print text below content (e.g. for disclaimers)
- * @var string $layout         'single' | 'two_columns'
+ * @var string|null $layout         'single' | 'two_columns'
  * @var int    $image_id       Attachment ID (two_columns only; 0 = none)
- * @var string $image_position 'left' | 'right' (two_columns only)
- * @var string $bg             Optional CSS modifier class (e.g. 'bg-lightgray')
+ * @var string|null $image_position 'left' | 'right' (two_columns only)
+ * @var string|null $bg             Optional CSS modifier class (e.g. 'bg-lightgray')
  */
 
 use TAW\Helpers\Image;

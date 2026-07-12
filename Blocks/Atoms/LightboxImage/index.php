@@ -19,7 +19,8 @@ use TAW\Helpers\Image;
 if (!$image_id && !$full_url) return;
 
 // Resolve full-size data if not pre-supplied (avoids extra DB hits when parent already has it)
-if (empty($full_url) && $image_id) {
+// $image_id is guaranteed truthy here: the line-19 guard already ensures $image_id or $full_url is set.
+if (empty($full_url)) {
     $full_src    = wp_get_attachment_image_src($image_id, 'full') ?: [];
     $full_url    = $full_src[0] ?? '';
     $full_width  = (int) ($full_src[1] ?? 0);

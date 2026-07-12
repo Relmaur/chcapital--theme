@@ -3,7 +3,8 @@
 /**
  * SummarizeWithAI Block Template
  *
- * @var string $text
+ * @var string $article_url
+ * @var string $prompt
  */
 
 $article_url   = isset($article_url) ? esc_url($article_url) : '';

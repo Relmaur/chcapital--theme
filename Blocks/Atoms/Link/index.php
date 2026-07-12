@@ -12,7 +12,7 @@
 
 $icon = isset($icon) && !empty($icon) ? $icon : null;
 $blurb_background = isset($blurb_background) && !empty($blurb_background) ? $blurb_background : null;
-$classes = isset($classes) && !empty($classes) ? $classes : '';
+$classes = !empty($classes) ? $classes : '';
 
 ?>
 
