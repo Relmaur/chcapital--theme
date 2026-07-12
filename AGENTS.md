@@ -8,7 +8,7 @@
 ## Source of Truth
 
 **Canonical repos:**
-- **`taw-theme`** (this scaffold): https://github.com/Relmaur/taw-theme — every real client site is a divergent instance of this repo. Synced into a client site via the `update-theme` skill (`git merge`, never touches client-built content).
+- **`taw-theme`** (this scaffold): https://github.com/Relmaur/taw-theme — every real client site is a divergent instance of this repo. Synced into a client site via the `update-theme` skill (direct file copy of a small delimited set of framework-owned paths — no git merge, no shared history needed — see § "Starting a New Client Project" and § "The `functions.php` Bootstrap" below).
 - **`taw/core`** (the framework package, installed at `vendor/taw/core/`): https://github.com/Relmaur/taw-core#readme — this is the authoritative source for all framework internals: Metabox field types and options, ViteLoader API, Visual Editor, Forms, and more. Always trust it over any conflicting information in this file. Synced via `composer update taw/core`, independently of `taw-theme` — these are two separate repos with two separate update paths, don't conflate them.
 
 **Live documentation lookup — prefer the MCP tool over fetching a URL by hand:** if the `mcp__taw-docs__search_documentation` tool is available, use it first for any framework API question (hybrid semantic + keyword search over the current docs). It returns the up-to-date indexed content directly rather than requiring a URL guess. Fall back to `WebFetch` on the URLs below only if the MCP tool isn't available in the current environment.
@@ -31,6 +31,62 @@ Official docs live at **https://taw.mlizardo.com/**. Fetch the relevant page whe
 
 ---
 
+## Starting a New Client Project
+
+**Shared git history with `taw-theme` is no longer required.** Earlier versions of this doc required `composer create-project --keep-vcs` or a full `git clone` specifically because `update-theme` used to sync via `git merge`, which needs a common ancestor commit. As of `taw/core` v1.16.63 (the `functions.php`/`inc/` split — see § "The `functions.php` Bootstrap" below) and the corresponding `update-theme` rewrite, that's no longer how updates work: the skill copies a small, precisely delimited set of framework-owned paths directly from a fresh checkout of `taw-theme`, regardless of this project's own git history. A brand-new project can `git init` with a single clean commit and `update-theme` will still work, forever.
+
+Simplest setup — just get the files, start your own history:
+
+```bash
+composer create-project taw/theme <client-name> --repository='{"type":"vcs","url":"https://github.com/Relmaur/taw-theme"}'
+cd <client-name>
+git init
+git add -A
+git commit -m "Initial commit"
+git remote add origin <client-repo-url>
+git push -u origin main
+```
+
+(`--keep-vcs` is no longer necessary — omitting it is fine, and gives the cleaner single-commit history most people actually want.) A plain `git clone` still works too if you'd rather keep `taw-theme`'s full history for reference; it's just no longer *required* for anything.
+
+```bash
+composer install
+npm install
+npm run dev
+```
+
+Activate the theme in WP admin. The `.claude/skills/` are already in the repo — an agent can start scaffolding blocks/pages immediately.
+
+**Framework-drift detection is already wired up, from the first commit.** `.github/workflows/framework-sync.yml` ships as part of the canonical `taw-theme` repo itself (it's Tier 1), so `composer create-project` gives you a project that self-checks for `taw/core` and scaffold updates on a weekly schedule from day one — there's no separate setup step for this on a brand-new project. It still needs one manual GitHub repo setting enabled, plus a handful of genuine per-project decisions (Turnstile, email, CSS Studio, Visual Editor) that don't have safe defaults — run the **`project-init`** skill right after the first push to work through all of it as an explicit checklist rather than discovering gaps later. See § "Automated framework-drift detection" below for what the workflow itself does.
+
+(A project created *before* this shipped won't have `framework-sync.yml` yet — run the `update-theme` skill once to pick it up, same as any other Tier 1 scaffold update, then `project-init`.)
+
+---
+
+## The `functions.php` Bootstrap
+
+`functions.php` is 100% framework-owned:
+
+```php
+<?php
+
+require_once get_template_directory() . '/vendor/autoload.php';
+
+TAW\Core\Theme\Theme::bootstrapFullSite(get_template_directory());
+```
+
+That's the whole file. Never hand-edit it — `update-theme` overwrites it unconditionally, no diff, no confirmation, because nothing site-specific can live there by construction. `bootstrapFullSite()` (in `taw/core`) does everything that used to be spelled out line-by-line in every theme's `functions.php`: it calls `Theme::boot()`, locks metabox order via `MetaboxOrder::lockFromTemplate()`, wires the CSS Studio dev-mode config injection, and auto-loads three theme-owned files **if they exist** — none of which `update-theme` ever touches:
+
+| File | Purpose |
+|---|---|
+| `inc/options.php` | `OptionsPage` field configuration (pre-existing convention) |
+| `inc/performance.php` | Returns the config array passed to `Theme::performance()` |
+| `inc/customizations.php` | Theme supports, `register_nav_menus()`, textdomain loading, `VisualEditor::enable()`, `MetaboxOrder::lock()` for an explicit order, `Svg::register()`, `MailTester`, or any other site-specific hook |
+
+Any code that used to go directly in `functions.php` — theme supports, nav menu locations, `Svg::register()`, an explicit `MetaboxOrder::lock()` call, anything wrapped in `add_action(...)` — goes in `inc/customizations.php` instead. This is what makes `update-theme` a plain file copy instead of a merge: the boundary between "framework" and "this client's site" is a fact about which file something is in, not something that has to be computed from a diff.
+
+---
+
 ## Quick Orientation
 
 | Path | Purpose |
@@ -43,22 +99,24 @@ Official docs live at **https://taw.mlizardo.com/**. Fetch the relevant page whe
 | `vendor/taw/core/src/Core/Rest/` | REST API endpoints (`SearchEndpoints`, `VisualEditorEndpoint`) |
 | `vendor/taw/core/src/Core/Form/` | Frontend form system (`Form`, `SubmissionsHandler`) |
 | `vendor/taw/core/src/Core/Mail/` | Email system (`Mailer`, `MailTemplate`, `MailTester`) |
-| `vendor/taw/core/src/Core/Editor/` | Visual Editor engine (⚠️ WIP) |
+| `vendor/taw/core/src/Core/Editor/` | Visual Editor engine — inline frontend editing for authenticated users |
 | `vendor/taw/core/src/Helpers/` | Utility helpers (`Framework`, `Image`, `Svg`, `Dump`, `Editor`) |
-| `vendor/taw/core/src/CLI/` | Symfony Console commands (`make:block`, `export:block`, `import:block`) |
-| `vendor/taw/core/src/Support/` | `utilities.php`, `performance.php` — autoloaded by composer |
+| `vendor/taw/core/src/CLI/` | Symfony Console commands (`make:block`, `export:block`, `import:block`, `inspect`, `fields:get`/`fields:set`, `sync`) |
+| `vendor/taw/core/src/Support/` | `ViteLoader.php` — OOP Vite asset pipeline; `utilities.php`, `performance.php` — autoloaded by composer |
 | `Blocks/` | Dev block collection — one folder per block, auto-discovered |
 | `Blocks/Menu/` | Boilerplate navigation block — two-row header with Alpine.js live-search overlay |
-| `inc/options.php` | Theme-level options page configuration |
+| `inc/options.php` | OptionsPage field configuration — theme-owned, never touched by updates |
+| `inc/performance.php` | Returns the config array passed to `Theme::performance()` — theme-owned, never touched by updates |
+| `inc/customizations.php` | Theme supports, nav menu registration, textdomain, any other site-specific hooks — theme-owned, never touched by updates |
 | `resources/js/app.js` | Alpine.js + global JS — imports Tailwind CSS and custom SCSS |
 | `resources/css/app.css` | Tailwind v4 directives (`@import "tailwindcss"`) — imported by `app.js` |
 | `resources/scss/app.scss` | Global custom SCSS (fonts, overrides) — imported by `app.js` |
 | `resources/scss/critical.scss` | Above-the-fold CSS — compiled and inlined in `<head>` |
 | `resources/scss/_fonts.scss` | `@font-face` declarations for self-hosted fonts |
 | `resources/fonts/` | Self-hosted WOFF2 font files |
-| `functions.php` | Developer customisations — theme supports, nav menus, performance config. Calls `TAW\Core\Theme::boot()`. |
+| `functions.php` | **100% framework-owned** — two lines: require the autoloader, call `TAW\Core\Theme\Theme::bootstrapFullSite(get_template_directory())`. Never hand-edit; blindly overwritten by `update-theme`. |
 
-> **Important:** `TAW\Core`, `TAW\Helpers`, and `TAW\CLI` classes live inside the `taw/core` composer package (`vendor/taw/core/src/`), **not** in `inc/`. The theme's `inc/` only holds `options.php` and any Metabox view templates. Do not edit files inside `vendor/`.
+> **Important:** `TAW\Core`, `TAW\Helpers`, and `TAW\CLI` classes live inside the `taw/core` composer package (`vendor/taw/core/src/`), **not** in `inc/`. The theme's `inc/` holds only theme-owned config (`options.php`, `performance.php`, `customizations.php`) and Metabox view templates. Do not edit files inside `vendor/`.
 
 ---
 
@@ -301,22 +359,29 @@ A lookup table of the most common sections. Use these as the default starting po
 **Type:** MetaBlock
 **Purpose:** Section with contact info + a Form rendered inline.
 
-Block class renders a `TAW\Core\Form\Form` instance directly inside its `index.php`. No special metabox fields beyond a heading; form configuration is hardcoded in the template.
+Register the form in the block's `boot()` method; render it in `index.php` with `Form::display()`.
 
 ```php
-// Blocks/Contact/index.php
+// Blocks/Contact/Contact.php
 use TAW\Core\Form\Form;
 
-$form = new Form([
-    'id'           => 'contact',
-    'submit_label' => 'Send Message',
-    'fields' => [
-        ['id' => 'name',    'label' => 'Name',    'type' => 'text',     'required' => true, 'width' => '50'],
-        ['id' => 'email',   'label' => 'Email',   'type' => 'email',    'required' => true, 'width' => '50'],
-        ['id' => 'message', 'label' => 'Message', 'type' => 'textarea', 'required' => true],
-    ],
-]);
-$form->render();
+public static function boot(): void
+{
+    add_action('init', static function () {
+        Form::register([
+            'id'           => 'contact',
+            'submit_label' => 'Send Message',
+            'fields' => [
+                ['id' => 'name',    'label' => 'Name',    'type' => 'text',     'required' => true, 'width' => 50],
+                ['id' => 'email',   'label' => 'Email',   'type' => 'email',    'required' => true, 'width' => 50],
+                ['id' => 'message', 'label' => 'Message', 'type' => 'textarea', 'required' => true],
+            ],
+        ]);
+    });
+}
+
+// Blocks/Contact/index.php
+Form::display('contact');
 ```
 
 ### Stats / Numbers
@@ -398,7 +463,7 @@ vendor/taw/core/
 │   │   │   └── MenuItem.php         # Typed menu item with active-state helpers
 │   │   ├── Rest/
 │   │   │   ├── SearchEndpoints.php      # GET taw/v1/search-posts
-│   │   │   └── VisualEditorEndpoint.php # Visual Builder REST endpoint (⚠️ WIP)
+│   │   │   └── VisualEditorEndpoint.php # Visual Builder REST endpoint
 │   │   ├── Form/
 │   │   │   ├── Form.php             # Config-driven frontend form (CSRF, honeypot, PRG, email)
 │   │   │   └── SubmissionsHandler.php # CPT submission storage + webhook forwarding
@@ -407,7 +472,7 @@ vendor/taw/core/
 │   │   │   ├── MailTemplate.php     # MJML/HTML template compiler ({{variable}} syntax)
 │   │   │   └── MailTester.php       # Admin page: Tools → Test Emails
 │   │   └── Editor/
-│   │       └── VisualEditor.php     # Visual Builder engine (⚠️ WIP)
+│   │       └── VisualEditor.php     # Visual Builder engine — inline frontend editor
 │   ├── CLI/                         # Symfony Console commands
 │   │   ├── MakeBlockCommand.php
 │   │   ├── ExportBlockCommand.php
@@ -443,7 +508,7 @@ BaseBlock (abstract)
 | Class | Role |
 |---|---|
 | `TAW\Core\Block\BaseBlock` | Reflection-based auto-discovery of component directory, asset enqueuing (CSS/JS), template rendering via `extract()` |
-| `TAW\Core\Block\MetaBlock` | Extends BaseBlock. Registers metaboxes in constructor, provides `getData(int|false $postId)` and `render(?int $postId)` |
+| `TAW\Core\Block\MetaBlock` | Extends BaseBlock. Registers metaboxes via `registerMetaboxes()` (deferred to `init`), provides `getData(int|false $postId)` and `render(?int $postId)`. Override `static boot(): void` for early-request setup (e.g. form registration). |
 | `TAW\Core\Block\Block` | Extends BaseBlock. Defines `defaults()` for props, provides `render(array $props)` |
 | `TAW\Core\Block\BlockRegistry` | Static registry for MetaBlocks. Supports `register()`, `queue()`, `render()`, `enqueueQueuedAssets()` |
 | `TAW\Core\Block\BlockLoader` | Auto-discovers all MetaBlock classes by scanning `Blocks/*/` directories |
@@ -459,8 +524,9 @@ BaseBlock (abstract)
 | `TAW\Core\Mail\Mailer` | Fluent `wp_mail()` wrapper with HTML template support |
 | `TAW\Core\Mail\MailTemplate` | File-based email template compiler. Looks for `mails/html/{name}.html`; falls back to MJML at runtime |
 | `TAW\Core\Mail\MailTester` | Admin page under Tools → Test Emails for testing compiled templates |
-| `TAW\Core\Editor\VisualEditor` | Visual Builder engine (**WIP**) |
-| `TAW\Core\Rest\VisualEditorEndpoint` | REST endpoint for the Visual Builder (**WIP**) |
+| `TAW\Core\Editor\VisualEditor` | Frontend inline editor — **opt-in**: call `VisualEditor::enable()` in `inc/customizations.php` (must run before `Theme::boot()`; `bootstrapFullSite()` already loads `customizations.php` first). `Theme::boot()`'s internal `VisualEditor::init()` silently no-ops without it. Once enabled, toggled via the **Edit Visually** admin bar button or `?taw_visual_edit=1`. |
+| `TAW\Core\Rest\VisualEditorEndpoint` | REST endpoint: `POST /taw/v1/visual-editor/save` — persists inline edits using the same sanitization pipeline as metabox saves |
+| `TAW\Support\ViteLoader` | OOP Vite bridge — dev-server detection (`isDevServerRunning()`), manifest parsing (`getManifest()`), asset URL resolution (`assetUrl()`), module preloading, critical CSS inlining (`inlineCriticalCss()`), and additional entry-point enqueuing (`enqueueAsset()`) |
 | `TAW\Helpers\Image` | Performance-optimized `<img>` tag generator with above/below-fold attributes |
 | `TAW\Helpers\Svg` | SVG upload enablement, sanitization on upload, and inline/img rendering |
 | `TAW\Helpers\Dump` | Debug panel helper — `dump()` / `dd()` global functions, renders in `wp_footer` (WP_DEBUG only) |
@@ -491,8 +557,9 @@ BlockLoader relies on this convention for auto-discovery. Breaking it will silen
 **MetaBlock** (data-owning sections):
 - Registered in `BlockRegistry` via `BlockLoader::loadAll()`
 - Owns metaboxes → appears in WP admin editor
-- Fetches its own data from `post_meta`
+- Fetches its own data from `post_meta` via `getData(int|false $postId)` — accepts `false` on 404 pages
 - Rendered via `BlockRegistry::render('hero')`
+- Override `static boot(): void` for early-request setup (form registration, early hooks). Called during block discovery at `after_setup_theme`. Wrap `__()` calls in `add_action('init', ...)` inside it.
 
 **Block** (presentational UI components):
 - NOT registered in the registry
@@ -516,7 +583,7 @@ get_footer()         → wp_footer()
 **Template pattern:**
 ```php
 <?php
-use TAW\Core\BlockRegistry;
+use TAW\Core\Block\BlockRegistry;
 
 // 1. Queue blocks BEFORE get_header (assets land in <head>)
 BlockRegistry::queue('hero', 'stats');
@@ -547,7 +614,7 @@ declare(strict_types=1);
 
 namespace TAW\Blocks\Features;
 
-use TAW\Core\MetaBlock;
+use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;
 
 class Features extends MetaBlock
@@ -559,7 +626,7 @@ class Features extends MetaBlock
         new Metabox([
             'id'     => 'taw_features',
             'title'  => 'Features Section',
-            'screen' => 'page',
+            'screens' => ['page'],
             'fields' => [
                 [
                     'id'    => 'features_heading',
@@ -621,7 +688,7 @@ declare(strict_types=1);
 
 namespace TAW\Blocks\Card;
 
-use TAW\Core\Block;
+use TAW\Core\Block\Block;
 
 class Card extends Block
 {
@@ -652,18 +719,23 @@ Usage in any template:
 
 Provided by `taw/core` (namespace `TAW\Core\Metabox\Metabox`). Configuration-driven, supports:
 
-**Field types:** `text`, `textarea`, `wysiwyg`, `url`, `number`, `range`, `select`, `image`, `group`, `checkbox`, `color`, `repeater`, `post_select`
+**Field types:** `text`, `textarea`, `wysiwyg`, `url`, `number`, `range`, `select`, `image`, `files`, `group`, `checkbox`, `color`, `repeater`, `post_select`, `datepicker`
 
 **Features:**
+- `screens` key (array) — accepts post type slugs, page template filenames, page slugs, or mixed
 - `show_on` callback for conditional display (e.g., front page only)
 - `tabs` for grouped field organization
 - `width` property for side-by-side fields (e.g., `'width' => '50'`)
 - `sanitize` => `'code'` for raw code snippet fields
 - `group` type for nested field groups (e.g., CTA with text + URL)
-- `repeater` type for dynamic repeatable row groups
-- `post_selector` type for selecting related posts via a search-as-you-type UI (uses `taw/v1/search-posts`)
+- `repeater` type for dynamic repeatable row groups (nested repeaters supported)
+- `files` type — multi-file picker, drag-to-reorder, stores JSON array of attachment IDs
+- `post_select` type for selecting related posts via a search-as-you-type UI (uses `taw/v1/search-posts`)
 - `color` type renders a native color picker
 - `checkbox` type renders a boolean toggle
+- `datepicker` type renders a jQuery UI date picker; stored as a date string (default `YYYY-MM-DD`); supports `date_format`, `min_date`, `max_date`
+
+→ Full reference: **[taw/core README — Metabox System](https://github.com/Relmaur/taw-core#metabox-system)**
 
 **Meta key pattern:** `_taw_{field_id}` (prefix configurable, default `_taw_`)
 
@@ -681,21 +753,15 @@ Metabox::get_repeater(int $postId, string $fieldId): array // repeater → array
 
 By default WordPress lets any user drag-and-drop reorder metaboxes, saved per-user, so the same edit screen can look different for every editor. `TAW\Core\Metabox\MetaboxOrder` forces a fixed order and disables dragging.
 
-Explicit order:
+**`MetaboxOrder::lockFromTemplate()` runs automatically** — `Theme::bootstrapFullSite()` (called by `functions.php`) calls it unconditionally, nothing to add. It works via a static scan of each page's template file (never executed in wp-admin), so the edit screen's metabox order always matches the order blocks actually render in on the front end. Boxes not tied to a block on the page (e.g. core WordPress boxes) keep their relative position and render after the ordered ones.
+
+To use an **explicit** order instead of the automatic template-derived one, add this to `inc/customizations.php` (never `functions.php` — that file is framework-owned and never touched by updates):
 
 ```php
 use TAW\Core\Metabox\MetaboxOrder;
 
 MetaboxOrder::lock('page', ['hero_settings', 'video_settings', 'faq_settings']);
 ```
-
-Or derive the order automatically per-post from the page template's `BlockRegistry::render()` call sequence — call once in `functions.php`, after `Theme::boot()`:
-
-```php
-MetaboxOrder::lockFromTemplate(); // screen defaults to 'page'
-```
-
-This works via a static scan of the template file (never executed in wp-admin), so the edit screen's metabox order always matches the order blocks actually render in on the front end. Boxes not tied to a block on the page (e.g. core WordPress boxes) keep their relative position and render after the ordered ones.
 
 Template resolution mirrors WordPress's own hierarchy, not just the raw Page Attributes selection:
 
@@ -713,45 +779,93 @@ Provided by `taw/core` (namespace `TAW\Core\Form`).
 
 ### `Form`
 
-Configuration-driven frontend form. Handles CSRF protection (nonces), honeypot spam guard, field sanitization & validation, PRG redirect after success, and email delivery (plain-text fallback or MJML templates via `Mailer`).
+Configuration-driven frontend form. Handles CSRF protection (nonces), honeypot spam guard, field sanitization & validation, AJAX submission (via `admin-ajax.php`), and email delivery (plain-text fallback or MJML templates via `Mailer`).
+
+**Forms must be registered before templates load** — the AJAX handler registered inside a template doesn't exist when `admin-ajax.php` processes the submission. The correct place is the block's `boot()` method, wrapped in `add_action('init', ...)`:
 
 ```php
 use TAW\Core\Form\Form;
 
-$form = new Form([
-    'id'                   => 'contact',
-    'submit_label'         => 'Send Message',
-    'submit_loading_label' => 'Sending...',
-    'messages' => ['success' => "Thanks! We'll be in touch."],
-    'email' => [
-        'to_self'   => ['subject' => 'New contact',      'template' => 'contact-self'],
-        'to_client' => ['subject' => 'Got your message', 'template' => 'contact-client'],
-    ],
-    'fields' => [
-        ['id' => 'name',    'label' => 'Name',    'type' => 'text',     'required' => true],
-        ['id' => 'email',   'label' => 'Email',   'type' => 'email',    'required' => true],
-        ['id' => 'service', 'label' => 'Service', 'type' => 'select',
-         'options' => ['web' => 'Web Design', 'seo' => 'SEO']],
-        ['id' => 'message', 'label' => 'Message', 'type' => 'textarea', 'required' => true],
-    ],
-]);
-$form->render();
+// In your MetaBlock::boot()
+public static function boot(): void
+{
+    add_action('init', static function () {
+        Form::register([
+            'id'                   => 'contact',
+            'submit_label'         => 'Send Message',
+            'submit_loading_label' => 'Sending...',
+            'messages' => ['success' => "Thanks! We'll be in touch."],
+            'email' => [
+                'to_self'   => ['subject' => 'New contact',      'template' => 'contact-self'],
+                'to_client' => ['subject' => 'Got your message', 'template' => 'contact-client'],
+            ],
+            'fields' => [
+                ['id' => 'name',    'label' => 'Name',    'type' => 'text',     'required' => true],
+                ['id' => 'email',   'label' => 'Email',   'type' => 'email',    'required' => true],
+                ['id' => 'service', 'label' => 'Service', 'type' => 'select',
+                 'options' => ['web' => 'Web Design', 'seo' => 'SEO']],
+                ['id' => 'message', 'label' => 'Message', 'type' => 'textarea', 'required' => true],
+            ],
+        ]);
+    });
+}
 ```
 
-**Form field types:** `text`, `email`, `textarea`, `select`, and any standard HTML input type (e.g. `tel`, `date`). Fields support `required`, `placeholder`, `rows` (textarea).
+Then render in a template:
+```php
+Form::display('contact');
+```
+
+**Form field types:** `text`, `email`, `tel`, `url`, `textarea`, `select`, `checkbox`, `date`. Fields support `required`, `placeholder`, `width` (12-column grid %, e.g. `50`), `rows` (textarea), `conditions`, and validation rules (`min_length`, `max_length`, `pattern`, `min`/`max` on `number` fields — see Security below).
+
+### Form security
+
+Every form has CSRF (nonce) protection and honeypot spam filtering by default. Two more layers, both opt-in/configurable:
+
+- **Rate limiting** — on by default (5 attempts/60s per IP+form, transient-backed, no external cache). Override with `'rate_limit' => ['max' => 3, 'window' => 120]`, or disable with `'rate_limit' => false`.
+- **Cloudflare Turnstile** — opt in with `'turnstile' => true`, requires `TAW_TURNSTILE_SITE_KEY`/`TAW_TURNSTILE_SECRET_KEY` constants defined in `wp-config.php` (never as an OptionsPage field — that's REST-readable by anyone with `edit_posts`). Without keys configured, an opted-in form degrades gracefully (no widget, no check) rather than blocking submission, with a `WP_DEBUG`-only notice for developers.
+
+```php
+Form::register([
+    'id'         => 'contact',
+    'rate_limit' => ['max' => 3, 'window' => 120],
+    'turnstile'  => true,
+    'fields' => [
+        ['id' => 'name',  'label' => 'Name',  'type' => 'text', 'required' => true, 'min_length' => 2, 'max_length' => 80],
+        ['id' => 'phone', 'label' => 'Phone', 'type' => 'tel', 'pattern' => '[0-9+ ()-]{7,20}', 'pattern_message' => 'Enter a valid phone number.'],
+    ],
+]);
+```
+
+Validation rules run server-side (the authoritative check) and also render as native HTML `minlength`/`maxlength`/`pattern`/`min`/`max` attributes for client-side UX — the HTML attributes are a convenience, not a security boundary. An empty, non-required field never fails these.
+
+**Custom error messages per rule:** every rule (`required`, the built-in `email` format check, `min_length`, `max_length`, `pattern`, `min`, `max`) accepts a `{rule}_message` override — e.g. `'required_message' => 'Please tell us your name.'`, `'min_message' => 'You must be 18 or older.'` — falling back to a generic default (with the field's `label` interpolated) when not set.
+
+**Form-level default messages:** to set validation copy once for an entire form (e.g. translating every rule for a non-English site) instead of repeating a `{rule}_message` on every field, pass a top-level `'messages' => ['required' => '...', 'email' => '...', 'min_length' => '...', ...]`. Precedence: field-level `{rule}_message` > form-level `messages.{rule}` > built-in English default. Templates take the same `sprintf()` placeholders as the built-in defaults (field label as `%s`/`%1$s`, the rule's bound as `%2$d`/`%2$s`); `email` takes no placeholders.
+
+```php
+Form::register([
+    'id' => 'contact',
+    'messages' => [
+        'required'   => '%s es obligatorio.',
+        'email'      => 'Correo electrónico no válido.',
+        'min_length' => '%1$s debe tener al menos %2$d caracteres.',
+    ],
+    'fields' => [...],
+]);
+```
 
 If `email.to_self.template` and `email.to_client.template` are both set, delivery uses `Mailer` + `MailTemplate`. Otherwise falls back to a plain-text `wp_mail()`.
+
+**Multi-column layout:** Use `width` on fields (as a percentage) to control the 12-column grid span. All fields collapse to full width on mobile.
+
+**Conditional fields:** Fields support a `conditions` array (same operators as Metabox: `==`, `!=`, `>`, `<`, `>=`, `<=`, `contains`). Hidden fields are excluded from validation and submission data — enforced in both JS and on the server.
 
 ### `SubmissionsHandler`
 
 Registers a `taw_submission` CPT for viewing submissions in WP Admin. Also provides a Settings → Form Webhook page for a webhook URL + HMAC secret.
 
-```php
-// In functions.php — register once to activate submission storage
-new \TAW\Core\Form\SubmissionsHandler();
-```
-
-Submissions are saved automatically by `Form::process()` after a successful send.
+**Auto-wired by `Theme::boot()`** — no manual instantiation needed. Submissions are saved automatically after a successful send.
 
 ---
 
@@ -796,7 +910,7 @@ Use `{{variable_name}}` placeholders in templates. `all_fields` is auto-populate
 WP Admin page (Tools → Test Emails) for sending test emails against compiled templates.
 
 ```php
-// In functions.php
+// In inc/customizations.php — never functions.php, which is framework-owned
 (new \TAW\Core\Mail\MailTester())->register();
 ```
 
@@ -838,7 +952,7 @@ OptionsPage::get_image_url('company_logo', 'large'); // returns URL string
 
 **Option key pattern:** `_taw_{field_id}` (same prefix convention as Metabox)
 
-The theme's default options page is configured in `inc/options.php` and required from `functions.php`. To add a new options page, create a new file in `inc/` and require it in `functions.php`.
+The theme's default options page is configured in `inc/options.php`, auto-loaded by `Theme::bootstrapFullSite()` if the file exists — nothing to require manually. To add a *second* options page, create a new file in `inc/` and require it from `inc/customizations.php` (not `functions.php`, which only auto-loads `options.php`/`performance.php`/`customizations.php` by convention, not arbitrary extra files).
 
 ---
 
@@ -897,7 +1011,7 @@ if ($menu && $menu->hasItems()):
 | `children()` | `MenuItem[]` | Child items |
 | `classes()` | `string[]` | Custom classes (WP defaults stripped) |
 
-Menus are registered in `functions.php` via `register_nav_menus()`. The theme registers `primary` and `footer` by default — edit that array directly to add or rename locations.
+Menus are registered in `inc/customizations.php` via `register_nav_menus()` (not `functions.php`, which is framework-owned). The default scaffold registers `primary` and `footer` — edit that array directly to add or rename locations.
 
 ---
 
@@ -925,6 +1039,42 @@ Search for posts across post types. Powers the `post_selector` metabox field typ
 **Response:** Array of post objects with `id`, `title`, `post_type`, `status`, `date`, `edit_url`, `permalink`, `thumbnail`.
 
 ---
+
+## WP-CLI — live site data access
+
+`bin/taw` (below) is for framework-specific scaffolding — blocks, live registry introspection. It knows nothing about actual site *content*. For that, use WordPress's own official CLI, **WP-CLI** (the `wp` command) — it's not bundled by this theme (it's a host-level tool, present on virtually every real WordPress host and every local dev environment: Local, Herd, DDEV), but it's the single highest-leverage tool an agent has for reading or mutating live site data directly: posts, options, users, terms, transients, arbitrary PHP via `wp eval`/`wp eval-file`, even an interactive `wp shell`.
+
+```bash
+wp post list --post_type=page --fields=ID,post_title,post_status
+wp option get siteurl
+wp option get _taw_company_phone   # OptionsPage-backed option, prefix per Metabox field convention
+wp user list --fields=ID,user_login,roles
+wp eval 'echo home_url();'
+wp db query "SELECT COUNT(*) FROM wp_posts WHERE post_status='publish'"
+```
+
+> **Warning — Local by Flywheel connection quirk:** `wp-config.php`'s `DB_HOST` is `localhost`, but Local runs a per-site MySQL instance on its own Unix socket, not the system default. A bare `wp` command fails with `Error establishing a database connection` even though the site works fine in the browser. Fix by pointing PHP's own socket setting at Local's actual socket, not `wp-config.php`:
+>
+> ```bash
+> # Find the running mysqld's socket path for this site — Local names run
+> # dirs by an opaque site ID, not the site's human name, so verify which
+> # one is the right site if more than one Local site is running:
+> ps aux | grep mysqld
+> # → .../Local/run/<SITE_ID>/conf/mysql/my.cnf
+>
+> SOCK="$HOME/Library/Application Support/Local/run/<SITE_ID>/mysql/mysqld.sock"
+> php -d mysqli.default_socket="$SOCK" -d pdo_mysql.default_socket="$SOCK" \
+>   "$(which wp)" post list --path=/path/to/site/app/public
+> ```
+>
+> If more than one Local site is running and it's unclear which socket belongs to which, query each candidate directly: `mysql --socket="$SOCK" -uroot -proot -e "SELECT option_value FROM wp_options WHERE option_name='siteurl';" local`.
+
+Two things worth knowing before relying on this for troubleshooting:
+
+- **`ViteLoader::isDevServerRunning()` is safe under WP-CLI** — the actual dev-server probe only runs on `wp_enqueue_scripts`, which doesn't fire for most `wp` commands (`option get`, `post list`, `eval`, etc.), so there's no wasted network probing per command.
+- **`Theme::bootstrapFullSite()` defers textdomain loading and `inc/options.php`'s require to `after_setup_theme`** (fixed in `taw/core` v1.16.67) specifically because WordPress 6.7+ added a `WP_DEBUG`-only notice for translation calls that fire too early — this is exactly the kind of runtime-ordering bug that's invisible to PHPStan (it's about hook firing order, not types) and was only caught by actually running the site through `wp eval` and reading the debug output.
+
+For general WP-CLI operations beyond this framework's scope, see the `wp-wpcli-and-ops` skill in [WordPress/agent-skills](https://github.com/WordPress/agent-skills).
 
 ## CLI Tools
 
@@ -954,6 +1104,7 @@ php bin/taw make:block Hero --type=meta --force
 | `--with-style` | Create a `style.scss` stub |
 | `--with-script` | Create a `script.js` stub |
 | `--force` / `-f` | Overwrite if block already exists |
+| `--group=path` | Place the block inside a subgroup, e.g. `--group=sections` → `Blocks/sections/Name/`; nested: `--group=ui/cards` → `Blocks/ui/cards/Name/` |
 
 After scaffolding, run `composer dump-autoload` to register the new class.
 
@@ -975,18 +1126,18 @@ php bin/taw import:block path/to/Hero.zip
 
 ### `inspect`
 
-Live introspection of the *current* site state — the registered blocks and their actual metabox field schemas, registered forms, the installed `taw/core` version, and whether `MetaboxOrder` is locked. Boots WordPress (needs `after_setup_theme`/`init` to have fired for the registries to be populated).
+Live introspection of the *current* site state — the registered blocks and their actual metabox field schemas, registered forms, the installed `taw/core` version, and whether `MetaboxOrder` is locked. Unlike the other CLI commands, this one boots WordPress (it needs `after_setup_theme`/`init` to have fired for the registries to be populated), so it must be run from within the theme in an environment where WordPress can actually connect to its database.
 
 ```bash
 php bin/taw inspect          # human-readable summary (table output)
 php bin/taw inspect --json   # machine-readable, for AI agents / scripts
 ```
 
-Prefer this over `grep`-ing `Blocks/*/*.php` by hand to answer "what blocks/fields/forms actually exist right now" — it reports live registry state, not static source.
+Prefer this over `grep`-ing `Blocks/*/*.php` by hand to answer "what blocks/fields/forms actually exist right now" — it reports live registry state, not static source, so it reflects reality even if a block's `getData()` doesn't match its `registerMetaboxes()`, or a form was conditionally registered.
 
 ### `fields:get` / `fields:set`
 
-Read or write a single Metabox/OptionsPage field's value directly, without going through the wp-admin UI. Same read/write primitive `VisualEditorEndpoint` uses for its REST-driven saves — the field's type is resolved from the live `Metabox` registry, then dispatched to the matching type-aware getter/sanitizer. A repeater is read back as a decoded array and written with the exact sanitization a real admin form save would apply.
+Read or write a single Metabox/OptionsPage field's value directly, without going through the wp-admin UI. This is the same read/write primitive `VisualEditorEndpoint` uses for its REST-driven saves — the field's type is resolved from the live `Metabox` registry (the same one `inspect` reports), then dispatched to the matching type-aware getter/sanitizer. A repeater is read back as a decoded array and written with the exact sanitization a real admin form save would apply (XSS-stripping via `wp_kses_post()`/`sanitize_text_field()`, attachment IDs coerced with `absint()`, JSON re-encoded clean) — not a hand-rolled approximation.
 
 ```bash
 php bin/taw fields:get 42 hero_heading --json
@@ -997,19 +1148,24 @@ php bin/taw fields:set 42 team_members --file=/tmp/team.json         # --file av
 php bin/taw fields:set 42 hero_heading "Welcome" --dry-run           # preview the sanitized result without writing
 ```
 
-For a group sub-field, use the compound ID exactly as `inspect` reports it. **What this doesn't do:** it doesn't upload media (an `image`/`files` field value must already be a valid attachment ID), and it doesn't check whether a field's owning block is actually attached to the target post's post type or template.
+For a group sub-field, use the compound ID exactly as `inspect` reports it (e.g. `hero_cta_text` for the `cta_text` sub-field of a `hero_cta` group) — it's registered in the field registry under that compound key already.
+
+**What this doesn't do:** it doesn't upload media (an `image`/`files` field value must already be a valid attachment ID — get one via `wp eval` or the Media Library first), and it doesn't check whether a field's owning block is actually attached to the target post's post type or template — same trust model as any other direct WordPress data write. If a field ID isn't found in the registry, the error message points at `inspect --json` to list what's actually registered.
+
+This is the "populate the content" half of a design-to-page pipeline: `figma-to-block`/`make-metablock` scaffold the block and its empty fields, `fields:set` fills them in.
 
 ### Content-writing safety model
 
-`fields:set` itself has no interactive confirmation — it's a raw primitive. **All risk judgment belongs to whichever skill or agent is calling it.** Any skill that writes content via `fields:set` (`populate-content`, and the population step in `make-metablock`/`figma-to-block`/`build-page`) follows this model:
+`fields:set` itself has no interactive confirmation — it's a raw primitive, usable from scripts, not just an AI agent, so it always does exactly what it's told. **All risk judgment belongs to whichever skill or agent is calling it**, the same way git-push confirmation is a project policy enforced by the agent, not by `git` itself. Any skill that writes content via `fields:set` (`populate-content`, and the population step in `make-metablock`/`figma-to-block`/`build-page`) follows this model:
 
-1. **Always `--dry-run` first.** Never call `fields:set` for real without having already seen the sanitized preview.
-2. **Always confirm before overwriting a non-empty existing value.** Read the current value with `fields:get` first; if non-empty, show old vs. new and get explicit confirmation.
-3. **Always confirm before writing to a `publish`-status post**, regardless of whether the field is currently empty.
-4. **Batch operations get one confirmation for the whole plan, not one per field.** Show every post/field/value that will change before writing any of them.
-5. **Flag raw-HTML-permitting fields specifically** (`wysiwyg`, or `'sanitize' => 'code'`) when the source content comes from outside this conversation — `wp_kses_post()` is deliberately permissive, so confirm the content is trusted first.
-6. **Never touches core post data.** `fields:set` only ever writes Metabox/OptionsPage meta — never `post_title`, `post_content`, `post_status`.
-7. **No wildcard/glob mass-edits.** Every post ID and field a batch operation will touch must be enumerated and shown to the user up front.
+1. **Always `--dry-run` first.** Never call `fields:set` for real without having already seen the sanitized preview. This also catches sanitizer surprises (stripped tags, coerced types) before they're written.
+2. **Always confirm before overwriting a non-empty existing value.** Read the current value with `fields:get` first; if it's non-empty, show the user old vs. new side by side and get explicit confirmation before writing — never silently clobber existing content, even placeholder-looking content (it may be real).
+3. **Always confirm before writing to a `publish`-status post**, regardless of whether the field is currently empty — a live, publicly-visible post is inherently higher-stakes than a draft. Check post status first (`wp post list --post__in=<id> --field=post_status`, or `wp eval`).
+4. **Batch operations get one confirmation for the whole plan, not one per field.** Show every post/field/value that will change before writing any of them — don't ask N times for N fields, and don't start writing before the whole batch has been shown and approved.
+5. **Flag raw-HTML-permitting fields specifically** (`wysiwyg`, or any field with `'sanitize' => 'code'`) when the source content comes from outside this conversation (a pasted document, a fetched file) — `wp_kses_post()` is deliberately permissive, so confirm the content is trusted before writing it, even if the field is currently empty.
+6. **Low-risk, still worth a quick confirmation but without heavy ceremony:** a brand-new empty field on a draft/unpublished post, freshly scaffolded earlier in the same session, populated with content that matches the same source (design/document) the user already approved when asking for the block/page to be built.
+7. **Never touches core post data.** `fields:set` only ever writes Metabox/OptionsPage meta — it never touches `post_title`, `post_content`, `post_status`, or anything else on the `wp_posts` row itself. If a request implies changing those too, say so explicitly and treat it as a separate, higher-risk action (e.g. `wp post update`) requiring its own confirmation — don't fold it into a `fields:set` plan silently.
+8. **No wildcard/glob mass-edits.** Every post ID and field a batch operation will touch must be enumerated and shown to the user up front — never "every page matching X" without listing what that actually resolves to first.
 
 ---
 
@@ -1023,17 +1179,23 @@ Generates performance-optimised `<img>` tags with correct `loading`, `fetchprior
 use TAW\Helpers\Image;
 
 // Below the fold (default — most images)
-echo Image::render(get_post_thumbnail_id(), 'large', 'Alt text');
+echo Image::render(get_post_thumbnail_id(), 'large');
 
 // Above the fold (hero, banner) — eager + high priority
-echo Image::render($image_id, 'full', 'Hero image', [
+echo Image::render($image_id, 'full', [
     'above_fold' => true,
     'sizes'      => '100vw',
     'class'      => 'w-full object-cover',
 ]);
 
+// With extra attributes
+echo Image::render($id, 'large', [
+    'class' => 'rounded-lg shadow-md',
+    'attr'  => ['id' => 'site-logo'],
+]);
+
 // Generate a <link rel="preload"> tag for the hero image
-echo Image::preload_tag($image_id, 'full');
+echo Image::preloadTag($image_id, 'full');
 ```
 
 | Option | Type | Default | Description |
@@ -1054,7 +1216,7 @@ Enables SVG uploads in WordPress (sanitized via `enshrined/svg-sanitize` on uplo
 ```php
 use TAW\Helpers\Svg;
 
-// Call once in theme setup (functions.php) to allow SVG uploads + auto-sanitize:
+// Call once, e.g. in inc/customizations.php, to allow SVG uploads + auto-sanitize:
 Svg::register();
 
 // Render as <img> tag (safe; scripts inside SVG can't execute):
@@ -1088,6 +1250,8 @@ Provided by `taw/core` (namespace `TAW\Core\ThemeUpdater`).
 
 Hooks into WordPress's theme update system to pull releases from a GitHub repository. When a new tag is published, WordPress shows the standard "Update Available" notice and one-click update UI.
 
+> **⚠️ Do not wire this up on a real client site alongside `update-theme`.** `ThemeUpdater` does a **full theme directory replacement** from a ZIP when an admin clicks "Update Now" in wp-admin — exactly the destructive, all-or-nothing behavior `update-theme`'s manifest-based sync was built to avoid. On a client site with customized `Blocks/`, page templates, and `inc/` files, clicking that button would silently overwrite all of it. This class is dormant by default (not currently instantiated in this project's `functions.php`) — keep it that way for client sites. It may be appropriate for a genuinely zero-customization deployment that intentionally wants full-replacement updates, but that's the exception, not the default, and should be a deliberate choice, not something enabled by copy-pasting the example below.
+
 Activated in `functions.php`:
 ```php
 if (is_admin()) {
@@ -1109,10 +1273,26 @@ if (is_admin()) {
 
 ### How it works
 
-`vite-loader.php` (from `taw/core`, autoloaded via composer `files`) detects whether the Vite dev server is running via `fsockopen()` on port 5173.
+`TAW\Support\ViteLoader` (from `taw/core`, PSR-4 autoloaded) is the OOP Vite bridge. It detects whether the Vite dev server is running by connecting to it (port 5173 by default, or whatever `vite.config.js`'s `hotFilePlugin` last wrote to `public/build/hot`, if the dev server is currently running) and verifying an actual Vite response (`GET /@vite/client` → HTTP 200) — a bare port-open check isn't sufficient, since any unrelated process (another dev server, a Docker container, anything) can end up bound to that port for reasons that have nothing to do with this project, producing a false positive that silently breaks asset loading in production. `vite.config.js` deliberately sets `strictPort: true` rather than letting Vite auto-move to a different port on conflict — the `server.origin` setting (needed for correct absolute font URLs) is hardcoded to port 5173, and an auto-moved port would go stale with no error, only fonts silently 404ing. If `npm run dev` fails to start, something else has port 5173 — find it with `lsof -i :5173` and stop it (or reconfigure that other project).
+
+`Theme::boot()` calls `ViteLoader::init('resources/js/app.js')` automatically — no manual setup needed for the main bundle.
+
+**Key static methods:**
+
+| Method | Description |
+|---|---|
+| `ViteLoader::isDevServerRunning()` | Returns `true` when the Vite dev server is reachable (replaces `vite_is_dev()`) |
+| `ViteLoader::assetUrl(string $path)` | Resolves a theme-relative path to the correct URL in dev and prod (replaces `vite_asset_url()`) |
+| `ViteLoader::enqueueAsset(string $handle, string $entry, array $deps, bool $enqueue)` | Register/enqueue an additional Vite entry point |
+| `ViteLoader::inlineCriticalCss(string $entry_key)` | Inline a compiled CSS entry into `<head>` (default: `resources/scss/critical.scss`) |
+| `ViteLoader::inlineCssFile(string $css_path, string $id)` | Inline an arbitrary compiled CSS file, rewriting relative asset URLs |
+| `ViteLoader::getManifest()` | Parse and return the Vite manifest (WP object-cache backed, 24 h TTL) |
+| `ViteLoader::distDir()` | Detect whether Vite wrote to `dist/` or `public/build/` |
+| `ViteLoader::distUrl(string $file)` | Build a full URL to a file inside the dist directory |
+| `ViteLoader::init(string $entry_point)` | Wire up WP hooks + enqueue main bundle (called by `Theme::boot()`) |
 
 - **Dev:** `app.js` (+ its CSS imports) served from `http://localhost:5173` with HMR
-- **Prod:** Reads `public/build/manifest.json` for hashed filenames
+- **Prod:** Reads `public/build/manifest.json` for hashed filenames (manifest cached in WP object cache)
 
 ### CSS loading pipeline (production)
 
@@ -1157,11 +1337,13 @@ Forces Vite to embed the full dev server URL in injected CSS (e.g. `url('http://
 - **Never** `@use 'fonts'` in `critical.scss` — inlined styles can't resolve relative asset paths
 - Register preloads via `vite_asset_url('resources/fonts/Name.woff2')` — returns dev server URL in dev and hashed build URL in prod
 
-### Helper: `vite_asset_url(string $path): string`
+### Helper: `ViteLoader::assetUrl(string $path): string`
 
 Resolves any theme asset to the correct URL in both modes:
 ```php
-vite_asset_url('resources/fonts/Roboto-Regular.woff2')
+use TAW\Support\ViteLoader;
+
+ViteLoader::assetUrl('resources/fonts/Roboto-Regular.woff2')
 // Dev  → 'http://localhost:5173/resources/fonts/Roboto-Regular.woff2'
 // Prod → 'https://example.com/.../public/build/assets/Roboto-Regular-B51t0g.woff2'
 ```
@@ -1179,9 +1361,51 @@ These become separate Rollup entry points → separate cached files in productio
 
 ### Script type="module"
 
-The `script_loader_tag` filter in `vite-loader.php` adds `type="module"` to:
-- All scripts from `VITE_SERVER` (dev)
-- `theme-app` and `taw-component-*` handles (prod)
+The `script_loader_tag` filter added by `ViteLoader::init()` applies `type="module"` to every handle registered via `ViteLoader::$moduleHandles`:
+- All scripts from the Vite dev server (dev)
+- `theme-app` and any handle passed to `enqueueAsset()` (prod)
+
+---
+
+## Block Variations
+
+A single MetaBlock class can be registered as multiple distinct instances using variations. Override `static::variations()` to return an array of variation strings — an empty string means the default instance (no suffix).
+
+```php
+class Hero extends MetaBlock
+{
+    protected string $id = 'hero';
+
+    public static function variations(): array
+    {
+        return ['', 'about'];  // registers 'hero' and 'hero--about'
+    }
+
+    protected function getData(int|false $postId): array
+    {
+        // $this->getVariation() returns '' or 'about'
+        return ['heading' => $this->getMeta($postId, 'hero_heading')];
+    }
+}
+```
+
+Each variation gets its own separate metabox data (different `post_meta` rows) but shares the same class, assets, and template. Variations share the asset handle (based on `$this->baseId`) so only one CSS/JS file is loaded even when both are on the same page.
+
+Rendered via `BlockRegistry::render('hero')` and `BlockRegistry::render('hero--about')` respectively.
+
+---
+
+## CSS Studio (Development)
+
+CSS Studio is a visual editor that streams live-page edits to this agent. It is installed and configured in this project.
+
+**Toggle:** WP Admin → TAW Settings → Developer Tools → Enable CSS Studio
+**Requires:** Vite dev server running (`npm run dev`)
+**Start session:** `/studio`
+
+When a session is active, this agent applies incoming changes following the TAW-specific rules in `.claude/skills/studio/SKILL.md`:
+- **Text/attr changes** — checks whether the element is already dynamic (PHP variable from metabox); if hardcoded, asks whether to keep it hardcoded or wire it to a new metabox field.
+- **Style changes** — always asks the user to choose: Tailwind classes in `index.php`, Block SCSS (`Blocks/{Name}/style.scss`), or Global SCSS (`resources/scss/app.scss`).
 
 ---
 
@@ -1223,7 +1447,9 @@ The `script_loader_tag` filter in `vite-loader.php` adds `type="module"` to:
 }
 ```
 
-`utilities.php` provides global helper functions: `vite_asset_url()`, `vite_is_dev()`, `dump()`, `dd()`, `taw_editable()`, `taw_editor_attrs()`, `taw_editor_attrs_array()`, `taw_editor_section()`.
+`utilities.php` provides global helper functions: `dump()`, `dd()`, `taw_editable()`, `taw_editor_attrs()`, `taw_editor_attrs_array()`, `taw_editor_section()`.
+
+> **Note:** `vite_asset_url()` and `vite_is_dev()` are **not** provided by `utilities.php`. Use `TAW\Support\ViteLoader::assetUrl()` and `TAW\Support\ViteLoader::isDevServerRunning()` instead. The legacy `vite-loader.php` procedural functions still exist in the package but are **not** in the composer `files` autoload — they will not be available unless explicitly included.
 
 Effective namespace mapping (combined):
 - `TAW\Core\Block\BaseBlock` → `vendor/taw/core/src/Core/Block/BaseBlock.php`
@@ -1268,6 +1494,49 @@ After adding new block classes, run `composer dump-autoload`.
 | `php bin/taw make:block Name` | Scaffold a new block |
 | `php bin/taw export:block Name` | Export a block as a ZIP |
 | `php bin/taw import:block path.zip` | Import a block from a ZIP |
+| `php bin/taw sync --json` | Check for drift: `taw/core` version + `taw-theme` Tier 1/Tier 2 scaffold paths |
+| `php bin/taw sync --apply` | Also write Tier 1 scaffold changes (Tier 2 is always report-only) |
+| `composer run phpstan` | Static analysis (`Blocks/`, `inc/`) — also runs in CI |
+
+---
+
+## Automated framework-drift detection
+
+`php bin/taw sync` (shipped by `taw/core`, see its README for the full command reference) is the scriptable core of the `update-theme` skill — it checks whether the installed `taw/core` version is behind the latest GitHub tag, and whether this project's Tier 1/Tier 2 `taw-theme` scaffold paths (defined once in `taw/core`'s `resources/update-manifest.json`) differ from the canonical repo. It never boots WordPress and never touches `taw/core` itself.
+
+`.github/workflows/framework-sync.yml` runs this unattended on a weekly schedule (`workflow_dispatch` also available for a manual run): bumps `taw/core`, applies Tier 1 changes, runs the exact same verification `ci.yml` runs on every push (`php -l`, the `getData()` signature check, PHPStan, and the dynamic smoke test below), and — only if something actually changed and verification passed — opens a pull request with Tier 2 diffs included in the body for human review. Tier 2 is never written automatically, by either this workflow or `sync --apply`; a human always reviews those diffs before they're applied, same as the interactive `update-theme` skill. Nothing happens (no PR, no noise) when the project is already current.
+
+This workflow file is itself Tier 1, so it propagates to every client project automatically via `update-theme` — a project only has to run that skill once to start self-checking forever after. Requires the repo setting **Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests"** enabled (off by default on new repos) for the PR-opening step to succeed — the **`project-init`** skill checks this, enables it with confirmation if it's off, and triggers a real run to verify the whole pipeline actually works rather than assuming it does.
+
+---
+
+## Static Analysis
+
+PHPStan (level 5, config in `phpstan.neon`) analyzes `Blocks/` and `inc/`, loading WordPress core stubs via `szepeviktor/phpstan-wordpress` so core functions/classes (`add_action`, `WP_Query`, etc.) resolve correctly instead of erroring as unknown. Runs in CI on every push/PR alongside the lint and `getData()` signature checks.
+
+Prefer fixing types (accurate `@param`/`@return` PHPDoc for hook callbacks, REST request shapes, query results) over adding `ignoreErrors` entries. When an ignore is unavoidable, scope it narrowly and document why inline. Don't pre-emptively add a `phpstan-baseline.neon` — this repo has none because it's currently clean at level 5; only introduce one if adopting the check on a codebase with pre-existing legacy errors, and treat it as a migration aid to shrink over time, not a permanent suppression file.
+
+---
+
+## Dynamic Smoke Test
+
+The static checks above (lint, the `getData()` signature check, PHPStan) all analyze source text — none of them actually execute a block's render path. `bin/ci/smoke-test.php` does: it boots a real, CI-provisioned WordPress + MySQL install with this theme active, creates one real post, and renders every registered `MetaBlock` and displays every registered `Form` against it, failing loudly on any `Throwable` — the class of bug a static check can't see (an undefined function call, a template referencing a variable `getData()` never returned, WP API misuse).
+
+**Why a real post is required:** `MetaBlock::render(null)` falls back to `get_the_ID()`, which is `false` outside a real post/loop context — it silently no-ops instead of calling `getData()` at all. The smoke test script requires an explicit post ID for exactly this reason; a CI job that "passed" by rendering nothing would be worse than no test at all.
+
+Runs as a separate job in `ci.yml` (and inside `framework-sync.yml`'s verification gate, against the post-sync codebase) — spins up a `mysql:8.0` service container, downloads WordPress core via `wp-cli`, installs it, copies the checked-out repo into `wp-content/themes/`, activates it, creates a test page, then runs:
+
+```bash
+php bin/ci/smoke-test.php /path/to/wp-load.php <post_id>
+```
+
+No `npm run build` is needed for this — `ViteLoader::getManifest()`/`assetUrl()` degrade gracefully when no manifest exists, and `render()` itself never touches asset enqueueing (that's a separate call path via `BlockRegistry::queue()`).
+
+Sourced from the `wp-phpstan` skill in [WordPress/agent-skills](https://github.com/WordPress/agent-skills) — see that skill's `references/wordpress-annotations.md` and `references/third-party-classes.md` for WP-specific typing patterns and how to handle third-party plugin classes if this theme ever needs to integrate with one.
+
+### Other external WordPress skill references
+
+For general WP capabilities this framework doesn't already own an abstraction for, the same repo has a few more worth consulting on demand rather than vendoring wholesale: `wp-performance`, `wp-wpcli-and-ops`, `wp-playground`. **Do not** pull in `wp-block-development` or `wp-block-themes` — they teach native Gutenberg blocks and `theme.json`, both of which TAW replaces with its own MetaBlock/Block system and Vite pipeline; following them would actively fight this framework's conventions.
 
 ---
 
@@ -1364,7 +1633,7 @@ protected function getData(int|false $postId): array
 
 ### Reading theme options in templates
 ```php
-use TAW\Core\OptionsPage;
+use TAW\Core\OptionsPage\OptionsPage;
 
 $phone = OptionsPage::get('company_phone');
 $logo  = OptionsPage::get_image_url('company_logo', 'medium');
@@ -1375,10 +1644,10 @@ $logo  = OptionsPage::get_image_url('company_logo', 'medium');
 use TAW\Helpers\Image;
 
 // Hero (above the fold)
-echo Image::render($hero_image_id, 'full', 'Hero image', ['above_fold' => true]);
+echo Image::render($hero_image_id, 'full', ['above_fold' => true]);
 
 // Card image (below the fold)
-echo Image::render($card_image_id, 'large', 'Card photo');
+echo Image::render($card_image_id, 'large');
 ```
 
 ---
@@ -1398,3 +1667,4 @@ echo Image::render($card_image_id, 'large', 'Card photo');
 - Look for `TAW\Core`, `TAW\Helpers`, or `TAW\CLI` classes in `inc/` — they live in `vendor/taw/core/src/`
 - Reference `TAW\Core\Framework` — it moved to `TAW\Helpers\Framework`
 - Reference `TAW\Core\BaseBlock` / `TAW\Core\MetaBlock` / `TAW\Core\Block` etc. without the `Block\` sub-namespace — e.g. use `TAW\Core\Block\MetaBlock`
+- Install `wp-block-development` or `wp-block-themes` from WordPress/agent-skills — they teach native Gutenberg blocks/`theme.json`, which conflicts with TAW's own MetaBlock/Block and Vite conventions

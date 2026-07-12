@@ -9,9 +9,15 @@ const componentAssets = readdirSync('Blocks', { recursive: true })
     .map(f => `Blocks/${f}`);
 
 /**
- * Writes public/build/hot with the dev server URL on start.
- * PHP detects dev mode by checking for this file rather than probing the port.
- * The file is removed when the server stops, and emptyOutDir wipes it on build.
+ * Writes public/build/hot with the dev server's actual URL on start, removes
+ * it on stop. ViteLoader::isDevServerRunning() (taw/core) reads this file and
+ * verifies it's actually reachable, instead of just probing whether *something*
+ * is listening on port 5173 — a bare port probe can false-positive if an
+ * unrelated process (Docker, another dev tool, anything) happens to occupy
+ * that port, which makes the theme serve dead localhost:5173 asset URLs in
+ * production even though `npm run build` succeeded. This also means dev mode
+ * keeps working correctly if Vite has to pick a different port because 5173
+ * is already taken.
  */
 function hotFilePlugin(hotPath = 'public/build/hot') {
     const cleanup = () => { try { unlinkSync(hotPath); } catch {} };

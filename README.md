@@ -38,7 +38,7 @@ This theme itself is a scaffold on top of that framework: every real site is a d
 
 **AI-native DX.** Ships with `AGENTS.md`, `CLAUDE.md`, and Copilot/Windsurf instructions so any AI coding assistant understands the architecture out of the box.
 
-**Visual Editor** — a live content page editor for authenticated users. Activated automatically by `Theme::boot()`. An **Edit Visually** button appears in the admin bar; appending `?taw_visual_edit=1` to any URL activates the editing shell.
+**Visual Editor** — a live content page editor for authenticated users. Opt-in: call `TAW\Core\Editor\VisualEditor::enable()` in `inc/customizations.php`. Once enabled, an **Edit Visually** button appears in the admin bar; appending `?taw_visual_edit=1` to any URL activates the editing shell.
 
 ---
 
@@ -50,12 +50,21 @@ This theme itself is a scaffold on top of that framework: every real site is a d
 cd wp-content/themes/
 
 # This command will create the starter theme with the correct structure and dependencies. Replace <theme_name> with your desired theme folder name.
-composer create-project taw/theme <theme_name>  --repository='{"type":"vcs","url":"https://github.com/Relmaur/taw-theme"}'
+composer create-project taw/theme <theme_name> --repository='{"type":"vcs","url":"https://github.com/Relmaur/taw-theme"}'
+
+cd <theme_name>
+git init && git add -A && git commit -m "Initial commit"
+git remote add origin <your-client-repo-url>
+git push -u origin main
 
 composer install       # PHP deps — pulls taw/core framework package
 npm install            # Frontend dependencies
 npm run dev            # Vite dev server with HMR
 ```
+
+Start with a clean, single-commit history — no `--keep-vcs`, no shared ancestry with `taw-theme` required. The `update-theme` AI skill syncs future scaffold updates via a direct file copy of a small, precisely-delimited set of framework-owned paths (`functions.php`, `.claude/skills/`, `bin/`, CI config — see `AGENTS.md` § "The `functions.php` Bootstrap"), not a git merge, so it works regardless of this project's own history.
+
+**One manual step on the new repo:** enable **Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests"** (off by default on every new GitHub repo). This project ships with `.github/workflows/framework-sync.yml` from the very first commit — a weekly check that bumps `taw/core`, syncs framework-owned scaffold files, and opens a PR if anything changed — but its PR-opening step silently fails without that setting. See `AGENTS.md` § "Automated framework-drift detection".
 
 Activate the theme in WordPress admin. You're building.
 
@@ -306,7 +315,7 @@ Metabox::get_repeater($postId, 'team_members');   // repeater → array of rows
 
 ### Locking Metabox Order
 
-`MetaboxOrder::lockFromTemplate()` — called once in `functions.php` after `Theme::boot()` — locks each page's metabox order to match its template's `BlockRegistry::render()` sequence and disables drag-and-drop reordering, so the admin edit screen never drifts from what actually renders on the front end. Use `MetaboxOrder::lock('page', ['id1', 'id2'])` for an explicit order instead.
+`MetaboxOrder::lockFromTemplate()` runs automatically — `Theme::bootstrapFullSite()` calls it unconditionally, nothing to add to `functions.php`. It locks each page's metabox order to match its template's `BlockRegistry::render()` sequence and disables drag-and-drop reordering, so the admin edit screen never drifts from what actually renders on the front end. Use `MetaboxOrder::lock('page', ['id1', 'id2'])` in `inc/customizations.php` for an explicit order instead.
 
 → Full template-resolution details: **[taw/core README → Locking Metabox Order](https://github.com/Relmaur/taw-core#locking-metabox-order)**.
 
@@ -531,6 +540,8 @@ Theme::boot();
 ```
 
 > **Note:** The legacy procedural functions `vite_asset_url()` and `vite_is_dev()` still exist inside `vite-loader.php` but are **not** in the composer `files` autoload and will not be available globally. Use `ViteLoader` instead.
+
+> **Overriding the entry point is the one case that needs `Theme::boot()` called manually instead of `bootstrapFullSite()`.** Since `functions.php` is framework-owned and always calls `bootstrapFullSite()`, a project needing a non-default entry point has to intentionally opt out of that in `functions.php` itself — which then makes `functions.php` a piece of site-specific code `update-theme` shouldn't blindly overwrite anymore. This is a rare, deliberate exception; flag it clearly if you do this so a future update doesn't silently clobber it.
 
 ### Block assets
 
@@ -802,7 +813,11 @@ Form::display('contact');
 ['type' => 'html', 'content' => '<p class="text-sm text-gray-500">All fields marked * are required.</p>'],
 ```
 
-All input fields accept: `id`, `label`, `type`, `required`, `placeholder`, `width`, and `conditions`. All fields (including structural) accept `width` for column placement.
+All input fields accept: `id`, `label`, `type`, `required`, `placeholder`, `width`, `conditions`, and validation rules (`min_length`, `max_length`, `pattern`, `min`/`max` on `number` fields). All fields (including structural) accept `width` for column placement. Every rule accepts a `{rule}_message` override for a custom error string (`required_message`, `email_message`, `min_length_message`, `max_length_message`, `pattern_message`, `min_message`, `max_message`) — falls back to a generic default with the field's `label` interpolated when not set.
+
+To set validation copy once for an entire form (e.g. translating every rule for a non-English site) instead of repeating a `{rule}_message` on every field, pass a top-level `'messages' => ['required' => '...', 'email' => '...', 'min_length' => '...', ...]`. Precedence: field-level `{rule}_message` > form-level `messages.{rule}` > built-in English default.
+
+**Security, all built in:** CSRF (nonce) and honeypot spam filtering are always on, no configuration needed. Rate limiting is on by default too — 5 attempts/60 seconds per IP+form, backed by WP transients (no Redis needed) — override with `'rate_limit' => ['max' => 3, 'window' => 120]` or disable with `'rate_limit' => false`. Optional Cloudflare Turnstile bot verification: `'turnstile' => true`, plus `TAW_TURNSTILE_SITE_KEY`/`TAW_TURNSTILE_SECRET_KEY` constants in `wp-config.php` (a secret key belongs in `wp-config.php`, never an OptionsPage field — those are readable via the REST API by anyone with `edit_posts`). An opted-in form without keys configured degrades gracefully — no widget, no check — rather than blocking submission, with a `WP_DEBUG`-only notice for developers.
 
 **Conditional fields — AND / OR logic:** By default all conditions are combined with AND. Add `'relation' => 'any'` to switch to OR:
 
@@ -877,7 +892,7 @@ use TAW\Core\Mail\Mailer;
 
 Templates live in `mails/html/{name}.html` (pre-compiled, used in production) or `mails/{name}.mjml` (compiled at runtime via `spatie/mjml-php` — dev only). Use `{{variable_name}}` placeholders.
 
-`MailTester` adds a **Tools → Test Emails** admin page for sending test emails against any compiled template. Register it with `(new \TAW\Core\Mail\MailTester())->register()` in `functions.php`.
+`MailTester` adds a **Tools → Test Emails** admin page for sending test emails against any compiled template. Register it with `(new \TAW\Core\Mail\MailTester())->register()` in `inc/customizations.php` (not `functions.php`, which is framework-owned).
 
 ---
 
@@ -948,7 +963,7 @@ const params = new URLSearchParams({
 
 ## Navigation Menus — registration
 
-Menus (`primary`, `footer`) are registered in `functions.php` via `register_nav_menus()`. Edit that array directly to add or rename locations. Assign menus to locations in WordPress admin → Appearance → Menus.
+Menus (`primary`, `footer`) are registered in `inc/customizations.php` via `register_nav_menus()` (not `functions.php`, which is framework-owned). Edit that array directly to add or rename locations. Assign menus to locations in WordPress admin → Appearance → Menus.
 
 ---
 
@@ -974,8 +989,10 @@ Menus (`primary`, `footer`) are registered in `functions.php` via `register_nav_
 
 `ThemeUpdater` hooks into WordPress's update system to check a GitHub Releases URL for new versions. When a newer release is found, the standard "Update Available" notice appears in the admin.
 
+> **Not for client sites with customizations.** This does a full theme-directory replacement from a ZIP — clicking "Update Now" would overwrite any `Blocks/`, page templates, or `inc/` changes you've made. For real client sites, use the `update-theme` AI skill instead, which copies only a small, precisely-delimited set of framework-owned paths and never touches what you've built. Only wire this up for a deployment that deliberately wants full-replacement updates.
+
 ```php
-// In functions.php or a plugin
+// In inc/customizations.php (not functions.php, which is framework-owned) or a plugin
 new TAW\Core\ThemeUpdater([
     'slug'       => 'taw-theme',
     'github_url' => 'https://api.github.com/repos/your-username/taw-theme/releases/latest',
@@ -1065,8 +1082,10 @@ taw-theme/
 │       ├── index.php          #   Template (receives extract()-ed vars from getData())
 │       ├── style.scss         #   Optional per-block styles
 │       └── script.js          #   Optional per-block JS
-├── inc/
-│   └── options.php            # Theme options page configuration
+├── inc/                        # Theme-owned config — never touched by update-theme
+│   ├── options.php            #   OptionsPage field configuration
+│   ├── performance.php        #   Config array passed to Theme::performance()
+│   └── customizations.php     #   Theme supports, nav menus, and any other site-specific hooks
 ├── vendor/
 │   └── taw/
 │       └── core/              # ← Framework internals (managed via composer)
@@ -1093,7 +1112,7 @@ taw-theme/
 │   ├── fonts/                 # Self-hosted WOFF2 files
 │   └── js/app.js              # Alpine.js + global JS entry point
 ├── public/build/              # Compiled assets (gitignored)
-├── functions.php              # Developer customisations — theme setup, menus, performance config
+├── functions.php              # 100% framework-owned — two lines, never hand-edited (see inc/ above)
 ├── vite.config.js             # Vite configuration
 ├── composer.json              # PHP deps — TAW\Blocks\ → Blocks/, requires taw/core
 ├── package.json               # Node deps + scripts
@@ -1135,19 +1154,42 @@ taw-theme/
 | `php bin/taw import:block path/to/Block.zip`         | Import a block from a ZIP                                |
 | `php bin/taw import:block path.zip --group=sections` | Import into a specific group                             |
 | `php bin/taw import:block path.zip --force`          | Overwrite if block already exists                        |
+| `composer run phpstan`                               | Static analysis (`Blocks/`, `inc/`) — also runs in CI     |
 
 ---
 
-## AI-Friendly
+## AI-Ready
 
-This repo ships with architecture documentation for AI coding assistants:
+TAW isn't just documented for AI coding assistants — it ships a working toolkit for them, in the same spirit as Laravel Boost. Point an agent at a TAW project and it can build pages, sync with upstream, and inspect the live site state, not just read about how to.
 
+**Architecture docs**, picked up automatically by any LLM-powered tool:
 - **`AGENTS.md`** — comprehensive architecture guide (Claude Code, Cursor, generic agents)
 - **`CLAUDE.md`** — Claude Code-specific instructions
 - **`.github/copilot-instructions.md`** — GitHub Copilot instructions
 - **`.windsurfrules`** — Windsurf/Codeium instructions
 
-Any LLM-powered tool will automatically pick up the project's conventions, naming patterns, and anti-patterns. Point your AI at the repo and start building.
+**Claude Code skills** (`.claude/skills/`), invoked by name or triggered by plain-language requests:
+- **`make-metablock`** — "add a pricing table section" → a fully wired MetaBlock (class, metabox fields, template, styles)
+- **`build-page`** — "build a homepage with hero, features, and a contact form" → an entire page assembled from existing and newly-scaffolded blocks
+- **`figma-to-block`** — "implement this Figma design" → a block whose markup and metabox fields match the design, driven by the Figma MCP tools
+- **`populate-content`** — "fill in the team_members repeater on the About page with this list" → writes real field values via `fields:set`, with mandatory dry-run previews and confirmation before any risky write (see `AGENTS.md` § "Content-writing safety model")
+- **`update-theme`** — "update the theme" → copies a small, precisely-delimited set of framework-owned paths (`functions.php`, `.claude/skills/`, `bin/`, CI config) from the canonical `taw-theme` repo, direct file sync, no merge, no shared git history needed, never touching your `Blocks/`, templates, or content
+- **`project-init`** — "onboard this new client project" → verifies `gh` CLI auth, enables and smoke-tests the `framework-sync.yml` GitHub Actions PR permission, and walks through optional integrations (Turnstile, email, CSS Studio, Visual Editor) via explicit yes/no questions — picks up right after `composer create-project` + first push
+- **`studio`** — applies live CSS Studio visual edits back into source
+
+**Live introspection** — `php bin/taw inspect` (or `--json`) reports the site's actual current state: registered blocks and their real metabox field schemas, registered forms, the installed `taw/core` version, whether `MetaboxOrder` is locked. An agent queries this instead of reconstructing it by grepping PHP.
+
+**Direct field read/write** — `php bin/taw fields:get`/`fields:set` let an agent read or write any Metabox/OptionsPage field's value directly, sanitized with the exact same rules as a real admin form save — no hand-encoding a repeater's JSON shape, no guessing which sanitizer applies to which field type. This is what turns "build this page from a Figma design" into something that can also populate the content, not just scaffold empty fields. Writing content is inherently higher-stakes than scaffolding it, so every skill that writes via this primitive follows a mandatory dry-run + confirmation model — see `AGENTS.md` § "Content-writing safety model".
+
+**CI, not just convention** — `.github/workflows/ci.yml` runs `php -l`, `composer validate`, a dedicated check that every `MetaBlock::getData()` matches the exact signature the framework requires (a mismatch there is a site-wide fatal, not a cosmetic bug), and PHPStan (level 5, WordPress-aware via `szepeviktor/phpstan-wordpress`) over `Blocks/` and `inc/`. A second job spins up a real WordPress + MySQL environment and dynamically renders every registered block and form against a real post — catching the runtime errors (undefined function calls, template/data mismatches) that static checks alone can't see.
+
+**Framework drift never goes unnoticed** — `php bin/taw sync` (the scriptable core of the `update-theme` skill) checks whether the installed `taw/core` version is behind the latest release and whether this project's Tier 1/Tier 2 scaffold paths differ from the canonical `taw-theme` repo, without booting WordPress. `.github/workflows/framework-sync.yml` runs it unattended on a weekly schedule: Tier 1 changes are applied and verified through the same checks CI runs on every push, then a pull request is opened with Tier 2 diffs included for human review — or nothing happens at all if the project is already current. A client project only has to run `update-theme` once to start self-checking forever after, since this workflow file is itself Tier 1.
+
+**Live documentation lookup** — the `mcp__taw-docs__search_documentation` MCP tool, when available, searches the current framework docs directly rather than requiring a URL guess.
+
+Two separate, independently-versioned sources of truth back all of this — don't conflate them:
+- **[`taw-theme`](https://github.com/Relmaur/taw-theme)** — this scaffold. Synced into a client site via `update-theme`.
+- **[`taw/core`](https://github.com/Relmaur/taw-core)** — the framework package. Synced via `composer update taw/core`.
 
 ---
 

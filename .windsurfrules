@@ -4,18 +4,27 @@ Full architecture docs: see AGENTS.md in the repo root.
 
 ## Core Package
 
-Framework internals live in the `taw/core` composer package (https://github.com/Relmaur/taw-core) at `vendor/taw/core/src/` — NOT in `inc/`.
-- `TAW\Core\*` → `vendor/taw/core/src/Core/`
-- `TAW\Helpers\*` → `vendor/taw/core/src/Helpers/`
-- `TAW\CLI\*` → `vendor/taw/core/src/CLI/`
-- `vite-loader.php` and `performance.php` → `vendor/taw/core/src/Support/` (autoloaded by composer)
-- The theme's `inc/` only has `options.php` and Metabox view templates
-
-Do NOT edit anything inside `vendor/taw/core/`. To update the framework: `composer update taw/core`.
+Framework internals live in the `taw/core` composer package (https://github.com/Relmaur/taw-core) at `vendor/taw/core/src/` — NOT in `inc/`. Update via `composer update taw/core`.
 
 This theme itself is a scaffold synced from a separate canonical repo, https://github.com/Relmaur/taw-theme, via the `update-theme` skill — don't conflate the two update paths.
 
 For authoritative/current API detail, prefer the `mcp__taw-docs__search_documentation` MCP tool (if available) over guessing.
+- `TAW\Core\Block\*` → `vendor/taw/core/src/Core/Block/` (BaseBlock, Block, MetaBlock, BlockLoader, BlockRegistry)
+- `TAW\Core\Metabox\*` → `vendor/taw/core/src/Core/Metabox/`
+- `TAW\Core\OptionsPage\*` → `vendor/taw/core/src/Core/OptionsPage/`
+- `TAW\Core\Theme\*` → `vendor/taw/core/src/Core/Theme/` (Theme, ThemeUpdater)
+- `TAW\Core\Menu\*` → `vendor/taw/core/src/Core/Menu/`
+- `TAW\Core\Rest\*` → `vendor/taw/core/src/Core/Rest/`
+- `TAW\Core\Form\*` → `vendor/taw/core/src/Core/Form/` (Form, SubmissionsHandler)
+- `TAW\Core\Mail\*` → `vendor/taw/core/src/Core/Mail/` (Mailer, MailTemplate, MailTester)
+- `TAW\Helpers\*` → `vendor/taw/core/src/Helpers/` (Framework, Image, Svg, Dump, Editor)
+- `TAW\CLI\*` → `vendor/taw/core/src/CLI/`
+- `utilities.php` and `performance.php` → `vendor/taw/core/src/Support/` (autoloaded by composer)
+- The theme's `inc/` holds only theme-owned config (`options.php`, `performance.php`, `customizations.php`) and Metabox view templates
+
+Do NOT edit anything inside `vendor/taw/core/`. To update the framework: `composer update taw/core`.
+
+`functions.php` is 100% framework-owned — two lines, require autoload + `Theme::bootstrapFullSite(get_template_directory())`. Never hand-edit it; site-specific hooks go in `inc/customizations.php`.
 
 Key rules:
 - Blocks live in Blocks/{Name}/{Name}.php — folder MUST match class name
@@ -36,8 +45,8 @@ Options page:
 - Configured in inc/options.php; retrieve with OptionsPage::get('field_id')
 
 Metabox order:
-- MetaboxOrder::lockFromTemplate() — call once in functions.php after Theme::boot() — locks each page's metabox order to its template's BlockRegistry::render() sequence and disables drag-and-drop reordering
-- MetaboxOrder::lock('page', ['id1', 'id2']) for an explicit order instead
+- MetaboxOrder::lockFromTemplate() runs automatically via Theme::bootstrapFullSite() — nothing to add to functions.php
+- MetaboxOrder::lock('page', ['id1', 'id2']) in inc/customizations.php for an explicit order instead
 
 Navigation menus:
 - Use TAW\Core\Menu\Menu::get('location') instead of wp_nav_menu()
@@ -47,7 +56,48 @@ Image helper:
 - TAW\Helpers\Image::render($id, 'size', 'alt', ['above_fold' => true])
 - Generates performance-optimised <img> with correct loading/fetchpriority/srcset
 
-REST API:
-- GET taw/v1/search-posts — powers the post_selector metabox field type
+SVG helper:
+- TAW\Helpers\Svg::register() — enable SVG uploads (call in theme setup)
+- TAW\Helpers\Svg::render($id, 'alt', ['class' => '...']) — <img> tag
+- TAW\Helpers\Svg::inline($id, ['class' => '...']) — inline <svg>
 
-Metabox field types: text, textarea, wysiwyg, url, number, select, image, group, checkbox, color, repeater, post_selector
+Forms:
+- TAW\Core\Form\Form — config-driven frontend form (CSRF, honeypot, validation, AJAX via admin-ajax.php, email delivery)
+- Register with Form::register([...]) in MetaBlock::boot() wrapped in add_action('init', ...) — NEVER in templates
+- Display with Form::display('id') in the template
+- TAW\Core\Form\SubmissionsHandler — CPT submission storage + webhook forwarding; auto-wired by Theme::boot(), do not instantiate manually
+- Input field types: text, email, tel, url, number, textarea, select, radio, checkbox, checkbox_group, date
+- Structural fields (no data): heading, divider, html
+- Supports multi-step forms (steps key) and AND/OR conditional logic (conditions)
+- Never use new Form([...]) + $form->render() — that API is removed
+
+Mail:
+- TAW\Core\Mail\Mailer — fluent wp_mail() wrapper: ->to()->subject()->template()->setVariables()->send()
+- Templates in mails/html/{name}.html (production) or mails/{name}.mjml (dev); use {{variable}} placeholders
+- TAW\Core\Mail\MailTester — Tools → Test Emails admin page
+
+Debug:
+- dump($value, 'label') / dd($value) — global helpers from utilities.php, WP_DEBUG only
+
+REST API:
+- GET taw/v1/search-posts — powers the post_select metabox field type
+
+Metabox field types: text, textarea, wysiwyg, url, number, range, select, image, files, group, checkbox, color, repeater, post_select, datepicker
+
+Visual Editor:
+- Opt-in — call VisualEditor::enable() in inc/customizations.php (must run before Theme::boot(); without it, boot()'s VisualEditor::init() silently no-ops)
+- Once enabled: Edit Visually button in admin bar; ?taw_visual_edit=1 activates inline editing shell
+
+Asset helpers:
+- Use ViteLoader::assetUrl('resources/fonts/Name.woff2') — not vite_asset_url()
+- Use ViteLoader::isDevServerRunning() — not vite_is_dev()
+
+Static analysis:
+- composer run phpstan — level 5, Blocks/ + inc/ only, WordPress-aware via szepeviktor/phpstan-wordpress, runs in CI
+- Prefer fixing types over adding ignoreErrors entries
+
+Direct field access:
+- php bin/taw fields:get <post_id> <field_id> --json / fields:set <post_id> <field_id> <value>
+- Same sanitization as a real admin save (via Metabox::sanitizeValue()/sanitizeRepeaterRows())
+- Use --file=path.json for repeater/array values, --dry-run to preview
+- Don't hand-craft repeater JSON via raw wp post meta update — this command already knows each field's shape
