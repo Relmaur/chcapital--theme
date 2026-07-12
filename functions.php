@@ -14,7 +14,7 @@
  *   inc/performance.php    — performance() config array
  *   inc/customizations.php — theme supports, nav menus, and any other hooks
  *
- * All three are loaded automatically by bootstrapFullSite() below if present..
+ * All three are loaded automatically by bootstrapFullSite() below if present.
  */
 
 require_once get_template_directory() . '/vendor/autoload.php';
