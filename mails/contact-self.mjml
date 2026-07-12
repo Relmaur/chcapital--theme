@@ -1,0 +1,19 @@
+<mjml>
+  <mj-body background-color="#f4f4f4">
+    <mj-section background-color="#ffffff" padding="24px">
+      <mj-column>
+        <mj-text font-size="20px" font-weight="700" color="#111111">
+          Nueva consulta desde {{site_name}}
+        </mj-text>
+        <mj-divider border-color="#e0e0e0" padding="16px 0" />
+        <mj-text font-size="14px" color="#333333">
+          {{all_fields}}
+        </mj-text>
+        <mj-divider border-color="#e0e0e0" padding="16px 0" />
+        <mj-text font-size="12px" color="#888888">
+          Enviado desde {{site_url}} — formulario "{{form_id}}"
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
