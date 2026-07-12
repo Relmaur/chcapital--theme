@@ -28,7 +28,7 @@ class ContactCta extends MetaBlock
                 'messages' => [
                     'success'          => __('¡Gracias! Nos pondremos en contacto contigo pronto.', 'taw-theme'),
                     'turnstile_failed' => __('No pudimos verificar que eres humano. Por favor, inténtalo de nuevo.', 'taw-theme'),
-                    'required'         => __('%s es obligatorio.', 'taw-theme'),
+                    'required'         => __('Este campo es requerido.', 'taw-theme'),
                     'email'            => __('Correo electrónico no válido.', 'taw-theme'),
                     'min_length'       => __('%1$s debe tener al menos %2$d caracteres.', 'taw-theme'),
                     'max_length'       => __('%1$s no debe superar los %2$d caracteres.', 'taw-theme'),
