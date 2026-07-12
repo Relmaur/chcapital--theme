@@ -18,6 +18,7 @@ class ContactCta extends MetaBlock
             Form::register([
                 'id'           => 'contact_inquiry',
                 'submit_label' => __('Enviar mensaje', 'taw-theme'),
+                'turnstile'    => true,
                 'email'        => [
                     'to_self' => [
                         'subject'  => __('Nueva consulta desde el sitio web', 'taw-theme'),
@@ -25,7 +26,15 @@ class ContactCta extends MetaBlock
                     ],
                 ],
                 'messages' => [
-                    'success' => __('¡Gracias! Nos pondremos en contacto contigo pronto.', 'taw-theme'),
+                    'success'          => __('¡Gracias! Nos pondremos en contacto contigo pronto.', 'taw-theme'),
+                    'turnstile_failed' => __('No pudimos verificar que eres humano. Por favor, inténtalo de nuevo.', 'taw-theme'),
+                    'required'         => __('%s es obligatorio.', 'taw-theme'),
+                    'email'            => __('Correo electrónico no válido.', 'taw-theme'),
+                    'min_length'       => __('%1$s debe tener al menos %2$d caracteres.', 'taw-theme'),
+                    'max_length'       => __('%1$s no debe superar los %2$d caracteres.', 'taw-theme'),
+                    'pattern'          => __('%s no tiene el formato correcto.', 'taw-theme'),
+                    'min'              => __('%1$s debe ser al menos %2$s.', 'taw-theme'),
+                    'max'              => __('%1$s no debe superar %2$s.', 'taw-theme'),
                 ],
                 'fields' => [
                     ['id' => 'name',    'label' => __('Nombre', 'taw-theme'),             'type' => 'text',     'required' => true, 'width' => 50],

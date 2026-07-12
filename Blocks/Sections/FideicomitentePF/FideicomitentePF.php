@@ -20,13 +20,22 @@ class FideicomitentePF extends MetaBlock
                 'submit_label' => __('Enviar formulario', 'taw-theme'),
                 'next_label'   => __('Continuar', 'taw-theme'),
                 'prev_label'   => __('Regresar', 'taw-theme'),
+                'turnstile'    => true,
                 'email'        => [
                     'to_self' => [
                         'subject' => __('Nuevo Fideicomitente PF — CH Capital', 'taw-theme'),
                     ],
                 ],
                 'messages' => [
-                    'success' => __('¡Gracias! Tu formulario ha sido recibido. Nos pondremos en contacto contigo a la brevedad.', 'taw-theme'),
+                    'success'          => __('¡Gracias! Tu formulario ha sido recibido. Nos pondremos en contacto contigo a la brevedad.', 'taw-theme'),
+                    'turnstile_failed' => __('No pudimos verificar que eres humano. Por favor, inténtalo de nuevo.', 'taw-theme'),
+                    'required'         => __('%s es obligatorio.', 'taw-theme'),
+                    'email'            => __('Correo electrónico no válido.', 'taw-theme'),
+                    'min_length'       => __('%1$s debe tener al menos %2$d caracteres.', 'taw-theme'),
+                    'max_length'       => __('%1$s no debe superar los %2$d caracteres.', 'taw-theme'),
+                    'pattern'          => __('%s no tiene el formato correcto.', 'taw-theme'),
+                    'min'              => __('%1$s debe ser al menos %2$s.', 'taw-theme'),
+                    'max'              => __('%1$s no debe superar %2$s.', 'taw-theme'),
                 ],
                 'steps' => [
 
