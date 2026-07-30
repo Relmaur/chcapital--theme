@@ -15,7 +15,12 @@ require_once get_template_directory() . '/inc/multimedia-cpts.php';
 /**
  * Enable the visual editor.
  */
-VisualEditor::enable();
+// VisualEditor::enable();
+
+// Media Folders is opt-in at the taw/core level, but ships active by
+// default on every taw-theme site — remove this line if this site doesn't
+// need nestable Media Library folders. Must run before Theme::boot().
+TAW\Core\Media\MediaFolders::enable();
 
 /**
  * Route all posts under /blog/.

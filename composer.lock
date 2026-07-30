@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d271b065a1c9822ce51e37a63cd4dcd",
+    "content-hash": "7444745597ae879b5da1051de61d2828",
     "packages": [
         {
             "name": "enshrined/svg-sanitize",
@@ -853,16 +853,16 @@
         },
         {
             "name": "taw/core",
-            "version": "v1.16.86",
+            "version": "v1.16.107",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Relmaur/taw-core.git",
-                "reference": "7a55f4ad24adafff897009bc4b6e70b826d38f4c"
+                "reference": "00b5418cf72c94ffc0522d798665b9035f958655"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Relmaur/taw-core/zipball/7a55f4ad24adafff897009bc4b6e70b826d38f4c",
-                "reference": "7a55f4ad24adafff897009bc4b6e70b826d38f4c",
+                "url": "https://api.github.com/repos/Relmaur/taw-core/zipball/00b5418cf72c94ffc0522d798665b9035f958655",
+                "reference": "00b5418cf72c94ffc0522d798665b9035f958655",
                 "shasum": ""
             },
             "require": {
@@ -915,10 +915,10 @@
             ],
             "description": "TAW Theme Framework — block system, metabox engine, Vite asset pipeline for WordPress",
             "support": {
-                "source": "https://github.com/Relmaur/taw-core/tree/v1.16.86",
+                "source": "https://github.com/Relmaur/taw-core/tree/v1.16.107",
                 "issues": "https://github.com/Relmaur/taw-core/issues"
             },
-            "time": "2026-07-29T23:28:00+00:00"
+            "time": "2026-07-30T19:21:59+00:00"
         }
     ],
     "packages-dev": [
@@ -2953,67 +2953,6 @@
             "time": "2024-10-09T05:16:32+00:00"
         },
         {
-            "name": "spatie/mjml-php",
-            "version": "1.2.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/mjml-php.git",
-                "reference": "8bf9e5966beb9521510a0af29d94bfffaa1f3dbd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/mjml-php/zipball/8bf9e5966beb9521510a0af29d94bfffaa1f3dbd",
-                "reference": "8bf9e5966beb9521510a0af29d94bfffaa1f3dbd",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.2",
-                "symfony/process": "^6.3.2|^7.0|^8.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.11",
-                "pestphp/pest": "^2.16|^3.0",
-                "spatie/ray": "^1.37.2"
-            },
-            "suggest": {
-                "spatie/mjml-sidecar": "When you want to run MJML compilation through Sidecar in a Laravel project"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Mjml\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Convert MJML to HTML using PHP",
-            "homepage": "https://github.com/spatie/mjml-php",
-            "keywords": [
-                "mjml-php",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/mjml-php/issues",
-                "source": "https://github.com/spatie/mjml-php/tree/1.2.6"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/spatie",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-02-09T15:00:49+00:00"
-        },
-        {
             "name": "staabm/side-effects-detector",
             "version": "1.0.5",
             "source": {
@@ -3188,5 +3127,8 @@
         "php": ">=8.2"
     },
     "platform-dev": {},
+    "platform-overrides": {
+        "php": "8.2"
+    },
     "plugin-api-version": "2.9.0"
 }

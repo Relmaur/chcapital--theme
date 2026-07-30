@@ -38,13 +38,15 @@
         "test": "phpunit"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2"
+        }
     },
     "require-dev": {
         "brain/monkey": "^2.6",
         "phpstan/phpstan": "^2.2",
         "phpunit/phpunit": "^11",
-        "spatie/mjml-php": "^1.2",
         "szepeviktor/phpstan-wordpress": "^2.0"
     }
 }
