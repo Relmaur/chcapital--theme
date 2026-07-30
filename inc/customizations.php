@@ -46,6 +46,33 @@ add_filter('redirect_canonical', function (?string $redirect_url): ?string {
     return $redirect_url;
 });
 
+/**
+ * 301 redirect the old /fideicomisos/blog/ URL structure (previous site) to
+ * the current /blog/ structure, preserving SEO value from indexed/linked
+ * old URLs.
+ *
+ * /fideicomisos/blog(/page/N)?/  → /blog(/page/N)?/
+ * /fideicomisos/{slug}/          → /blog/{slug}/
+ */
+add_action('template_redirect', function () {
+    $path = trim((string) parse_url((string) $_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+
+    if (! str_starts_with($path, 'fideicomisos/')) {
+        return;
+    }
+
+    $rest = substr($path, strlen('fideicomisos/'));
+
+    if ($rest === 'blog' || str_starts_with($rest, 'blog/')) {
+        $destination = home_url('/' . $rest . '/');
+    } else {
+        $destination = home_url('/blog/' . $rest . '/');
+    }
+
+    wp_safe_redirect($destination, 301);
+    exit;
+});
+
 add_action('admin_init', function () {
     remove_post_type_support('page', 'editor');
 });

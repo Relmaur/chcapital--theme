@@ -1,0 +1,94 @@
+name: Deploy
+
+# Deploys this theme to the WPMUdev-hosted production site over SSH/rsync.
+# Gated on the CI workflow (php lint, getData signature check, phpstan, and
+# the real WordPress smoke test) passing for the exact commit on master —
+# `workflow_run` re-runs nothing, it just waits for that run's conclusion.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   WPMUDEV_SSH_HOST    - hostname or IP of the WPMUdev site (The Hub → site → SSH)
+#   WPMUDEV_SSH_PORT    - SSH port (The Hub → site → SSH; often not 22)
+#   WPMUDEV_SSH_USER    - SSH username for the site
+#   WPMUDEV_SSH_KEY     - private key (PEM) whose public half is authorized on the site
+#   WPMUDEV_REMOTE_PATH - absolute path to THIS THEME'S folder on the server,
+#                         e.g. /htdocs/wp-content/themes/chcapital
+#                         (SSH in once and `pwd`/`ls` to confirm the exact path
+#                         before setting this — it varies per account/plan.)
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout (exact commit CI verified)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer:v2
+          coverage: none
+
+      - name: Authenticate composer with GitHub
+        run: composer config -g github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Install PHP dependencies (production only)
+        run: composer install --no-interaction --prefer-dist --no-progress --no-dev --optimize-autoloader
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Load deploy SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.WPMUDEV_SSH_KEY }}
+
+      - name: Trust remote host key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p "${{ secrets.WPMUDEV_SSH_PORT }}" -H "${{ secrets.WPMUDEV_SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy over rsync
+        run: |
+          rsync -avz --delete \
+            -e "ssh -p ${{ secrets.WPMUDEV_SSH_PORT }}" \
+            --exclude=".git" \
+            --exclude=".github" \
+            --exclude="node_modules" \
+            --exclude="tests" \
+            --exclude=".playwright-mcp" \
+            --exclude="*.md" \
+            --exclude="phpunit.xml" \
+            --exclude="phpstan.neon" \
+            --exclude="phpstan-baseline.neon" \
+            --exclude=".phpunit.result.cache" \
+            --exclude="bin/ci" \
+            --exclude=".env" \
+            --exclude="resources/css" \
+            --exclude="resources/js" \
+            --exclude="resources/scss" \
+            --exclude="resources/fonts" \
+            ./ "${{ secrets.WPMUDEV_SSH_USER }}@${{ secrets.WPMUDEV_SSH_HOST }}:${{ secrets.WPMUDEV_REMOTE_PATH }}/"
+          # NOTE: resources/static/ is intentionally NOT excluded — footer.php,
+          # HeroHome/index.php, and every block's 'icon' path read from it
+          # directly via get_template_directory()/get_template_directory_uri(),
+          # never through Vite, so it must ship as-is (unlike css/js/scss/fonts,
+          # which are pure Vite build sources already compiled into /public).
