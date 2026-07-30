@@ -32,6 +32,6 @@ get_header();
 
 <?php BlockRegistry::render('strategic_allies'); ?>
 
-<?php BlockRegistry::render('logo_list'); ?>
+<?php // BlockRegistry::render('logo_list'); ?>
 
 <?php get_footer(); ?>
