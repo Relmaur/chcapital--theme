@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": ">=8.2",
+        "emailit/emailit-php": "^2.0",
         "taw/core": "^1.0"
     },
     "autoload": {

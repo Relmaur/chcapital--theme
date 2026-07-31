@@ -9,6 +9,7 @@
  */
 
 use TAW\Core\Editor\VisualEditor;
+use TAW\Support\EmailConfig;
 
 require_once get_template_directory() . '/inc/multimedia-cpts.php';
 
@@ -16,6 +17,21 @@ require_once get_template_directory() . '/inc/multimedia-cpts.php';
  * Enable the visual editor.
  */
 // VisualEditor::enable();
+
+/**
+ * Route all wp_mail() through Emailit for deliverability (SPF/DKIM/DMARC
+ * on chcapital.mx, configured in the Emailit dashboard — not here). A
+ * true no-op unless EMAILIT_API_KEY is defined in wp-config.php, so this
+ * stays safe to leave uncommented across environments that haven't set
+ * the constant yet (e.g. before it's added to production wp-config.php).
+ */
+if (defined('EMAILIT_API_KEY')) {
+    EmailConfig::useEmailit(
+        apiKey:   EMAILIT_API_KEY,
+        from:     defined('EMAILIT_FROM_EMAIL') ? EMAILIT_FROM_EMAIL : get_bloginfo('admin_email'),
+        fromName: defined('EMAILIT_FROM_NAME') ? EMAILIT_FROM_NAME : '',
+    );
+}
 
 // Media Folders is opt-in at the taw/core level, but ships active by
 // default on every taw-theme site — remove this line if this site doesn't
