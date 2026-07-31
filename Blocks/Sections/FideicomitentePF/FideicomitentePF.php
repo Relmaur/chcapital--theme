@@ -23,7 +23,12 @@ class FideicomitentePF extends MetaBlock
                 'turnstile'    => true,
                 'email'        => [
                     'to_self' => [
-                        'subject' => __('Nuevo Fideicomitente PF — CH Capital', 'taw-theme'),
+                        'subject'  => __('Nuevo Fideicomitente PF — CH Capital', 'taw-theme'),
+                        'template' => 'form-notification',
+                    ],
+                    'to_client' => [
+                        'subject'  => __('Hemos recibido tu solicitud — CH Capital', 'taw-theme'),
+                        'template' => 'form-thankyou',
                     ],
                 ],
                 'messages' => [

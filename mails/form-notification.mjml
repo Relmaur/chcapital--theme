@@ -1,0 +1,44 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="Montserrat, Arial, sans-serif" />
+      <mj-text font-size="14px" color="#111111" line-height="22px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f8fafc">
+
+    <mj-section padding="24px 0 0 0">
+      <mj-column>
+        <mj-image src="https://chcapital.mx/wp-content/uploads/2026/07/ch-logo.png" alt="CH Capital" width="140px" align="center" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" border-radius="8px" padding="0" css-class="card">
+      <mj-column>
+        <mj-divider border-width="4px" border-color="#004a98" padding="0" />
+        <mj-text font-size="20px" font-weight="700" color="#111111" padding="28px 32px 8px 32px">
+          Nueva solicitud recibida
+        </mj-text>
+        <mj-text padding="0 32px 20px 32px" color="#555555">
+          Se ha recibido una nueva solicitud a través del formulario <strong>"{{form_id}}"</strong> en {{site_name}}.
+        </mj-text>
+        <mj-divider border-color="#e5e7eb" padding="0 32px" />
+        <mj-text padding="20px 32px 4px 32px" font-size="13px" font-weight="700" color="#004a98" text-transform="uppercase" letter-spacing="0.5px">
+          Datos enviados
+        </mj-text>
+        <mj-text padding="4px 32px 28px 32px">
+          {{all_fields}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section padding="20px 0 32px 0">
+      <mj-column>
+        <mj-text align="center" font-size="12px" color="#888888">
+          Enviado desde <a href="{{site_url}}" style="color:#004a98;">{{site_url}}</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+  </mj-body>
+</mjml>

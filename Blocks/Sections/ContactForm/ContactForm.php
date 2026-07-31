@@ -23,7 +23,11 @@ class ContactForm extends MetaBlock
                 'email'        => [
                     'to_self' => [
                         'subject'  => __('Nueva consulta desde Contacto', 'taw-theme'),
-                        'template' => 'contact-self',
+                        'template' => 'form-notification',
+                    ],
+                    'to_client' => [
+                        'subject'  => __('Hemos recibido tu mensaje — CH Capital', 'taw-theme'),
+                        'template' => 'form-thankyou',
                     ],
                 ],
                 'messages' => [
