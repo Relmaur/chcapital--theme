@@ -116,7 +116,10 @@ $render_menu_icon = static function ($raw_icon): string {
             <div class="logo">
                 <a href="<?php echo esc_url(
                     home_url("/"),
-                ); ?>"><?php echo file_get_contents(
+                ); ?>" aria-label="<?php echo esc_attr__(
+    "Ir al inicio",
+    "taw-theme",
+); ?>"><?php echo file_get_contents(
     get_template_directory() . "/resources/static/svg/ch-logo.svg",
 ); ?></a>
             </div>

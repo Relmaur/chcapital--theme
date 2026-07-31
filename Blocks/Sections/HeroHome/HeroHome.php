@@ -31,6 +31,13 @@ class HeroHome extends MetaBlock
                     'width'    => '100',
                 ],
                 [
+                    'id'          => 'hero_bg_image',
+                    'label'       => __('Background Image (gradient layer)', 'taw-theme'),
+                    'type'        => 'image',
+                    'width'       => '100',
+                    'description' => __('The static base image behind the gradient overlay, always visible regardless of animated slides below.', 'taw-theme'),
+                ],
+                [
                     'id'     => 'hero_slides',
                     'label'  => __('Background Slides', 'taw-theme'),
                     'type'   => 'repeater',
@@ -61,9 +68,10 @@ class HeroHome extends MetaBlock
         }
 
         return [
-            'heading' => $this->getMeta($postId, 'hero_heading'),
-            'tagline' => $this->getMeta($postId, 'hero_tagline'),
-            'slides'  => $slides,
+            'heading'  => $this->getMeta($postId, 'hero_heading'),
+            'tagline'  => $this->getMeta($postId, 'hero_tagline'),
+            'bg_image' => (int) $this->getMeta($postId, 'hero_bg_image'),
+            'slides'   => $slides,
         ];
     }
 }

@@ -6,6 +6,7 @@
  * Available variables (from Hero::getData):
  *
  * @var int[]  $slides   WordPress attachment IDs from the metabox repeater
+ * @var int    $bg_image WordPress attachment ID for the static gradient-layer background
  * @var string $heading
  * @var string $tagline
  */
@@ -15,7 +16,7 @@ use TAW\Helpers\Image;
 
 $button = new Button();
 
-$bg_image_url = 'https://chcapital.local/wp-content/uploads/2026/06/chc-hero-01-scaled.webp';
+$bg_image_url = $bg_image ? Image::background($bg_image, 'full', ['url_only' => true]) : '';
 
 // $gradient = 'linear-gradient(to bottom right, transparent 0%, rgb(0 0 0 / 86%) 0%, rgb(0 45 121 / 82%) 60%, #001f53 80%, #000810 100%)';
 $gradient = 'linear-gradient(180deg, rgb(0 32 66 / 73%) 18%, rgb(0 32 66) 100%)';

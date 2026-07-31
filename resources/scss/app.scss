@@ -121,7 +121,9 @@ main {
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.45);
+    // 0.45 measured at 3.39:1 against this section's #003d7d background —
+    // fails WCAG AA (4.5:1 for normal text). 0.62 clears it at ~5.08:1.
+    color: rgba(255, 255, 255, 0.62);
     margin: 0;
 }
 
@@ -153,7 +155,9 @@ main {
 
 .footer-bottom__copy {
     font-size: 0.8125rem;
-    color: rgba(255, 255, 255, 0.6);
+    // 0.6 measured at 4.15:1 against this section's #004a98 background —
+    // just under WCAG AA's 4.5:1 for normal text. 0.68 clears it at ~4.86:1.
+    color: rgba(255, 255, 255, 0.68);
     margin: 0;
 }
 

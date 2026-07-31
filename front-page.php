@@ -2,6 +2,7 @@
 // index.php (or front-page.php)
 
 use TAW\Core\Block\BlockRegistry;
+use TAW\Helpers\Image;
 
 // 1. Declare which blocks this page needs (BEFORE get_header)
 BlockRegistry::queue(
@@ -29,7 +30,7 @@ get_header();
 <section class="ch-section bg-lightgray">
     <div class="section-container--sm flex items-center gap-10 md:flex-row flex-col">
         <div class="image flex-1 rounded-lg overflow-hidden aspect-video">
-            <img class="rounded-lg object-cover object-[50%_5%] w-full h-full" src="/wp-content/uploads/2026/05/ch-alfredo-01.webp" alt="">
+            <?php echo Image::render(5486, 'medium', '', ['class' => 'rounded-lg object-cover object-[50%_5%] w-full h-full']); ?>
         </div>
         <div class="content flex-1">
             <h2 class="section-title">Nuestros Valores</h2>

@@ -89,6 +89,36 @@ add_action('template_redirect', function () {
     exit;
 });
 
+/**
+ * Async-load two specific render-blocking stylesheets flagged by a live
+ * Lighthouse audit (2026-07-31): the main compiled app stylesheet
+ * (`theme-app-style`, handle from ViteLoader) and the Form system's CSS
+ * (`taw-form`, handle from taw/core's Form::enqueueAssets()). Every
+ * per-block Vite stylesheet already uses this media="print" + onload
+ * swap pattern (see BaseBlock::enqueueProdAssets()) — these two just
+ * happen to be enqueued outside that per-block path, so they were still
+ * loading as plain synchronous <link> tags.
+ *
+ * Runs at a late priority so it operates on the tag AFTER Hummingbird's
+ * own style_loader_tag filter has already rewritten the href to its
+ * hb.wpmucdn.com CDN URL — reconstructing from the raw $href parameter
+ * here would silently discard that rewrite and revert to the origin URL.
+ */
+add_filter('style_loader_tag', function (string $html, string $handle, string $href, string $media): string {
+    if (! in_array($handle, ['theme-app-style', 'taw-form'], true)) {
+        return $html;
+    }
+
+    $url = preg_match('/href=[\'"]([^\'"]+)[\'"]/', $html, $matches) ? $matches[1] : $href;
+
+    return sprintf(
+        '<link rel="stylesheet" id="%1$s-css" href="%2$s" media="print" onload="this.media=\'all\'">' . "\n"
+            . '<noscript><link rel="stylesheet" id="%1$s-css" href="%2$s"></noscript>' . "\n",
+        esc_attr($handle),
+        esc_url($url)
+    );
+}, 100, 4);
+
 add_action('admin_init', function () {
     remove_post_type_support('page', 'editor');
 });
