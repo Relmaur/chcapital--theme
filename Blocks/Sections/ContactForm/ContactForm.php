@@ -42,6 +42,17 @@ class ContactForm extends MetaBlock
                     ['id' => 'company', 'label' => __('Empresa', 'taw-theme'),            'type' => 'text',     'required' => false, 'width' => '50'],
                     ['id' => 'phone',   'label' => __('Teléfono', 'taw-theme'),           'type' => 'tel',      'required' => true,  'width' => '50'],
                     ['id' => 'email',   'label' => __('Correo electrónico', 'taw-theme'), 'type' => 'email',    'required' => true,  'width' => '50'],
+                    [
+                        'id'       => 'interest',
+                        'label'    => __('Interesado en:', 'taw-theme'),
+                        'type'     => 'select',
+                        'required' => true,
+                        'width'    => '100',
+                        'options'  => [
+                            __('Fideicomiso', 'taw-theme') => __('Fideicomiso', 'taw-theme'),
+                            __('Crédito', 'taw-theme')     => __('Crédito', 'taw-theme'),
+                        ],
+                    ],
                     ['id' => 'message', 'label' => __('¿En qué podemos ayudarte?', 'taw-theme'), 'type' => 'textarea', 'required' => false, 'width' => '100'],
                 ],
             ]);
