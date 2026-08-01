@@ -66,6 +66,27 @@
         gap: 1rem;
     }
 
+    &__detail--division {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    &__detail--division:nth-child(2) {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    &__division-heading {
+        margin-bottom: -0.25rem;
+    }
+
+    &__division-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
     &__detail-icon {
         flex-shrink: 0;
         width: 2.5rem;
@@ -165,6 +186,11 @@
         border-radius: 1.25rem;
         padding: 2.5rem;
         box-shadow: 0 4px 24px rgba(0, 74, 152, 0.06);
+
+        @media (min-width: 1024px) {
+            position: sticky;
+            top: calc(var(--header-height, 0px) + 2rem);
+        }
 
         @media (max-width: 480px) {
             padding: 1.5rem;

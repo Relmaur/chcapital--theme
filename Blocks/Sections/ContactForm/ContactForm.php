@@ -110,8 +110,18 @@ class ContactForm extends MetaBlock
             'heading'    => $this->getMeta($postId, 'contact_form_heading')    ?: __('Hablemos', 'taw-theme'),
             'subheading' => $this->getMeta($postId, 'contact_form_subheading') ?: __('Cuéntanos sobre tu empresa y un asesor te contactará a la brevedad para ayudarte a encontrar la solución financiera ideal.', 'taw-theme'),
             'hours'      => $this->getMeta($postId, 'contact_form_hours')      ?: __('Lun–Vie: 9:00 – 18:00', 'taw-theme'),
-            'phone'      => OptionsPage::get('company_phone'),
-            'email'      => OptionsPage::get('company_email'),
+            'divisions'  => [
+                [
+                    'label' => __('División Financiera', 'taw-theme'),
+                    'email' => OptionsPage::get('division_financiera_email'),
+                    'phone' => OptionsPage::get('division_financiera_phone'),
+                ],
+                [
+                    'label' => __('División Fiduciaria', 'taw-theme'),
+                    'email' => OptionsPage::get('division_fiduciaria_email'),
+                    'phone' => OptionsPage::get('division_fiduciaria_phone'),
+                ],
+            ],
             'address'    => OptionsPage::get('company_address'),
             'social'     => $social,
         ];

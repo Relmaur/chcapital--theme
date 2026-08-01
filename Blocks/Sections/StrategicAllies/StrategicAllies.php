@@ -80,11 +80,11 @@ class StrategicAllies extends MetaBlock
                 'ally_name' => 'Legal Solutions 1',
                 'ally_url'  => 'https://legalsolutions1.com.mx/',
             ],
-            [
-                'ally_logo' => 5497,
-                'ally_name' => 'Abogadomex',
-                'ally_url'  => 'https://abogadomex.com/',
-            ],
+            // [
+            //     'ally_logo' => 5497,
+            //     'ally_name' => 'Abogadomex',
+            //     'ally_url'  => 'https://abogadomex.com/',
+            // ],
             [
                 'ally_logo' => 5498,
                 'ally_name' => 'Ruiz Consultores',
@@ -134,6 +134,21 @@ class StrategicAllies extends MetaBlock
                 'ally_logo' => 5507,
                 'ally_name' => 'Algorithia',
                 'ally_url'  => 'https://www.algorithia.com/',
+            ],
+            [
+                'ally_logo' => 5867,
+                'ally_name' => 'Consultores Dirección del Crecimiento',
+                'ally_url'  => '',
+            ],
+            [
+                'ally_logo' => 5866,
+                'ally_name' => 'Algorithia',
+                'ally_url'  => '',
+            ],
+            [
+                'ally_logo' => 5865,
+                'ally_name' => 'LS México',
+                'ally_url'  => '',
             ],
         ];
 

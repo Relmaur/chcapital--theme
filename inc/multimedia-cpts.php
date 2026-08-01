@@ -186,6 +186,22 @@ add_action('init', static function (): void {
                         'type'  => 'text',
                         'width' => '50',
                     ],
+                    [
+                        'id' => 'is_video',
+                        'label' => __('Is Video?', 'taw-theme'),
+                        'type' => 'checkbox',
+                        'width' => '100',
+                        'description' => __('Check this if the image is a video thumbnail.', 'taw-theme'),
+                    ],
+                    [
+                        'id'    => 'video_url',
+                        'label' => __('Video URL', 'taw-theme'),
+                        'type'  => 'text',
+                        'width' => '100',
+                        'conditions' => [
+                            ['field' => 'is_video', 'operator' => '==', 'value' => '1'],
+                        ],
+                    ],
                 ],
             ],
             [

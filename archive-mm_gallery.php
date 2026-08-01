@@ -9,8 +9,10 @@
  */
 
 use TAW\Blocks\Atoms\LightboxImage\LightboxImage;
+use TAW\Blocks\Sections\PostGrid\PostGrid;
 use TAW\Core\Block\BlockRegistry;
 use TAW\Core\Metabox\Metabox;
+use TAW\Helpers\Image;
 
 // Queue PostGrid assets (CSS/JS) and PhotoSwipe before <head> closes
 BlockRegistry::queue('post_grid--galerias');
@@ -56,6 +58,8 @@ $galleries = get_posts([
 </section>
 
 <!-- ── Gallery Sections ──────────────────────────────────────────────── -->
+<div x-data="videoModal">
+
 <?php if (!empty($galleries)) :
     $lb = new LightboxImage();
     foreach ($galleries as $gallery) :
@@ -101,24 +105,56 @@ $galleries = get_posts([
                     </div>
                 <?php endif; ?>
 
-                <!-- data-pswp-gallery scopes PhotoSwipe navigation to this entry only -->
+                <!-- data-pswp-gallery scopes PhotoSwipe navigation to this entry only. -->
+                <!-- Video tiles sit inline but carry no data-pswp-* attrs, so PhotoSwipe skips them. -->
                 <div class="post-grid__grid" data-pswp-gallery>
                     <?php foreach ($rows as $row) :
-                        $id = (int) ($row['image'] ?? 0);
-                        if (!$id) continue;
-                        $full = wp_get_attachment_image_src($id, 'full');
+                        $id        = (int) ($row['image'] ?? 0);
+                        $video_url = (string) ($row['video_url'] ?? '');
+                        $caption   = (string) ($row['caption'] ?? '');
+                        $is_video  = !empty($row['is_video']) && $video_url !== '';
+
+                        if (!$is_video && !$id) continue;
                     ?>
-                        <?php $lb->render([
-                            'image_id'        => $id,
-                            'alt'             => '',
-                            'caption'         => (string) ($row['caption'] ?? ''),
-                            'display_size'    => 'large',
-                            'full_url'        => $full ? $full[0] : '',
-                            'full_width'      => $full ? (int) $full[1] : 0,
-                            'full_height'     => $full ? (int) $full[2] : 0,
-                            'is_gallery_item' => true,
-                            'class' => 'relative post-card--gallery ratio-16-9'
-                        ]); ?>
+                        <?php if ($is_video) :
+                            $embed_url = multimedia_get_embed_url($video_url);
+                            $yt_thumb  = PostGrid::youtubeThumbUrl($video_url);
+                        ?>
+                            <button
+                                class="post-card post-card--gallery post-card--video relative"
+                                type="button"
+                                x-on:click="openVideo('<?php echo esc_js($embed_url); ?>')"
+                                aria-label="<?php echo esc_attr($caption !== '' ? sprintf(__('Ver video: %s', 'taw-theme'), $caption) : __('Ver video', 'taw-theme')); ?>">
+                                <div class="post-card__image">
+                                    <?php if ($id) :
+                                        echo Image::render($id, 'large', $caption, ['class' => 'post-card__thumb']);
+                                    elseif ($yt_thumb) : ?>
+                                        <img src="<?php echo esc_url($yt_thumb); ?>" alt="<?php echo esc_attr($caption); ?>" class="post-card__thumb" loading="lazy">
+                                    <?php else : ?>
+                                        <div class="post-card__thumb-placeholder"></div>
+                                    <?php endif; ?>
+                                    <div class="post-card__play" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </button>
+                        <?php else :
+                            $full = wp_get_attachment_image_src($id, 'full');
+                        ?>
+                            <?php $lb->render([
+                                'image_id'        => $id,
+                                'alt'             => '',
+                                'caption'         => $caption,
+                                'display_size'    => 'large',
+                                'full_url'        => $full ? $full[0] : '',
+                                'full_width'      => $full ? (int) $full[1] : 0,
+                                'full_height'     => $full ? (int) $full[2] : 0,
+                                'is_gallery_item' => true,
+                                'class' => 'relative post-card--gallery ratio-16-9'
+                            ]); ?>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
 
@@ -135,5 +171,40 @@ else : ?>
         </div>
     </section>
 <?php endif; ?>
+
+    <!-- Video Modal -->
+    <div
+        class="video-modal"
+        x-show="isOpen"
+        x-cloak
+        x-on:keydown.escape.window="close()"
+        role="dialog"
+        aria-modal="true"
+        aria-label="<?php esc_attr_e('Reproductor de video', 'taw-theme'); ?>">
+        <div class="video-modal__backdrop" x-on:click="close()" aria-hidden="true"></div>
+        <div class="video-modal__container">
+            <button
+                class="video-modal__close"
+                type="button"
+                x-on:click="close()"
+                aria-label="<?php esc_attr_e('Cerrar video', 'taw-theme'); ?>">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                    <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="video-modal__player">
+                <template x-if="isOpen && embedUrl">
+                    <iframe
+                        :src="embedUrl"
+                        frameborder="0"
+                        allowfullscreen
+                        allow="autoplay; encrypted-media; picture-in-picture"
+                        title="<?php esc_attr_e('Video', 'taw-theme'); ?>"></iframe>
+                </template>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /x-data="videoModal" -->
 
 <?php get_footer(); ?>
