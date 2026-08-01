@@ -113,13 +113,13 @@ class ContentBlock extends MetaBlock
             ],
 
             'steps' => [
-                'label'          => 'Section — ¿Cómo solicitarlo?',
+                'label'          => 'Section — ¿Cómo obtenerlo?',
                 'screens'        => ['page-credito-pyme.php', 'page-arrendamiento-puro.php', 'page-credito-de-nomina.php'],
                 'bg'             => '',
                 'layout'         => 'single',
                 'image_position' => 'right',
                 'defaults'       => [
-                    'heading'    => '¿Cómo solicitarlo?',
+                    'heading'    => '¿Cómo obtenerlo?',
                     'subheading' => 'Un proceso sencillo y transparente, diseñado para que obtengas tu financiamiento a tiempo.',
                     'content'    => '<ol>
                                     <li><span><strong>Solicitud</strong>— Completa el formulario de contacto o llámanos directamente.</span></li>

@@ -29,7 +29,7 @@ $has_terms = !empty($terms) && !is_wp_error($terms);
 // Custom display order — slugs not listed here fall back to alphabetical, after the listed ones.
 $video_type_order = [
     'webinars',
-    'casos-de-empresarios',
+    'casos-reales',
     'aniversarios',
 ];
 
