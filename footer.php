@@ -142,6 +142,8 @@ $footerText    = OptionsPage::get('footer_text') ?: __('Todos los derechos reser
         var header = document.getElementById('masthead');
         if (!header) return;
 
+        var lastWidth = null;
+
         function sync() {
             document.documentElement.style.setProperty('--header-height', header.getBoundingClientRect().height + 'px');
         }
@@ -153,9 +155,17 @@ $footerText    = OptionsPage::get('footer_text') ?: __('Todos los derechos reser
                 once: true
             });
         }
-        // Keep in sync if the header changes height (e.g. mobile ↔ desktop breakpoint)
+        // Keep in sync if the header changes height (e.g. mobile ↔ desktop breakpoint).
+        // Gated on width so the mobile scroll-hide animation (height-only, see
+        // Blocks/Molecules/Menu) doesn't retrigger this on every animation frame
+        // and yank the page's padding-top along with it.
         if (window.ResizeObserver) {
-            new ResizeObserver(sync).observe(header);
+            new ResizeObserver(function() {
+                var width = header.getBoundingClientRect().width;
+                if (width === lastWidth) return;
+                lastWidth = width;
+                sync();
+            }).observe(header);
         } else {
             window.addEventListener('resize', sync, {
                 passive: true
