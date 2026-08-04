@@ -22,7 +22,8 @@ class Cta extends MetaBlock
                 'page-arrendamiento-puro.php',
                 'page-fideicomisos.php',
                 'page-credito-de-nomina.php',
-                'page-escrow.php'
+                'page-escrow.php',
+                'page-quien-regula-y-supervisa-a-las-instituciones-financieras.php'
             ],
             'fields'  => [
                 [

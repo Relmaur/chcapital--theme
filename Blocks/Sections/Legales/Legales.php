@@ -58,11 +58,11 @@ class Legales extends MetaBlock
         $default_links = [
             [
                 'text' => __('¿Quién regula y supervisa a las instituciones financieras?', 'taw-theme'),
-                'url'  => 'https://chcapital.mx/home/quien-regula-y-supervisa-a-las-instituciones-financieras/',
+                'url'  => '/quien-regula-y-supervisa-a-las-instituciones-financieras/',
             ],
             [
                 'text' => __('¿Qué es el Buró de Entidades Financieras?', 'taw-theme'),
-                'url'  => 'https://chcapital.mx/home/buro-de-entidades-financieras/'
+                'url'  => '/buro-de-entidades-financieras/'
             ]
         ];
 

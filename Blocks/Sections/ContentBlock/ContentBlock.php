@@ -35,6 +35,10 @@ class ContentBlock extends MetaBlock
             'escrow_benefits',
             'escrow_history',
             'escrow_contract',
+            'regulacion_cnbv',
+            'regulacion_condusef',
+            'regulacion_pasos',
+            'buro_entidades',
         ];
     }
 
@@ -284,6 +288,75 @@ class ContentBlock extends MetaBlock
                     'heading'    => '¿Qué es el Contrato Escrow?',
                     'subheading' => '',
                     'content'    => '<p>El Contrato Escrow es un servicio de intermediación fiduciaria por el cual se mantienen en custodia los recursos vinculados a una operación de compraventa o renta de inmuebles. Los fondos se liberan exclusivamente al verificarse el cumplimiento de las condiciones establecidas, con supervisión de la CNBV y la CONDUSEF.</p>',
+                ],
+            ],
+
+            'regulacion_cnbv' => [
+                'label'          => 'Section — Regulación CNBV',
+                'screens'        => ['page-quien-regula-y-supervisa-a-las-instituciones-financieras.php'],
+                'bg'             => '',
+                'layout'         => 'single',
+                'image_position' => 'right',
+                'defaults'       => [
+                    'heading'    => 'Comisión Nacional Bancaria y de Valores (CNBV)',
+                    'subheading' => '',
+                    'content'    => '<p>La Comisión Nacional Bancaria y de Valores (CNBV) es la entidad pública responsable de supervisar y regular a las instituciones que conforman el sistema financiero mexicano. Su objeto es procurar su correcto funcionamiento y su estabilidad, al tiempo que mantiene y fomenta un sano y equilibrado desarrollo de las actividades financieras que se llevan a cabo en el país.<br/><br/>
+                        La CNBV es un órgano desconcentrado de la Secretaría de Hacienda y Crédito Público (SHCP).<br/><br/>
+                        La CNBV tiene autonomía técnica y de gestión, además de facultades para sancionar a las instituciones financieras que incurren en faltas a la legislación de la materia, con lo que garantiza la seguridad de los usuarios del sistema financiero mexicano. También está facultada legalmente para establecer programas preventivos orientados a contrarrestar eventuales irregularidades en el sistema, además de emitir la regulación necesaria que permita a las instituciones financieras preservar su liquidez y solvencia.<br/><br/>
+                        La CNBV se rige por la ley de su creación y es responsable de la aplicación de otro conjunto de leyes que rigen a las instituciones financieras, entre ellas, la Ley General de Organizaciones y Actividades Auxiliares del Crédito, la Ley General de Títulos y Operaciones de Crédito y la Ley de Instituciones de Crédito.<br/><br/>
+                        Cada tres años las instituciones financieras deben obtener un Dictamen Técnico de viabilidad emitido por la CNBV para continuar prestando el servicio fiduciario a los usuarios.<br/><br/>
+                        El Dictamen Técnico de CH Capital tiene el número de folio 0695086-2021-101269-NDT, de fecha 1º de diciembre de 2021.</p>',
+                ],
+            ],
+
+            'regulacion_condusef' => [
+                'label'          => 'Section — Regulación CONDUSEF',
+                'screens'        => ['page-quien-regula-y-supervisa-a-las-instituciones-financieras.php'],
+                'bg'             => 'bg-lightgray',
+                'layout'         => 'single',
+                'image_position' => 'right',
+                'defaults'       => [
+                    'heading'    => 'Comisión Nacional para la Protección y Defensa de los Usuarios de Servicios Financieros (CONDUSEF)',
+                    'subheading' => '',
+                    'content'    => '<p>La Comisión Nacional para la Protección y Defensa de los Usuarios de Servicios Financieros (CONDUSEF), por su parte, es la entidad pública responsable de asesorar y defender los derechos de las personas que hacen uso de los servicios financieros en México.<br/><br/>
+                        La CONDUSEF ofrece a los usuarios una serie de herramientas digitales con las cuales pueden informarse acerca de la legitimidad de las instituciones financieras autorizadas para prestar estos servicios en el país, si se encuentran vigentes, si han sido sancionadas, si cumplen con la legislación que les aplica.<br/><br/>
+                        Entre otras herramientas de información se encuentra el Sistema de Registro de Prestadores de Servicios Financieros (SIPRES), en el que están inscritas todas las entidades financieras legalmente autorizadas en México para este propósito, además de informar sobre su situación actual, sea que se encuentren activas y en operación o que ya no operan.</p>',
+                ],
+            ],
+
+            'regulacion_pasos' => [
+                'label'          => 'Section — Pasos para consultar CONDUSEF',
+                'screens'        => ['page-quien-regula-y-supervisa-a-las-instituciones-financieras.php'],
+                'bg'             => '',
+                'layout'         => 'single',
+                'image_position' => 'right',
+                'defaults'       => [
+                    'heading'    => '',
+                    'subheading' => '',
+                    'content'    => '<ol>
+                                    <li>Paso 1</li>
+                                    <li>Paso 2</li>
+                                    <li>Paso 3</li>
+                                    <li>Paso 4</li>
+                                    </ol>',
+                    'content_disclaimer' => 'Capturas de pantalla del sitio de CONDUSEF pendientes de volver a subir tras la migración — agrégalas en el campo de imagen de cada paso cuando estén disponibles.',
+                ],
+            ],
+
+            'buro_entidades' => [
+                'label'          => 'Section — Buró de Entidades Financieras',
+                'screens'        => ['page-buro-de-entidades-financieras.php'],
+                'bg'             => '',
+                'layout'         => 'single',
+                'image_position' => 'right',
+                'defaults'       => [
+                    'heading'    => '',
+                    'subheading' => '',
+                    'content'    => '<p>La Intermediación Fiduciaria es una herramienta imprescindible para garantizar estas operaciones. En CH Capital prestamos el servicio de Escrow mediante nuestra Póliza de Cumplimiento, PDC - Escrow, fundamentalmente en operaciones de compraventa y rentas de corto plazo de inmuebles, así como en otras operaciones comerciales.<br/><br/>
+                        Este servicio consiste en la recepción y custodia de los recursos depositados por el Mandante, que regularmente es el Comprador o el Arrendatario en operaciones inmobiliarias, con el que se garantiza que recibirán las contraprestaciones pactadas en el contrato firmado por ellas con el Vendedor o el Arrendador, según corresponda.<br/><br/>
+                        En la PDC - Escrow también se puede garantizar el pago de la comisión convenida entre el Vendedor y el Asesor Inmobiliario, quien actúa como facilitador experto en esas operaciones inmobiliarias, tanto en la parte de definiciones contractuales como en la concreción de las mismas.<br/><br/>
+                        La PDC – Escrow es una transacción legal, segura, transparente y confiable, especialmente en operaciones inmobiliarias celebradas entre personas que no se conocen entre sí, en las cuales pueden estar en juego importantes cantidades de recursos y el cumplimiento de las obligaciones contraídas entre ellas.<br/><br/>
+                        La Intermediación Fiduciaria, a través de un Mandato Fiduciario o Escrow Agreement, brinda la seguridad absoluta a las partes de que los recursos depositados en las cuentas bancarias asociadas a ese Mandato, servirán únicamente para garantizar el pago de las contraprestaciones pactadas, una vez que se hayan cumplido las condiciones convenidas en el contrato de compraventa o renta respectivo.</p>',
                 ],
             ],
 
