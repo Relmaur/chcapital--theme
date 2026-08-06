@@ -11,6 +11,10 @@ $finEmail = OptionsPage::get('division_financiera_email');
 $finPhone = OptionsPage::get('division_financiera_phone');
 $companyAddr   = OptionsPage::get('company_address');
 $footerText    = OptionsPage::get('footer_text') ?: __('Todos los derechos reservados.', 'taw-theme');
+$uneLabel      = OptionsPage::get('footer_legal_une_label') ?: __('UNE Unidad Especializada de Atención de Clientes', 'taw-theme');
+$uneUrl        = OptionsPage::get('footer_legal_une_url') ?: 'https://chcapital.mx/wp-content/uploads/2024/09/UNE-nuevo.pdf';
+$privacyLabel  = OptionsPage::get('footer_legal_privacy_label') ?: __('Aviso de Privacidad', 'taw-theme');
+$privacyUrl    = OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapital.mx/wp-content/uploads/2024/03/aviso.pdf';
 
 ?>
 
@@ -123,13 +127,17 @@ $footerText    = OptionsPage::get('footer_text') ?: __('Todos los derechos reser
             </p>
 
             <div class="legal flex flex-col sm:flex-row items-start sm:items-center gap-x-6 gap-y-3">
-                <a href="https://chcapital.mx/wp-content/uploads/2024/09/UNE-nuevo.pdf" class="footer-bottom__copy text-white">UNE Unidad Especializada de Atención de Clientes</a>
-                <a href="https://chcapital.mx/wp-content/uploads/2024/03/aviso.pdf" class="footer-bottom__copy flex items-center gap-1 text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
-                        <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
-                    </svg>
-                    Aviso de Privacidad
-                </a>
+                <?php if ($uneUrl) : ?>
+                    <a href="<?php echo esc_url($uneUrl); ?>" class="footer-bottom__copy text-white"><?php echo esc_html($uneLabel); ?></a>
+                <?php endif; ?>
+                <?php if ($privacyUrl) : ?>
+                    <a href="<?php echo esc_url($privacyUrl); ?>" class="footer-bottom__copy flex items-center gap-1 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+                            <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+                        </svg>
+                        <?php echo esc_html($privacyLabel); ?>
+                    </a>
+                <?php endif; ?>
             </div>
 
         </div>

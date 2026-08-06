@@ -79,6 +79,24 @@ new OptionsPage([
             'type' => 'url'
         ],
         [
+            'id' => 'footer_legal_une',
+            'label' => __('UNE Link', 'taw-theme'),
+            'type' => 'group',
+            'fields' => [
+                ['id' => 'label', 'label' => __('Label', 'taw-theme'), 'type' => 'text', 'width' => '50', 'default' => __('UNE Unidad Especializada de Atención de Clientes', 'taw-theme')],
+                ['id' => 'url', 'label' => __('URL', 'taw-theme'), 'type' => 'url', 'width' => '50', 'default' => 'https://chcapital.mx/wp-content/uploads/2024/09/UNE-nuevo.pdf'],
+            ],
+        ],
+        [
+            'id' => 'footer_legal_privacy',
+            'label' => __('Aviso de Privacidad Link', 'taw-theme'),
+            'type' => 'group',
+            'fields' => [
+                ['id' => 'label', 'label' => __('Label', 'taw-theme'), 'type' => 'text', 'width' => '50', 'default' => __('Aviso de Privacidad', 'taw-theme')],
+                ['id' => 'url', 'label' => __('URL', 'taw-theme'), 'type' => 'url', 'width' => '50', 'default' => 'https://chcapital.mx/wp-content/uploads/2024/03/aviso.pdf'],
+            ],
+        ],
+        [
             'id' => 'css_studio_enabled',
             'label' => __('Enable CSS Studio', 'taw-theme'),
             'type' => 'checkbox'
@@ -93,7 +111,7 @@ new OptionsPage([
         [
             'id' => 'footer',
             'label' => __('Footer', 'taw-theme'),
-            'fields' => ['footer_text']
+            'fields' => ['footer_text', 'footer_legal_une', 'footer_legal_privacy']
         ],
         [
             'id' => 'social',
