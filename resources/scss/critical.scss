@@ -166,6 +166,17 @@ body {
             margin-top: calc(var(--vertical-offset) * -1.25);
         }
     }
+
+    // Mirrors the `xl:min-h-150` Tailwind utility on the hero markup
+    // (Blocks/Sections/HeroHome/index.php) at its exact breakpoint (80rem)
+    // and value (150 * 4px spacing unit = 600px). That utility only lives in
+    // app.css, which loads asynchronously — without this reservation, the
+    // hero renders at its unconstrained content height on first paint, then
+    // pops to 600px once app.css applies, a desktop/xl-only CLS bug (only
+    // triggers >=1280px, so it doesn't show up in narrower test viewports).
+    @media (min-width: 1280px) {
+        min-height: 600px;
+    }
 }
 
 // === About Hero Section Shell ===

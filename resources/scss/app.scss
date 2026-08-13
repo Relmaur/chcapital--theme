@@ -7,11 +7,10 @@
 }
 
 main {
-    padding-top: var(--header-height, 0px);
-
-    @media(max-width: 767px) {
-        // padding-top: calc(var(--header-height, 0px) + 1.5rem);
-    }
+    // padding-top for the fixed header lives on .site-main in critical.scss
+    // (higher specificity, inlined, no async-load race) — this bare-element
+    // rule was a leftover duplicate from before that refactor and never won
+    // the cascade against .site-main, so it was dead weight.
 
     .ch-section {
         padding: var(--section-vertical-padding) 0;
