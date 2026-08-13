@@ -49,16 +49,15 @@ use TAW\Blocks\Molecules\Menu\Menu;
                 document.documentElement.style.setProperty('--header-height', header.getBoundingClientRect().height + 'px');
             }
 
-            // Run immediately — the header is the last thing parsed at this point,
-            // so this happens before the browser paints anything below it. The
-            // previous version of this script lived in footer.php gated on
-            // 'load', which delayed the --header-height flip from 0px to its
-            // real value until every image/font on the page had finished
-            // downloading — a multi-second-late layout shift (measured CLS ~1.8).
-            sync();
-
-            // Re-sync after full load in case a web font swap (font-display: swap)
-            // or the async app.css finishing load altered the header's final height.
+            // Deliberately NOT called immediately: app.css (which carries the
+            // header's real Tailwind padding/sizing utilities) loads
+            // asynchronously, so a measurement taken before it applies would
+            // read a too-small height and overwrite critical.scss's accurate
+            // static --header-height default with a worse one — trading the
+            // original large 0px-to-real jump for a smaller but still visible
+            // one. critical.scss's default is already close to correct, so
+            // this only needs to nudge it to the exact value once everything
+            // has settled.
             window.addEventListener('load', sync, {
                 once: true
             });

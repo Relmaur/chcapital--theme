@@ -43,6 +43,26 @@ body {
     overflow-x: hidden;
 }
 
+// === Header height default ===
+// #masthead is `position: fixed`, so it never reserves its own space in the
+// document flow — .site-main/.ch-hero compensate via padding-top reading this
+// custom property. app.css (which carries the header's real Tailwind padding/
+// sizing utilities) loads asynchronously, so this can't be measured from the
+// DOM until after it applies — leaving --header-height unset until then causes
+// a 0px -> real-height jump the moment it's finally set (the original CLS bug).
+// These values are computed from the header's actual compiled padding/icon/
+// logo dimensions (py-3/py-2/sm:py-4, size-6, the 271:67 logo SVG at
+// max-width:150px, etc. — see Blocks/Molecules/Menu) so first paint already
+// reserves ~the real height; header.php's script only nudges this to the
+// exact pixel value afterward, avoiding a second visible jump.
+:root {
+    --header-height: 133px;
+
+    @media (min-width: 640px) {
+        --header-height: 113px;
+    }
+}
+
 // === Main content offset ===
 // Compensates for the fixed header so the first section is never hidden beneath it.
 .site-main {
