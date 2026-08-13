@@ -10,7 +10,14 @@
 
 return [
     'preconnect_origins' => [],
-    'preload_fonts'      => [],
+    // Only the weight/style combinations actually used above the fold:
+    // Regular (body copy), Medium (CTA button), SemiBold (nav links), Bold (hero <strong>).
+    'preload_fonts'      => [
+        'resources/fonts/Montserrat-Regular.woff2',
+        'resources/fonts/Montserrat-Medium.woff2',
+        'resources/fonts/Montserrat-SemiBold.woff2',
+        'resources/fonts/Montserrat-Bold.woff2',
+    ],
     'remove_emoji'       => true,
     'remove_meta_tags'   => true,
     'remove_oembed'      => true,

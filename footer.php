@@ -145,43 +145,6 @@ $privacyUrl    = OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapi
 
 </footer><!-- #colophon -->
 
-<script>
-    (function() {
-        var header = document.getElementById('masthead');
-        if (!header) return;
-
-        var lastWidth = null;
-
-        function sync() {
-            document.documentElement.style.setProperty('--header-height', header.getBoundingClientRect().height + 'px');
-        }
-        // Run once all styles are applied and layout is stable
-        if (document.readyState === 'complete') {
-            sync();
-        } else {
-            window.addEventListener('load', sync, {
-                once: true
-            });
-        }
-        // Keep in sync if the header changes height (e.g. mobile ↔ desktop breakpoint).
-        // Gated on width so the mobile scroll-hide animation (height-only, see
-        // Blocks/Molecules/Menu) doesn't retrigger this on every animation frame
-        // and yank the page's padding-top along with it.
-        if (window.ResizeObserver) {
-            new ResizeObserver(function() {
-                var width = header.getBoundingClientRect().width;
-                if (width === lastWidth) return;
-                lastWidth = width;
-                sync();
-            }).observe(header);
-        } else {
-            window.addEventListener('resize', sync, {
-                passive: true
-            });
-        }
-    })();
-</script>
-
 <?php wp_footer(); ?>
 </body>
 
