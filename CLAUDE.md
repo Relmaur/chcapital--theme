@@ -59,6 +59,8 @@ Image::render($id, 'large', ['above_fold' => true]);
 
 **Vite helpers are on `ViteLoader`**: use `ViteLoader::isDevServerRunning()` / `ViteLoader::assetUrl()` — never the removed `vite_is_dev()` / `vite_asset_url()`.
 
+**`app.css` loads async (`media="print"` swap), genuinely — `resources/scss/critical.scss` must contain real hand-authored layout rules for above-the-fold markup (header/hero), not the empty placeholder scaffold, or every page flashes unstyled HTML on load.** See AGENTS.md § "CSS entry points" for why a scoped Tailwind `@source` in `critical.scss` doesn't work as a shortcut here.
+
 ## Forms
 
 **Register in `boot()`, never in templates** — the AJAX handler won't exist on `admin-ajax.php` otherwise. Full pattern, code sample, field-type list, and security details (CSRF/honeypot/rate-limit/Turnstile): AGENTS.md § "Form System" and § "Form security".
@@ -75,6 +77,8 @@ Quick reference: `Form::register([...])` in `boot()`, `Form::display('contact')`
 ## Metabox Field Types
 
 `text`, `textarea`, `wysiwyg`, `url`, `number`, `range`, `select`, `image`, `files`, `group`, `checkbox`, `color`, `repeater`, `post_select`, `datepicker`, `icon` (opt-in, see "Icon System" above) — full options/conditional logic: AGENTS.md § "The Metabox Framework" (or taw/core README).
+
+Any field also accepts `'readonly' => true` — renders as non-interactive text with a lock icon next to its label, never saved from POST. Use for values an external process owns (e.g. a sync pipeline).
 
 ## Metabox Order
 
