@@ -19,11 +19,14 @@
  * needs to paint the page in the very first response — no extra requests.
  */
 
-// NOTE: @font-face declarations are NOT included here.
+// NOTE: @font-face declarations with a url() source are NOT included here.
 // Inlined <style> tags resolve URLs from the page URL, not a stylesheet
 // location, so relative font paths always 404 in subdirectory installs.
 // Fonts are declared in app.scss (linked CSS) and preloaded via
 // performance.php so they start downloading before the CSS is even parsed.
+// The metric-matched fallback below is the one exception: local() needs no
+// file path, so it's safe here — and it needs to be, since it must be active
+// from first paint (see comment below).
 
 // === Base Reset ===
 // *,
@@ -34,9 +37,31 @@
 //     padding: 0;
 // }
 
+// === Metric-matched font fallback ===
+// Preloading Montserrat (performance.php) shortens the wait but doesn't
+// guarantee it arrives before first paint under heavy throttling — and
+// font-display: swap always reflows once it does, because a generic
+// system-ui/sans-serif fallback has different box metrics than Montserrat.
+// This fallback face reuses a real installed font (Arial) but overrides its
+// metrics to match Montserrat's actual ones (read from the real .woff2 files
+// via fonttools: 1000 unitsPerEm, ascent 968, descent 251, line-gap 0, avg
+// char width ~642-667 across weights — vertical metrics are identical across
+// all weights, so one set of overrides covers Regular/Medium/SemiBold/Bold)
+// against Arial's own real metrics (2048 upm, ascent 1854, descent 434,
+// line-gap 67, avg char width 904). Result: the swap still happens, but the
+// box never changes size, so it's not a layout shift regardless of timing.
+@font-face {
+    font-family: 'Montserrat Fallback';
+    src: local('Arial');
+    ascent-override: 66.55%;
+    descent-override: 17.26%;
+    line-gap-override: 0%;
+    size-adjust: 145.44%;
+}
+
 // === Body Defaults ===
 body {
-    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-family: 'Montserrat', 'Montserrat Fallback', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
     color: #1a1a1a;
     // Prevent horizontal scroll (common CLS cause)

@@ -163,7 +163,7 @@ main {
 // ────────────────────────────────────────────────────────────────
 
 html {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', 'Montserrat Fallback', sans-serif;
 }
 
 [x-cloak] {
@@ -371,7 +371,7 @@ html {
 [data-taw-form] select {
     width: 100%;
     padding: 0.6875rem 0.875rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', 'Montserrat Fallback', sans-serif;
     font-size: 0.9375rem;
     color: #111111;
     background-color: #ffffff;
@@ -520,7 +520,7 @@ html {
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 2rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', 'Montserrat Fallback', sans-serif;
     font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.06em;
