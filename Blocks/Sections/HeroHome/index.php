@@ -13,10 +13,19 @@
 
 use TAW\Blocks\Atoms\Button\Button;
 use TAW\Helpers\Image;
+use TAW\Support\Performance;
 
 $button = new Button();
 
 $bg_image_url = $bg_image ? Image::background($bg_image, 'full', ['url_only' => true]) : '';
+
+// LCP candidate: this background-image can't carry fetchpriority itself (CSS
+// background-image has no such attribute), so preload the same URL via a
+// <link> tag instead — Performance::preloadImage() outputs inline here since
+// wp_head has already fired by the time block templates render.
+if ($bg_image) {
+    Performance::preloadImage((int) $bg_image, 'full');
+}
 
 // $gradient = 'linear-gradient(to bottom right, transparent 0%, rgb(0 0 0 / 86%) 0%, rgb(0 45 121 / 82%) 60%, #001f53 80%, #000810 100%)';
 $gradient = 'linear-gradient(180deg, rgb(0 32 66 / 73%) 18%, rgb(0 32 66) 100%)';

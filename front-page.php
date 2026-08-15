@@ -30,7 +30,16 @@ get_header();
 <section class="ch-section bg-lightgray">
     <div class="section-container--sm flex items-center gap-10 md:flex-row flex-col">
         <div class="image flex-1 rounded-lg overflow-hidden aspect-video">
-            <?php echo Image::render(5486, 'medium', '', ['class' => 'rounded-lg object-cover object-[50%_5%] w-full h-full']); ?>
+            <?php
+            // Default WP sizes calc assumes the image always renders at its
+            // registered 288px width, but this is a fluid flex-1 column —
+            // measured in-browser: fixed 288px below the md breakpoint,
+            // scaling to a 620px cap at 1440px+ (see section-container--sm).
+            echo Image::render(5486, 'medium', '', [
+                'class' => 'rounded-lg object-cover object-[50%_5%] w-full h-full',
+                'sizes' => '(min-width: 1440px) 620px, (min-width: 640px) 43vw, 288px',
+            ]);
+            ?>
         </div>
         <div class="content flex-1">
             <h2 class="section-title">Nuestros Valores</h2>

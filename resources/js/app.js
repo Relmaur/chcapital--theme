@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     swup.hooks.on('visit:start',  showBar);
     swup.hooks.on('page:view',    completeBar);
     // If navigation is aborted (e.g. network error), clean up the bar
-    swup.hooks.on('visit:aborted', completeBar);
+    swup.hooks.on('visit:abort', completeBar);
 })();
 
 // ── 9. Per-page DOM init ──────────────────────────────────────────────────────
