@@ -9,6 +9,7 @@
  */
 
 use TAW\Core\Editor\VisualEditor;
+use TAW\Core\Form\Form;
 use TAW\Support\EmailConfig;
 
 require_once get_template_directory() . '/inc/multimedia-cpts.php';
@@ -37,6 +38,55 @@ if (defined('EMAILIT_API_KEY')) {
 // default on every taw-theme site — remove this line if this site doesn't
 // need nestable Media Library folders. Must run before Theme::boot().
 TAW\Core\Media\MediaFolders::enable();
+
+/**
+ * Post Publisher — front-end post submission screen at /publicar/,
+ * gated by TAW_POST_PUBLISHER_PASSWORD (see wp-config.php and
+ * page-publicar.php, which calls TAW\Core\Auth\PagePassword::protect()
+ * before rendering this form). Submissions are always saved as 'pending' —
+ * an editor reviews and publishes from wp-admin, this never publishes
+ * directly.
+ */
+add_action('init', static function () {
+    $categoryOptions = [];
+    foreach (get_categories(['hide_empty' => false]) as $category) {
+        $categoryOptions[$category->term_id] = $category->name;
+    }
+
+    Form::register([
+        'id'           => 'post_publisher',
+        'submit_label' => __('Enviar publicación', 'taw-theme'),
+        'rate_limit'   => ['max' => 5, 'window' => 300],
+        'messages'     => [
+            'success' => __('¡Gracias! Tu publicación fue enviada y quedará pendiente de revisión.', 'taw-theme'),
+        ],
+        'fields' => [
+            ['id' => 'post_title', 'label' => __('Título', 'taw-theme'), 'type' => 'text', 'required' => true, 'max_length' => 200],
+            ['id' => 'post_content', 'label' => __('Contenido', 'taw-theme'), 'type' => 'wysiwyg', 'required' => true],
+            ['id' => 'categories', 'label' => __('Categorías', 'taw-theme'), 'type' => 'checkbox_group', 'options' => $categoryOptions],
+        ],
+        'on_submit' => static function (array $data): void {
+            $admins   = get_users(['role' => 'administrator', 'number' => 1, 'orderby' => 'ID', 'order' => 'ASC']);
+            $authorId = !empty($admins) ? (int) $admins[0]->ID : 1;
+
+            $postId = wp_insert_post([
+                'post_type'    => 'post',
+                'post_status'  => 'pending',
+                'post_title'   => $data['post_title'] ?? '',
+                'post_content' => $data['post_content'] ?? '',
+                'post_author'  => $authorId,
+            ], true);
+
+            if (is_wp_error($postId)) {
+                throw new RuntimeException(__('No pudimos guardar la publicación. Inténtalo de nuevo.', 'taw-theme'));
+            }
+
+            if (!empty($data['categories'])) {
+                wp_set_post_categories($postId, array_map('intval', explode(',', (string) $data['categories'])));
+            }
+        },
+    ]);
+});
 
 /**
  * Route all posts under /blog/.
