@@ -33,9 +33,11 @@ get_header();
 
 <main class="post-publisher-page">
     <div class="post-publisher-page__wrap section-container--xs py-16">
-        <h1><?php esc_html_e('Enviar una publicación', 'taw-theme'); ?></h1>
-        <p><?php esc_html_e('Completa el formulario para enviar una nueva publicación. Quedará pendiente de revisión hasta que un editor la apruebe.', 'taw-theme'); ?></p>
-        <?php Form::display('post_publisher'); ?>
+        <h1 class="text-4xl font-bold leading-tight"><?php esc_html_e('Enviar una publicación', 'taw-theme'); ?></h1>
+        <p class="mt-3 text-sm text-gray-500"><?php esc_html_e('Completa el formulario para enviar una nueva publicación. Quedará pendiente de revisión hasta que un editor la apruebe.', 'taw-theme'); ?></p>
+        <div class="mt-8">
+            <?php Form::display('post_publisher'); ?>
+        </div>
     </div>
 </main>
 
