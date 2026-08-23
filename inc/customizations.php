@@ -20,6 +20,24 @@ require_once get_template_directory() . '/inc/multimedia-cpts.php';
 // VisualEditor::enable();
 
 /**
+ * Prints get_the_date() localized to Spanish month/weekday names.
+ *
+ * The site's active WP locale is en_US even though every piece of copy on
+ * this theme is hardcoded Spanish — get_the_date() still asks WordPress
+ * core's OWN translations (the 'default' textdomain, via WP_Locale) for
+ * month/day names, which only exist per the *active* site locale. Scoped
+ * to just this call via switch_to_locale() rather than activating es_MX
+ * site-wide, which would also flip the wp-admin UI to Spanish for every
+ * user. es_MX's core language pack is already installed on this site.
+ */
+function taw_theme_the_date_es(): void
+{
+    switch_to_locale('es_MX');
+    echo esc_html(get_the_date());
+    restore_previous_locale();
+}
+
+/**
  * Route all wp_mail() through Emailit for deliverability (SPF/DKIM/DMARC
  * on chcapital.mx, configured in the Emailit dashboard — not here). A
  * true no-op unless EMAILIT_API_KEY is defined in wp-config.php, so this

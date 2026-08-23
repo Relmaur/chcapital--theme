@@ -85,7 +85,7 @@ get_header();
                     </p>
 
                     <p class="mt-6 text-xs text-gray-400">
-                        <?php echo esc_html(get_the_date()); ?>
+                        <?php taw_theme_the_date_es(); ?>
                         &middot;
                         <span class="font-semibold text-gray-700"><?php the_author(); ?></span>
                     </p>
@@ -134,7 +134,7 @@ get_header();
                             </p>
 
                             <p class="mt-4 text-xs text-gray-400">
-                                <?php echo esc_html(get_the_date()); ?>
+                                <?php taw_theme_the_date_es(); ?>
                                 &middot;
                                 <span class="font-semibold text-gray-700"><?php the_author(); ?></span>
                             </p>
