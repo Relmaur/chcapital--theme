@@ -14,7 +14,7 @@
  */
 
 use TAW\Blocks\Atoms\LightboxImage\LightboxImage;
-use Taw\Blocks\Atoms\Button\Button;
+use TAW\Blocks\Atoms\Button\Button;
 
 if (empty($images)) return;
 
