@@ -58,7 +58,25 @@ class WhoAreWe extends MetaBlock
                     'label' => __('Author Quote', 'taw-theme'),
                     'type'  => 'textarea',
                     'rows'  => 3,
-                ],  
+                ],
+                [
+                    'id'   => 'services_cta_heading',
+                    'label' => __('Services CTA Heading', 'taw-theme'),
+                    'type'  => 'text',
+                    'width' => '100',
+                ],
+                [
+                    'id'   => 'services_cta_text',
+                    'label' => __('Services CTA Text', 'taw-theme'),
+                    'type'  => 'text',
+                    'width' => '100',
+                ],
+                [
+                    'id'   => 'services_cta_url',
+                    'label' => __('Services CTA URL', 'taw-theme'),
+                    'type'  => 'text',
+                    'width' => '100',
+                ]
             ],
         ]);
     }
@@ -96,6 +114,9 @@ class WhoAreWe extends MetaBlock
             'author_title' => $this->getMeta($postId, 'who_author_title') ?: __('Fundador', 'taw-theme'),
             'author_quote' => $this->getMeta($postId, 'who_author_quote') ?: __('Convertimos las ideas de nuestros clientes en oportunidades de negocio reales y sostenibles.', 'taw-theme'),
             'services'     => $default_services,
+            'services_cta_heading' => $this->getMeta($postId, 'services_cta_heading') ?: __('¿Te interesa una reunión personalizada?', 'taw-theme'),
+            'services_cta_text'    => $this->getMeta($postId, 'services_cta_text') ?: __('Conoce más', 'taw-theme'),
+            'services_cta_url'     => $this->getMeta($postId, 'services_cta_url') ?: '/contacto/#contact-form',
         ];
     }
 }

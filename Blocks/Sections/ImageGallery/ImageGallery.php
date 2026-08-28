@@ -33,6 +33,20 @@ class ImageGallery extends MetaBlock
                     'width' => '100',
                 ],
                 [
+                    'id'    => 'gallery_cta_text',
+                    'label' => __('CTA Text', 'taw-theme'),
+                    'type'  => 'textarea',
+                    'rows'  => 2,
+                    'width' => '100',
+                ],
+                [
+                    'id'    => 'gallery_cta_url',
+                    'label' => __('CTA URL', 'taw-theme'),
+                    'type'  => 'textarea',
+                    'rows'  => 2,
+                    'width' => '100',
+                ],
+                [
                     'id'     => 'gallery_images',
                     'label'  => __('Images', 'taw-theme'),
                     'type'   => 'repeater',
@@ -85,6 +99,8 @@ class ImageGallery extends MetaBlock
         return [
             'heading'    => $this->getMeta($postId, 'gallery_heading'),
             'subheading' => $this->getMeta($postId, 'gallery_subheading'),
+            'cta_text'   => $this->getMeta($postId, 'gallery_cta_text') ?: 'Habla con nuestros expertos',
+            'cta_url'    => $this->getMeta($postId, 'gallery_cta_url') ?: '/credito-pyme/#contact-cta',
             'images'     => array_filter($images, fn($img) => $img['image_id'] || $img['full_url']),
         ];
     }

@@ -3,11 +3,13 @@
 /**
  * AboutHero Component Template
  *
- * @var string $heading
- * @var string $subtitle
- * @var int    $image_id  WordPress attachment ID for background image
+ * @var string     $heading
+ * @var string     $subtitle
+ * @var int        $image_id  WordPress attachment ID for background image
+ * @var array|null $cta       Optional ['label', 'url', 'target'] button below the title
  */
 
+use TAW\Blocks\Atoms\Button\Button;
 use TAW\Helpers\Image;
 ?>
 <section class="hero-standard border-b-5 border-b-primary">
@@ -41,6 +43,17 @@ use TAW\Helpers\Image;
             <p class="hero-standard__subtitle mt-6 text-lg sm:text-xl max-w-2xl leading-relaxed">
                 <?php echo esc_html($subtitle); ?>
             </p>
+        <?php endif; ?>
+
+        <?php if (!empty($cta)) : ?>
+            <div class="hero-standard__cta mt-8">
+                <?php (new Button())->render([
+                    'text'   => $cta['label'],
+                    'url'    => $cta['url'],
+                    'target' => $cta['target'],
+                    'variant' => $cta['variant'] ?? 'white',
+                ]); ?>
+            </div>
         <?php endif; ?>
 
         <div class="hero-standard__divider mt-10 flex items-center gap-3">

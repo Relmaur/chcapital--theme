@@ -16,6 +16,7 @@ class Button extends Block
             'variant' => 'primary',  // primary | secondary | outline | ghost | white | outline-white
             'target'  => '_self',
             'size'    => 'md',       // sm | md | lg
+            'class'   => '',         // additional CSS classes
         ];
     }
 }

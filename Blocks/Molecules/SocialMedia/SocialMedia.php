@@ -19,6 +19,7 @@ class SocialMedia extends Block
         $socialTw      = OptionsPage::get('social_twitter');
         $socialLi      = OptionsPage::get('social_linkedin');
         $socialYt      = OptionsPage::get('social_youtube');
+        $socialWa      = OptionsPage::get('social_whatsapp');
 
         $social_media_array = [
             'facebook'  => $socialFb,
@@ -26,6 +27,7 @@ class SocialMedia extends Block
             'twitter'   => $socialTw,
             'linkedin'  => $socialLi,
             'youtube'   => $socialYt,
+            'whatsapp'  => $socialWa,
         ];
 
         return [

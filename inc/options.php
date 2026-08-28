@@ -79,6 +79,12 @@ new OptionsPage([
             'type' => 'url'
         ],
         [
+            'id' => 'social_whatsapp',
+            'label' => __('WhatsApp URL', 'taw-theme'),
+            'type' => 'url',
+            'default' => 'https://wa.me/5526726073',
+        ],
+        [
             'id' => 'footer_legal_une',
             'label' => __('UNE Link', 'taw-theme'),
             'type' => 'group',
@@ -116,7 +122,7 @@ new OptionsPage([
         [
             'id' => 'social',
             'label' => __('Social', 'taw-theme'),
-            'fields' => ['social_facebook', 'social_instagram', 'social_twitter', 'social_linkedin', 'social_youtube']
+            'fields' => ['social_facebook', 'social_instagram', 'social_twitter', 'social_linkedin', 'social_youtube', 'social_whatsapp']
         ],
         [
             'id' => 'devtools',

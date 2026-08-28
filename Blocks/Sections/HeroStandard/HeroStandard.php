@@ -54,16 +54,49 @@ class HeroStandard extends MetaBlock
                     'type'  => 'image',
                     'width' => '100',
                 ],
+                [
+                    'id'          => 'hero_standard_cta',
+                    'label'       => __('CTA Button (optional)', 'taw-theme'),
+                    'type'        => 'group',
+                    'description' => __('Optional button shown below the title. Leave the label empty to hide it.', 'taw-theme'),
+                    'fields'      => [
+                        ['id' => 'label',    'label' => __('Label', 'taw-theme'),           'type' => 'text', 'width' => '50'],
+                        ['id' => 'url',      'label' => __('URL', 'taw-theme'),             'type' => 'text',  'width' => '50'],
+                        [
+                            'id'      => 'new_tab',
+                            'label'   => __('Open in new tab', 'taw-theme'),
+                            'type'    => 'checkbox',
+                            'width'   => '50',
+                        ],
+                    ],
+                ],
             ],
         ]);
     }
 
     protected function getData(int|false $postId): array
     {
+        // Group sub-fields are stored as flat, individually-prefixed meta keys
+        // (_taw_hero_standard_cta_label, …), not as an array under the group id.
+        $ctaLabel = (string) $this->getMeta($postId, 'hero_standard_cta_label');
+        $ctaUrl   = (string) $this->getMeta($postId, 'hero_standard_cta_url');
+        $cta_variant = (string) $this->getMeta($postId, 'hero_standard_cta_variant');
+
+        $ctaData = null;
+        if ($ctaLabel !== '' && $ctaUrl !== '') {
+            $ctaData = [
+                'label'  => $ctaLabel,
+                'url'    => $ctaUrl,
+                'target' => $this->getMeta($postId, 'hero_standard_cta_new_tab') === '1' ? '_blank' : '_self',
+                'variant' => $cta_variant ?: 'white',
+            ];
+        }
+
         return [
             'heading'  => $this->getMeta($postId, 'hero_standard_heading') ?: null,
             'subtitle' => $this->getMeta($postId, 'hero_standard_subtitle') ?: null,
             'image_id' => (int) $this->getMeta($postId, 'hero_standard_image'),
+            'cta'      => $ctaData,
         ];
     }
 }

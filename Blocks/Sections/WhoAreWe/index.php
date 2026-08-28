@@ -10,9 +10,14 @@
  * @var string $author_title
  * @var string $author_quote
  * @var array  $services
+ * @var string $services_cta_heading
+ * @var string $services_cta_text
+ * @var string $services_cta_url
  */
 
 use TAW\Helpers\Image;
+use TAW\Blocks\Atoms\Button\Button;
+
 ?>
 <section class="who-are-we ch-section">
     <div class="section-container--sm">
@@ -72,6 +77,19 @@ use TAW\Helpers\Image;
                 <?php endif; ?> -->
             </div>
 
+        </div>
+
+        <div class="who-are-we__cta mt-10">
+            <h3 class="who-are-we__cta-title text-2xl font-bold mb-5"><?php echo esc_html($services_cta_heading); ?></h3>
+            <?php if ($services_cta_url && $services_cta_text) : ?>
+                <?php
+                $button = new Button();
+                $button->render([
+                    'url' => $services_cta_url,
+                    'text' => $services_cta_text,
+                    'class' => 'who-are-we__cta-button'
+                ]); ?>
+            <?php endif; ?>
         </div>
     </div>
 </section>

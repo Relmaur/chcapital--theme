@@ -8,10 +8,13 @@
  *
  * @var string $heading
  * @var string $subheading
+ * @var string $cta_text    Call-to-action text below the subheading
+ * @var string $cta_url    URL for the call-to-action
  * @var array  $images    Each: image_id, alt, caption, full_url, full_width, full_height
  */
 
 use TAW\Blocks\Atoms\LightboxImage\LightboxImage;
+use Taw\Blocks\Atoms\Button\Button;
 
 if (empty($images)) return;
 
@@ -29,25 +32,34 @@ $lb->enqueueAssets();
             <p class="section-subtitle"><?php echo esc_html($subheading); ?></p>
         <?php endif; ?>
 
+        <?php if (!empty($cta_text) && !empty($cta_url)) :
+            $button = new Button();
+            $button->render([
+                'text' => $cta_text,
+                'url'  => $cta_url,
+                'class' => 'mt-5',
+            ]);
+        endif; ?>
+
         <div class="image-gallery__embla mt-10" data-pswp-gallery>
 
             <div class="image-gallery__viewport">
                 <div class="image-gallery__container">
                     <?php foreach ($images as $img) : ?>
-                    <div class="image-gallery__slide">
-                        <div class="image-gallery__slide-inner">
-                            <?php $lb->render([
-                                'image_id'        => $img['image_id'],
-                                'alt'             => $img['alt'],
-                                'caption'         => $img['caption'],
-                                'display_size'    => 'large',
-                                'full_url'        => $img['full_url'],
-                                'full_width'      => $img['full_width'],
-                                'full_height'     => $img['full_height'],
-                                'is_gallery_item' => true,
-                            ]); ?>
+                        <div class="image-gallery__slide">
+                            <div class="image-gallery__slide-inner">
+                                <?php $lb->render([
+                                    'image_id'        => $img['image_id'],
+                                    'alt'             => $img['alt'],
+                                    'caption'         => $img['caption'],
+                                    'display_size'    => 'large',
+                                    'full_url'        => $img['full_url'],
+                                    'full_width'      => $img['full_width'],
+                                    'full_height'     => $img['full_height'],
+                                    'is_gallery_item' => true,
+                                ]); ?>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>

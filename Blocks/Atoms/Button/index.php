@@ -5,6 +5,7 @@
  * @var string $variant  primary | secondary | outline | ghost | white | outline-white
  * @var string $size     sm | md | lg
  * @var string $target
+ * @var string $class    Additional CSS classes for the button
  */
 
 if (empty($text)) return;
@@ -26,7 +27,7 @@ $size_classes = match ($size) {
 ?>
 
 <a href="<?php echo esc_url($url); ?>"
-    class="btn btn--<?php echo esc_attr($variant); ?> flex justify-center items-center gap-2 <?php echo $size_classes; ?> rounded font-medium w-full sm:w-fit transition-colors <?php echo $variant_classes; ?>"
+    class="btn btn--<?php echo esc_attr($variant); ?> flex justify-center items-center gap-2 <?php echo $size_classes; ?> rounded font-medium w-full sm:w-fit transition-colors <?php echo $variant_classes; ?> <?php echo esc_attr($class); ?>"
     target="<?php echo esc_attr($target); ?>">
     <?php echo esc_html($text); ?>
 </a>
