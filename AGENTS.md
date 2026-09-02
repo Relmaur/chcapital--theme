@@ -43,9 +43,10 @@ Full path-by-path detail: § "Quick Orientation" and § "PSR-4 Autoloading" belo
 | `(new Mailer())->to()->subject()->template()->setVariables()->send()` | Email |
 | `ViteLoader::assetUrl($path)` / `::isDevServerRunning()` | Asset URL / dev-server probe |
 | `dump($val)` / `dd($val)` | Debug panel, `WP_DEBUG` only |
+| `Logger::error($code,$msg,$context)` (`TAW\Core\Log`; also `debug`/`info`/`notice`/`warning`/`critical`) | Structured log → `error_log()` + `wp-content/taw-logs/*.jsonl` |
 | `BlockRegistry::queue(...ids)` before `get_header()`; `::render($id)` in body | Asset + render pattern |
 
-Full API + option tables: §§ "The Metabox Framework", "Form System", "Options Page", "Navigation Menu System", "Image Helper", "SVG Helper", "Icon System", "Media Folders", "Debug Helper", "Vite Integration" below.
+Full API + option tables: §§ "The Metabox Framework", "Form System", "Options Page", "Navigation Menu System", "Image Helper", "SVG Helper", "Icon System", "Media Folders", "Debug Helper", "Logging", "Vite Integration" below.
 
 ### Lifecycle / hooks
 
@@ -902,13 +903,13 @@ use TAW\Core\Metabox\MetaboxOrder;
 MetaboxOrder::lock('page', ['hero_settings', 'video_settings', 'faq_settings']);
 ```
 
-Template resolution mirrors WordPress's own hierarchy, not just the raw Page Attributes selection:
+Template resolution mirrors WordPress's own hierarchy, not just the raw Page Attributes selection. Candidates are tried highest-priority first:
 
-- If the post has an explicit page template selected (`get_page_template_slug()`), that file is used.
-- Otherwise, if the post is the site's static front page (Settings → Reading), `front-page.php` is used automatically — no `Template Name:` header or Page Attributes selection required.
-- Posts matching neither are left unordered.
-
-The posts page (`page_for_posts` / `home.php`) isn't handled by the same filename-convention resolution yet.
+- An explicitly-selected page template (`_wp_page_template`, the Page Attributes dropdown).
+- `front-page.php` for the site's static front page (Settings → Reading) — no `Template Name:` header or Page Attributes selection required.
+- `home.php` for the posts page (Settings → Reading → "Posts page") — same filename convention, no meta written.
+- `page-{slug}.php` for a page whose slug is `{slug}` — applied automatically by the template hierarchy, no meta written.
+- Pages matching none of these are left unordered.
 
 ---
 
@@ -1454,6 +1455,25 @@ dump($someArray, 'My label');   // queues value for display in footer panel
 dd($someValue);                 // dump + die
 ```
 
+`dump()`/`dd()` are a dev-time inspection panel, **not** a log — for anything that should be recorded (a swallowed exception, a fallback that fired, a misconfiguration), use `Logger` (§ "Logging").
+
+---
+
+## Logging
+
+Provided by `taw/core` (namespace `TAW\Core\Log`). Always on — no `enable()`. This is the structured replacement for hand-written `error_log('[TAW …] …')` — theme code (blocks, `inc/`, custom `on_submit` callbacks) should use it too.
+
+```php
+use TAW\Core\Log\Logger;
+
+Logger::warning('hero.missing_background', 'Hero has no background image — falling back to the flat colour.', [
+    'post_id' => $postId,
+]);
+// debug() info() notice() warning() error() critical()  — PSR-3 minus alert/emergency
+```
+
+Each entry has a human `message` **and** a machine-stable `code` (`subsystem.event`) plus a `context` array. Two sinks by default: PHP `error_log()` (one readable line) and `wp-content/taw-logs/taw.log.jsonl` (size-rotated JSON Lines). Read it back with `php bin/taw log:tail [--level=] [--code=] [--since=] [--json]`, or — on a fleet site — the `taw-hub-companion` `/logs` route. Full API (sinks, the `taw_core_log_sinks` / `taw_core_log_entry` filters, `LogReader`): `taw/core` README § "Logging".
+
 ---
 
 ## Theme Updater
@@ -1762,8 +1782,22 @@ After adding new block classes, run `composer dump-autoload`.
 | `php bin/taw import:block path.zip` | Import a block from a ZIP |
 | `php bin/taw sync --json` | Check for drift: `taw/core` version + `taw-theme` Tier 1/Tier 2 scaffold paths |
 | `php bin/taw sync --apply` | Also write Tier 1 scaffold changes (Tier 2 is always report-only) |
+| `php bin/taw hub:install --activate` | Install the `taw-hub-companion` fleet plugin (see § "Connecting to a TAW Hub fleet") |
+| `php bin/taw log:tail --level=error` | Read back the structured log (`wp-content/taw-logs/`) — see § "Logging" |
 | `composer run phpstan` | Static analysis (`Blocks/`, `inc/`) — also runs in CI |
 | `composer run test` | Run the block unit test suite (`tests/Unit/`) — see § "Testing Blocks" |
+
+---
+
+## Connecting to a TAW Hub fleet
+
+The [TAW Hub](https://github.com/Relmaur/taw-hub) is a separate control app that manages a fleet of TAW sites (telemetry, framework syncs, allow-listed `bin/taw` runs). A site opts in by installing **`taw-hub-companion`** — a standalone plugin (`Relmaur/taw-hub-companion`, public) that exposes a signed `wp-json/taw-hub/v1/` receiver, verifying every request against the Hub's Ed25519 key ([wire protocol: taw-hub ADR-0003](https://github.com/Relmaur/taw-hub/blob/main/docs/ADR/0003-wire-protocol-and-signatures.md)).
+
+**Not bundled with the theme, by design** — only fleet sites need it, and it's a security boundary with its own release cadence. Nothing about a normal TAW site changes unless you install it. It replaces the short-lived `TAW\Hub` subsystem that briefly shipped in `taw/core` v1.20.0 (reverted in v1.20.1).
+
+- `php bin/taw hub:install [--activate] [--update]` (`taw/core` ≥ v1.20.2) git-clones the plugin into `wp-content/plugins/` and optionally activates it. It only fetches code — configuring `TAW_HUB_PUBLIC_KEY` in `wp-config.php` and registering the site's key with the Hub stay deliberate.
+- The **`hub-connect`** skill orchestrates the whole thing interactively — install, gather the Hub's key via `AskUserQuestion`, write `wp-config.php` (confirmed), verify `/health` returns `401` not `501`, and surface this site's `taw_hub_companion_public_key` / `_key_id` to register with the Hub.
+- Until `TAW_HUB_PUBLIC_KEY` is defined the plugin is inert (routes return `501`). To disconnect: deactivate the plugin and remove the `TAW_HUB_*` constants.
 
 ---
 

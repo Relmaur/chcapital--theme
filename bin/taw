@@ -55,6 +55,8 @@ use TAW\CLI\SeoExtractCommand;
 use TAW\CLI\SeoInjectCommand;
 use TAW\CLI\WpCliCommand;
 use TAW\CLI\IconsSyncCommand;
+use TAW\CLI\HubInstallCommand;
+use TAW\CLI\LogTailCommand;
 
 $app = new Application('TAW CLI', '1.0.0');
 
@@ -73,5 +75,7 @@ $app->add(new SeoExtractCommand($themeDir));
 $app->add(new SeoInjectCommand($themeDir));
 $app->add(new WpCliCommand($themeDir));
 $app->add(new IconsSyncCommand());
+$app->add(new HubInstallCommand($themeDir));
+$app->add(new LogTailCommand($themeDir));
 
 $app->run();
