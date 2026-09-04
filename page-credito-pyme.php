@@ -16,6 +16,7 @@ BlockRegistry::queue(
     'content_block--benefits',
     'content_block--characteristics_pyme',
     'content_block--steps_pyme',
+    'two_columns',
     'content_block--cat_info',
     'legales',
     'contact_cta'
@@ -33,6 +34,8 @@ get_header();
 <?php BlockRegistry::render('content_block--characteristics_pyme'); ?>
 
 <?php BlockRegistry::render('content_block--steps_pyme'); ?>
+
+<?php BlockRegistry::render('two_columns'); ?>
 
 <?php BlockRegistry::render('content_block--cat_info'); ?>
 
