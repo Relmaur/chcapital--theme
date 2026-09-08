@@ -35,7 +35,7 @@ get_header();
 
 <?php BlockRegistry::render('content_block--steps_pyme'); ?>
 
-<?php BlockRegistry::render('two_columns'); ?>
+<?php // BlockRegistry::render('two_columns'); ?>
 
 <?php BlockRegistry::render('content_block--cat_info'); ?>
 
