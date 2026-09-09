@@ -30,13 +30,13 @@ get_header();
 
 <?php BlockRegistry::render('content_block--company_benefits'); ?>
 
-<?php BlockRegistry::render('cta'); ?>
-
 <?php BlockRegistry::render('content_block--employee_benefits'); ?>
 
 <?php BlockRegistry::render('content_block--characteristics'); ?>
 
 <?php BlockRegistry::render('content_block--requirements'); ?>
+
+<?php BlockRegistry::render('cta'); ?>
 
 <?php BlockRegistry::render('content_block--steps'); ?>
 

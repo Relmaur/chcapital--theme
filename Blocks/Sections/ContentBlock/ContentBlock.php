@@ -85,12 +85,14 @@ class ContentBlock extends MetaBlock
                     'heading'    => 'Características del Crédito',
                     'subheading' => 'Una vez firmado el convenio con CH Capital, tus colaboradores tendrán acceso al siguiente <strong>plan de beneficios</strong>:',
                     'content'    => '<ul>
-                                    <li>Montos del préstamo de 3 a 6 meses de sueldo</li>
-                                    <li>Plazos de 6 hasta 18 meses</li>
-                                    <li>Aprobación desde 24 horas (con expediente completo)</li>
+                                    <li><strong>Montos</strong> De 1 quincena hasta 3 meses.</li>
+                                    <li><strong>Plazos de pago</strong> De 6 meses hasta 18 meses.</li>
+                                    <li><strong>Aprobación desde 24 horas</strong> (con expediente completo)</li>
+                                    <li><strong>Comisión por apertura</strong> Hasta 4%</li>
+                                    <li><strong>Tasa</strong>Del 36% anual.</li>
+                                    <li><strong>Buró de Crédito</strong>No determinante.</li>
                                     <li>Descuentos via nómina</li>
                                     <li>Atención personalizada</li>
-                                    <li>Comisión por apertura del 4%</li>
                                     </ul>',
                 ],
             ],
@@ -109,7 +111,7 @@ class ContentBlock extends MetaBlock
                                     <li><strong>Comisión por apertura.</strong> Hasta 4%</li>
                                     <li><strong>Plazo.</strong> Hasta 48 meses.</li>
                                     <li><strong>Tasa.</strong> Del 28 al 36%</li>
-                                    <li><strong>Garantía.</strong> Hipotecaria o comercial mínimo 2 a 1 por medio de un fideicomiso, excepto terrenos.</li>
+                                    <li><strong>Garantía.</strong> Hipotecaria mínimo 2 a 1 por medio de un fideicomiso, excepto terrenos.</li>
                                     <li><strong>Obligado Solidario.</strong> Puede aplicar.</li>
                                     <li><strong>Antigüedad.</strong> Mínimo 3 años.</li>
                                     <li><strong>Sin penalización.</strong> Por liquidación anticipada del crédito.</li>
@@ -119,14 +121,14 @@ class ContentBlock extends MetaBlock
             ],
 
             'steps' => [
-                'label'          => 'Section — ¿Cómo obtenerlo?',
+                'label'          => 'Section — ¿Cómo obtengo un crédito de nómina?',
                 'screens'        => ['page-credito-pyme.php', 'page-arrendamiento-puro.php', 'page-credito-de-nomina.php'],
                 'bg'             => '',
                 'layout'         => 'single',
                 'image_position' => 'right',
                 'defaults'       => [
-                    'heading'    => '¿Cómo obtenerlo?',
-                    'subheading' => 'Un proceso sencillo y transparente, diseñado para que obtengas tu financiamiento a tiempo.',
+                    'heading'    => '¿Cómo obtengo un crédito de nómina?',
+                    'subheading' => 'Si trabajas en una empresa con convenio con CH Capital, ya puedes acceder a un crédito de nómina mediante un proceso simple, transparente y diseñado para ayudarte a obtener financiamiento de forma rápida y segura.',
                     'content'    => '<ol>
                                     <li><span><strong>Solicitud</strong>— Completa el formulario de contacto o llámanos directamente.</span></li>
                                     <li><span><strong>Análisis</strong>— Evaluamos tu solicitud y, si cumples con los requisitos, tendrás una respuesta en 24 horas.</li>
@@ -198,7 +200,7 @@ class ContentBlock extends MetaBlock
                 'image_position' => 'right',
                 'defaults'       => [
                     'heading'    => '¿Qué obtienes como empresa?',
-                    'subheading' => '',
+                    'subheading' => 'Con nuestro Crédito de Nómina CH, tu empresa puede ofrecer un respaldo seguro y accesible, sin asumir riesgos ni costos.',
                     'content'    => '<ul>
                                     <li>Fortaleces tu paquete de beneficios sin gastar.</li>
                                     <li>Impulsas un ambiente sano y comprometido.</li>
