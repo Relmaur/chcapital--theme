@@ -6,6 +6,7 @@ namespace TAW\Blocks\Sections\ContentBlock;
 
 use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;
+use TAW\Core\OptionsPage\OptionsPage;
 
 class ContentBlock extends MetaBlock
 {
@@ -55,6 +56,8 @@ class ContentBlock extends MetaBlock
      */
     private static function varConfig(string $variation): array
     {
+        $uneUrl = OptionsPage::get('footer_legal_une_url') ?: 'https://chcapital.mx/wp-content/uploads/2024/09/UNE-nuevo.pdf';
+
         return match ($variation) {
             'benefits' => [
                 'label'          => 'Section — Lo que ofrecemos',
@@ -351,16 +354,20 @@ class ContentBlock extends MetaBlock
                 'label'          => 'Section — Buró de Entidades Financieras',
                 'screens'        => ['page-buro-de-entidades-financieras.php'],
                 'bg'             => '',
-                'layout'         => 'single',
-                'image_position' => 'right',
+                'layout'         => 'two_columns',
+                'image_position' => 'left',
                 'defaults'       => [
-                    'heading'    => '',
+                    'heading'    => 'Buró de Entidades Financieras',
                     'subheading' => '',
-                    'content'    => '<p>La Intermediación Fiduciaria es una herramienta imprescindible para garantizar estas operaciones. En CH Capital prestamos el servicio de Escrow mediante nuestra Póliza de Cumplimiento, PDC - Escrow, fundamentalmente en operaciones de compraventa y rentas de corto plazo de inmuebles, así como en otras operaciones comerciales.<br/><br/>
-                        Este servicio consiste en la recepción y custodia de los recursos depositados por el Mandante, que regularmente es el Comprador o el Arrendatario en operaciones inmobiliarias, con el que se garantiza que recibirán las contraprestaciones pactadas en el contrato firmado por ellas con el Vendedor o el Arrendador, según corresponda.<br/><br/>
-                        En la PDC - Escrow también se puede garantizar el pago de la comisión convenida entre el Vendedor y el Asesor Inmobiliario, quien actúa como facilitador experto en esas operaciones inmobiliarias, tanto en la parte de definiciones contractuales como en la concreción de las mismas.<br/><br/>
-                        La PDC – Escrow es una transacción legal, segura, transparente y confiable, especialmente en operaciones inmobiliarias celebradas entre personas que no se conocen entre sí, en las cuales pueden estar en juego importantes cantidades de recursos y el cumplimiento de las obligaciones contraídas entre ellas.<br/><br/>
-                        La Intermediación Fiduciaria, a través de un Mandato Fiduciario o Escrow Agreement, brinda la seguridad absoluta a las partes de que los recursos depositados en las cuentas bancarias asociadas a ese Mandato, servirán únicamente para garantizar el pago de las contraprestaciones pactadas, una vez que se hayan cumplido las condiciones convenidas en el contrato de compraventa o renta respectivo.</p>',
+                    'content'    => '<p>El artículo 8 Bis de la Ley de Protección y Defensa al Usuario de Servicios Financieros, dispone que “La Comisión Nacional para la Protección y defensa de los Usuarios de Servicios Financieros establecerá y mantendrá un buró de Entidades Financieras”, por lo que se podrá consultar en la página www.buro.gob.mx cualquier información referente a nuestros productos ofertados, comisiones, prácticas, sanciones administrativas, reclamaciones y cualquier información relevante para informar a los Usuarios del desempeño en la prestación de nuestros servicios.</p>
+                        <p>EL <strong>BURÓ DE ENTIDADES FINANCIERAS</strong> es una herramienta de consulta y difusión con la que podrás conocer los productos que ofrecen las entidades financieras, sus comisiones y tasas, las reclamaciones de los usuarios, las prácticas no sanas en que incurren, las sanciones administrativas que les han impuesto, las cláusulas abusivas de sus contratos y otra información que resulte relevante para informarte sobre su desempeño.</p>
+                        <p>Con el <strong>Buró de Entidades Financieras</strong>, se logrará saber quién es quién en bancos, seguros, sociedades financieras de objeto múltiple, cajas de ahorro, afores, entre otras entidades.</p>
+                        <p>Con ello, podrás comparar y evaluar a las entidades financieras, sus productos y servicios y tendrás mayores elementos para elegir lo que más te convenga.</p>
+                        <p>Esta información te será útil para elegir un producto financiero y también para conocer y usar mejor los que ya tienes.</p>
+                        <p>Este <strong>Buró de Entidades Financieras</strong>, es una herramienta que puede contribuir al crecimiento económico del país, al promover la competencia entre las instituciones financieras; que impulsará la transparencia al revelar información a los usuarios sobre el desempeño de estas y los productos que se ofrecen y que va a facilitar un manejo responsable de los productos y servicios financieros al conocer a detalle sus características.</p>
+                        <p>Lo anterior, podrá derivar en un mayor bienestar social, porque al conjuntar en un solo espacio tan diversa información del sistema financiero, el usuario tendrá más elementos para optimizar su presupuesto, para mejorar sus finanzas personales, para utilizar correctamente los créditos que fortalecerán su economía y obtener los seguros que la protejan entre otros aspectos.</p>
+                        <p>Para su constitución y operación con carácter de sociedad financiera de objeto múltiple, entidad no regulada, no requieren autorización de la Secretaría de Hacienda y Crédito Público, y únicamente está sujeta a la supervisión de la Comisión Nacional Bancaria y de Valores para efectos del artículo 56 de la ley General de Organizaciones y actividades Auxiliares del Crédito.</p>
+                        <p><strong><a href="' . esc_url($uneUrl) . '" target="_blank" rel="noopener noreferrer">Datos de la Unidad Especializada en Atención a Usuarios.</a></strong></p>',
                 ],
             ],
 

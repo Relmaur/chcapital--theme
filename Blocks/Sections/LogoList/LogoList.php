@@ -20,6 +20,7 @@ class LogoList extends MetaBlock
             'screens' => [
                 'front-page.php',
                 'page-nosotros.php',
+                'page-buro-de-entidades-financieras.php',
             ],
             'fields' => [
                 [
