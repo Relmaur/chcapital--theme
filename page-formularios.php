@@ -2,7 +2,7 @@
 
 use TAW\Core\Block\BlockRegistry;
 
-BlockRegistry::queue('hero_home', 'fideicomitente_p_f', 'fideicomitente_p_m');
+BlockRegistry::queue('hero_home' /* , 'fideicomitente_p_f', 'fideicomitente_p_m' */); // forms removed site-wide per client request — kept only on page-contacto.php
 
 get_header();
 
@@ -13,9 +13,9 @@ get_header();
 
 BlockRegistry::render('hero_home');
 
-BlockRegistry::render('fideicomitente_p_f');
+// BlockRegistry::render('fideicomitente_p_f');
 
-BlockRegistry::render('fideicomitente_p_m');
+// BlockRegistry::render('fideicomitente_p_m');
 
 ?>
 

@@ -18,7 +18,7 @@ BlockRegistry::queue(
     'image_showcase--escrow_realestate',
     'content_block--escrow_contract',
     'faqs',
-    'contact_cta'
+    // 'contact_cta', // removed site-wide per client request — kept only on page-contacto.php
 );
 
 get_header();
@@ -40,6 +40,6 @@ get_header();
 
 <?php BlockRegistry::render('faqs'); ?>
 
-<?php BlockRegistry::render('contact_cta'); ?>
+<?php // BlockRegistry::render('contact_cta'); ?>
 
 <?php get_footer(); ?>

@@ -17,7 +17,7 @@ BlockRegistry::queue(
     'content_block--characteristics',
     'content_block--steps',
     'legales',
-    'contact_cta'
+    // 'contact_cta', // removed site-wide per client request — kept only on page-contacto.php
 );
 
 get_header();
@@ -35,6 +35,6 @@ get_header();
 
 <?php BlockRegistry::render('legales'); ?>
 
-<?php BlockRegistry::render('contact_cta'); ?>
+<?php // BlockRegistry::render('contact_cta'); ?>
 
 <?php get_footer(); ?>

@@ -16,7 +16,7 @@ BlockRegistry::queue(
     'our_team',
     'strategic_allies',
     'logo_list',
-    'contact_cta'
+    // 'contact_cta', // removed site-wide per client request — kept only on page-contacto.php
 );
 
 // 2. get_header() triggers wp_enqueue_scripts → assets land in <head>

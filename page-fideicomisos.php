@@ -22,6 +22,6 @@ get_header();
 <?php BlockRegistry::render('hero_standard'); ?>
 <?php BlockRegistry::render('blurbs_grid'); ?>
 <?php BlockRegistry::render('faqs'); ?>
-<?php BlockRegistry::render('contact_cta'); ?>
+<?php // BlockRegistry::render('contact_cta'); // removed site-wide per client request — kept only on page-contacto.php ?>
 
 <?php get_footer(); ?>

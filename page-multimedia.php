@@ -24,7 +24,7 @@ BlockRegistry::queue(
     'post_grid--noticias',
     'post_grid--galerias',
     'post_grid--guias',
-    'contact_cta'
+    // 'contact_cta', // removed site-wide per client request — kept only on page-contacto.php
 );
 
 get_header();
@@ -40,6 +40,6 @@ get_header();
 
 <?php BlockRegistry::render('post_grid--noticias'); ?>
 
-<?php BlockRegistry::render('contact_cta'); ?>
+<?php // BlockRegistry::render('contact_cta'); ?>
 
 <?php get_footer(); ?>
