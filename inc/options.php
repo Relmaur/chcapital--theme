@@ -103,6 +103,15 @@ new OptionsPage([
             ],
         ],
         [
+            'id' => 'privacy_notice',
+            'label' => __('Privacy Notice Version', 'taw-theme'),
+            'type' => 'group',
+            'fields' => [
+                ['id' => 'version', 'label' => __('Version code', 'taw-theme'), 'type' => 'text', 'width' => '50', 'default' => 'AP-CHC-2026-01', 'description' => __('Bump this whenever a new Aviso de Privacidad is published. Snapshotted onto every consent record at submit time — past submissions keep the version that was live when they consented.', 'taw-theme')],
+                ['id' => 'hash', 'label' => __('SHA-256 hash (optional)', 'taw-theme'), 'type' => 'text', 'width' => '50', 'description' => __('Optional fingerprint of the published PDF/HTML, for stronger evidence.', 'taw-theme')],
+            ],
+        ],
+        [
             'id' => 'css_studio_enabled',
             'label' => __('Enable CSS Studio', 'taw-theme'),
             'type' => 'checkbox'
@@ -117,7 +126,7 @@ new OptionsPage([
         [
             'id' => 'footer',
             'label' => __('Footer', 'taw-theme'),
-            'fields' => ['footer_text', 'footer_legal_une', 'footer_legal_privacy']
+            'fields' => ['footer_text', 'footer_legal_une', 'footer_legal_privacy', 'privacy_notice']
         ],
         [
             'id' => 'social',

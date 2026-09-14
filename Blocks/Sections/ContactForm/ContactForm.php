@@ -76,6 +76,9 @@ class ContactForm extends MetaBlock
                         'width'    => '100',
                     ],
                 ],
+                'on_submit' => static function (array $data, int|false $postId = false): void {
+                    chcapital_record_consent_evidence($data, $postId);
+                },
             ]);
         });
     }

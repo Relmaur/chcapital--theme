@@ -13,6 +13,7 @@ use TAW\Core\Form\Form;
 use TAW\Support\EmailConfig;
 
 require_once get_template_directory() . '/inc/multimedia-cpts.php';
+require_once get_template_directory() . '/inc/consent-log.php';
 
 /**
  * Enable the visual editor.
