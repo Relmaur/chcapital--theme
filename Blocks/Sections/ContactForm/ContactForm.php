@@ -144,7 +144,7 @@ class ContactForm extends MetaBlock
             ],
             'address'     => OptionsPage::get('company_address'),
             'social'      => $social,
-            'privacy_url' => OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapital.mx/wp-content/uploads/2024/03/aviso.pdf',
+            'privacy_url' => OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapital.mx/wp-content/uploads/2026/09/CH-CAPITAL-Aviso-de-Privacidad-SEPT-2026.pdf',
         ];
     }
 }

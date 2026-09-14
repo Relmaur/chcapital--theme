@@ -99,7 +99,7 @@ new OptionsPage([
             'type' => 'group',
             'fields' => [
                 ['id' => 'label', 'label' => __('Label', 'taw-theme'), 'type' => 'text', 'width' => '50', 'default' => __('Aviso de Privacidad', 'taw-theme')],
-                ['id' => 'url', 'label' => __('URL', 'taw-theme'), 'type' => 'url', 'width' => '50', 'default' => 'https://chcapital.mx/wp-content/uploads/2024/03/aviso.pdf'],
+                ['id' => 'url', 'label' => __('URL', 'taw-theme'), 'type' => 'url', 'width' => '50', 'default' => 'https://chcapital.mx/wp-content/uploads/2026/09/CH-CAPITAL-Aviso-de-Privacidad-SEPT-2026.pdf'],
             ],
         ],
         [

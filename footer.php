@@ -14,7 +14,7 @@ $footerText    = OptionsPage::get('footer_text') ?: __('Todos los derechos reser
 $uneLabel      = OptionsPage::get('footer_legal_une_label') ?: __('UNE Unidad Especializada de Atención de Clientes', 'taw-theme');
 $uneUrl        = OptionsPage::get('footer_legal_une_url') ?: 'https://chcapital.mx/wp-content/uploads/2024/09/UNE-nuevo.pdf';
 $privacyLabel  = OptionsPage::get('footer_legal_privacy_label') ?: __('Aviso de Privacidad', 'taw-theme');
-$privacyUrl    = OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapital.mx/wp-content/uploads/2024/03/aviso.pdf';
+$privacyUrl    = OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapital.mx/wp-content/uploads/2026/09/CH-CAPITAL-Aviso-de-Privacidad-SEPT-2026.pdf';
 
 ?>
 
