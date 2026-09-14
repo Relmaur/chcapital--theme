@@ -12,6 +12,7 @@
  * @var array  $divisions   List of ['label', 'email', 'phone'] — División Financiera / Fiduciaria, from OptionsPage
  * @var string $address     From OptionsPage: company_address (HTML/wysiwyg)
  * @var array  $social      Keyed by platform: facebook, instagram, twitter, linkedin, youtube
+ * @var string $privacy_url URL to the current Aviso de Privacidad (OptionsPage: footer_legal_privacy_url)
  */
 
 use TAW\Core\Form\Form;
@@ -136,6 +137,13 @@ $social_icons = [
             <!-- ── Form ──────────────────────────────────────────── -->
             <div class="contact-form__form-wrap">
                 <?php Form::display('contact_page_form'); ?>
+                <?php if ($privacy_url) : ?>
+                    <p class="contact-form__privacy-link">
+                        <a href="<?php echo esc_url($privacy_url); ?>" target="_blank" rel="noopener noreferrer">
+                            <?php esc_html_e('Consulta aquí nuestro Aviso de Privacidad Integral.', 'taw-theme'); ?>
+                        </a>
+                    </p>
+                <?php endif; ?>
             </div><!-- /.contact-form__form-wrap -->
 
         </div><!-- /.contact-form__inner -->

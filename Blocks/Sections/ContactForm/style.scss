@@ -196,4 +196,19 @@
             padding: 1.5rem;
         }
     }
+
+    &__privacy-link {
+        margin-top: 1rem;
+        font-size: 0.8125rem;
+        text-align: center;
+
+        a {
+            color: var(--color-primary, #004a98);
+            text-decoration: underline;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
 }

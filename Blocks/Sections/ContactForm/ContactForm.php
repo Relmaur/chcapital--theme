@@ -53,11 +53,28 @@ class ContactForm extends MetaBlock
                         'required' => true,
                         'width'    => '100',
                         'options'  => [
-                            __('Fideicomiso', 'taw-theme') => __('Fideicomiso', 'taw-theme'),
-                            __('Crédito', 'taw-theme')     => __('Crédito', 'taw-theme'),
+                            __('Fideicomiso', 'taw-theme')       => __('Fideicomiso', 'taw-theme'),
+                            __('Escrow', 'taw-theme')             => __('Escrow', 'taw-theme'),
+                            __('Crédito PYME', 'taw-theme')       => __('Crédito PYME', 'taw-theme'),
+                            __('Crédito de Nómina', 'taw-theme')  => __('Crédito de Nómina', 'taw-theme'),
                         ],
                     ],
                     ['id' => 'message', 'label' => __('¿En qué podemos ayudarte?', 'taw-theme'), 'type' => 'textarea', 'required' => false, 'width' => '100'],
+                    [
+                        'id'               => 'privacy_consent',
+                        'label'            => __('He leído el Aviso de Privacidad de CH CAPITAL y consiento el tratamiento de mis datos para atender y dar seguimiento a mi solicitud.', 'taw-theme'),
+                        'type'             => 'checkbox',
+                        'required'         => true,
+                        'required_message' => __('Debes aceptar el Aviso de Privacidad para continuar.', 'taw-theme'),
+                        'width'            => '100',
+                    ],
+                    [
+                        'id'       => 'marketing_consent',
+                        'label'    => __('Deseo recibir información sobre servicios, contenidos, webinars, eventos y novedades de CH CAPITAL. (Opcional)', 'taw-theme'),
+                        'type'     => 'checkbox',
+                        'required' => false,
+                        'width'    => '100',
+                    ],
                 ],
             ]);
         });
@@ -122,8 +139,9 @@ class ContactForm extends MetaBlock
                     'phone' => OptionsPage::get('division_fiduciaria_phone'),
                 ],
             ],
-            'address'    => OptionsPage::get('company_address'),
-            'social'     => $social,
+            'address'     => OptionsPage::get('company_address'),
+            'social'      => $social,
+            'privacy_url' => OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapital.mx/wp-content/uploads/2024/03/aviso.pdf',
         ];
     }
 }
