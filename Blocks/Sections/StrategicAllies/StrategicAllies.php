@@ -147,14 +147,9 @@ class StrategicAllies extends MetaBlock
                 'ally_url'  => 'https://kupfertax.mx/',
             ],
             [
-                'ally_logo' => 5866,
-                'ally_name' => 'Algorithia',
-                'ally_url'  => '',
-            ],
-            [
                 'ally_logo' => 5865,
                 'ally_name' => 'LS México',
-                'ally_url'  => '',
+                'ally_url'  => '#',
             ],
         ];
 
