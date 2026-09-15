@@ -217,6 +217,109 @@ Alpine.data('videoModal', () => ({
     },
 }));
 
+// "Image Carousel" block (inc/blocks/image-carousel/) — Alpine component for
+// the prev/next arrows, optional autoplay, and optional mouse drag-to-scroll
+// (editor-side toggles in editor.js, read here off data-autoplay/data-drag
+// on the wrapper). Registered here (rather than a per-block script.js)
+// because this block isn't a TAW Block/MetaBlock — it's a native Gutenberg
+// block living under inc/, outside BaseBlock's Vite-per-block asset
+// pipeline — and app.js already loads globally on every page, including
+// single posts. Ported from the sibling ls-mexico theme (same client, same
+// feature request).
+Alpine.data('chImageCarousel', () => ({
+    atStart: true,
+    atEnd: false,
+    isDragging: false,
+    dragEnabled: true,
+    autoplayPaused: false,
+    dragStartX: 0,
+    dragStartScrollLeft: 0,
+
+    init() {
+        this.dragEnabled = this.$el.dataset.drag !== 'false';
+
+        this.updateEdges();
+        this.$refs.track.addEventListener('scroll', () => this.updateEdges(), { passive: true });
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (this.$el.dataset.autoplay === 'true' && !prefersReducedMotion) {
+            this.startAutoplay();
+        }
+    },
+
+    // Setinterval-based, not the app-wide cleanup-registry.js (that registry
+    // is for imperative libraries like Embla that Alpine has no awareness
+    // of) — $cleanup is Alpine's own per-component teardown hook, and this
+    // timer lives and dies with this exact component instance.
+    startAutoplay() {
+        const timer = setInterval(() => {
+            if (this.isDragging || this.autoplayPaused) {
+                return;
+            }
+
+            if (this.atEnd) {
+                this.$refs.track.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                this.next();
+            }
+        }, 4000);
+
+        this.$cleanup(() => clearInterval(timer));
+    },
+
+    updateEdges() {
+        const track = this.$refs.track;
+        this.atStart = track.scrollLeft <= 0;
+        this.atEnd = Math.ceil(track.scrollLeft + track.clientWidth) >= track.scrollWidth;
+    },
+
+    scrollByStep(direction) {
+        const track = this.$refs.track;
+        const slide = track.querySelector('.wp-block-chcapital-image-carousel__slide');
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        const step = (slide ? slide.getBoundingClientRect().width : track.clientWidth) + gap;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        track.scrollBy({ left: direction * step, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    },
+
+    prev() {
+        this.scrollByStep(-1);
+    },
+
+    next() {
+        this.scrollByStep(1);
+    },
+
+    // Mouse-only click-and-drag scrolling. Touch/trackpad already get native
+    // scrolling for free from `overflow-x: auto` on the track — hijacking
+    // those with pointer capture would fight the browser's own touch-scroll
+    // gesture instead of improving on it.
+    dragStart(event) {
+        if (!this.dragEnabled || event.pointerType !== 'mouse') {
+            return;
+        }
+
+        this.isDragging = true;
+        this.dragStartX = event.clientX;
+        this.dragStartScrollLeft = this.$refs.track.scrollLeft;
+        event.currentTarget.setPointerCapture(event.pointerId);
+    },
+
+    dragMove(event) {
+        if (!this.isDragging) {
+            return;
+        }
+
+        event.preventDefault();
+        this.$refs.track.scrollLeft = this.dragStartScrollLeft - (event.clientX - this.dragStartX);
+    },
+
+    dragEnd() {
+        this.isDragging = false;
+    },
+}));
+
 // ── 8. Alpine start ───────────────────────────────────────────────────────────
 //
 // Start Alpine ONCE on first page load. On subsequent Swup navigations,

@@ -1,0 +1,126 @@
+/**
+ * "Image Carousel" — frontend styles. Enqueued only on pages that actually
+ * render this block (register_block_type()'s `style` arg, handled
+ * automatically by WordPress core — no manual wp_enqueue_scripts hook).
+ *
+ * Deliberately plain CSS, not Tailwind utility classes in the render_callback
+ * markup — this file lives outside the Vite/Tailwind pipeline (see block.php),
+ * so it doesn't depend on app.css's `@source` PHP scan or a rebuild to pick
+ * up changes. Brand color references the --color-primary custom property
+ * (resources/css/app.css) with a literal fallback, since app.css itself
+ * loads async (see AGENTS.md § "CSS entry points") and could still be in
+ * flight when this paints.
+ *
+ * Every selector below is prefixed with `.entry-content` — not for scoping,
+ * but for specificity: this block only ever renders inside `the_content()`
+ * output (single-post.php), which app.scss's hand-rolled entry-content
+ * typography rules (`.entry-content ul`, `.entry-content img`,
+ * `.entry-content > * + *`, all specificity (0,1,1)+) also target. A flat
+ * single-class selector here loses that fight, so match or beat their
+ * specificity on every property they'd otherwise win (list-style, padding,
+ * image sizing, spacing, margin). If entry-content's rules change in
+ * app.scss, re-check this file.
+ */
+
+.entry-content .wp-block-chcapital-image-carousel {
+	position: relative;
+}
+
+.entry-content .wp-block-chcapital-image-carousel__slides {
+	display: flex;
+	gap: 1rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+}
+
+.entry-content .wp-block-chcapital-image-carousel__slides::-webkit-scrollbar {
+	display: none;
+}
+
+.entry-content .wp-block-chcapital-image-carousel__slide {
+	flex: 0 0 100%;
+	margin: 0;
+	scroll-snap-align: start;
+}
+
+@media (min-width: 640px) {
+	.entry-content .wp-block-chcapital-image-carousel__slide {
+		flex-basis: 50%;
+	}
+}
+
+@media (min-width: 1024px) {
+	.entry-content .wp-block-chcapital-image-carousel__slide {
+		flex-basis: 33.3333%;
+	}
+}
+
+.entry-content .wp-block-chcapital-image-carousel__slide img {
+	display: block;
+	width: 100%;
+	height: 16rem;
+	max-width: none;
+	object-fit: cover;
+}
+
+/* Mouse drag-to-scroll (data-drag="true", see app.js's chImageCarousel) —
+   only ever wired up for pointerType "mouse", so these cursors and the
+   drag-ghost/selection suppression below only matter on desktop. */
+.entry-content .wp-block-chcapital-image-carousel[data-drag="true"] .wp-block-chcapital-image-carousel__slides {
+	cursor: grab;
+}
+
+.entry-content .wp-block-chcapital-image-carousel[data-drag="true"] .wp-block-chcapital-image-carousel__slides.is-dragging {
+	cursor: grabbing;
+	scroll-snap-type: none;
+}
+
+.entry-content .wp-block-chcapital-image-carousel[data-drag="true"] .wp-block-chcapital-image-carousel__slide img {
+	-webkit-user-drag: none;
+	user-select: none;
+}
+
+@media (min-width: 768px) {
+	.entry-content .wp-block-chcapital-image-carousel__slide img {
+		height: 20rem;
+	}
+}
+
+.entry-content .wp-block-chcapital-image-carousel__arrow {
+	position: absolute;
+	top: 50%;
+	z-index: 1;
+	display: flex;
+	width: 2.5rem;
+	height: 2.5rem;
+	align-items: center;
+	justify-content: center;
+	transform: translateY(-50%);
+	border: 0;
+	border-radius: 9999px;
+	background: rgb(255 255 255 / 90%);
+	color: var(--color-primary, #004a98);
+	font-size: 1.125rem;
+	line-height: 1;
+	box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+	cursor: pointer;
+	transition: opacity 0.2s ease;
+}
+
+.entry-content .wp-block-chcapital-image-carousel__arrow:disabled {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.entry-content .wp-block-chcapital-image-carousel__arrow--prev {
+	left: 0.5rem;
+}
+
+.entry-content .wp-block-chcapital-image-carousel__arrow--next {
+	right: 0.5rem;
+}

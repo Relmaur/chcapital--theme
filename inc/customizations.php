@@ -15,6 +15,11 @@ use TAW\Support\EmailConfig;
 require_once get_template_directory() . '/inc/multimedia-cpts.php';
 require_once get_template_directory() . '/inc/consent-log.php';
 
+// "Image Carousel" — native Gutenberg block, scoped to blog posts only.
+// See inc/blocks/image-carousel/block.php for registration, the render
+// callback, and the frontend markup contract.
+require_once get_template_directory() . '/inc/blocks/image-carousel/block.php';
+
 /**
  * Enable the visual editor.
  */
