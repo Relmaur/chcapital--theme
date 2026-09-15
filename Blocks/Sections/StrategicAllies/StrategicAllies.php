@@ -137,7 +137,7 @@ class StrategicAllies extends MetaBlock
                 'ally_url'  => 'https://www.algorithia.com/',
             ],
             [
-                'ally_logo' => 'https://chcapital.mx/wp-content/uploads/2026/09/CDC_logo.svg',
+                'ally_logo' => 'https://chcapital.mx/wp-content/uploads/2026/09/CDC_logo.webp',
                 'ally_name' => 'Consultores en Dirección del Crecimiento',
                 'ally_url'  => 'https://cdc.mx/',
             ],
