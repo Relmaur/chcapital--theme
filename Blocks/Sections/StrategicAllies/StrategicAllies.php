@@ -42,10 +42,11 @@ class StrategicAllies extends MetaBlock
                     'button' => __('Add Logo', 'taw-theme'),
                     'fields' => [
                         [
-                            'id'    => 'ally_logo',
-                            'label' => __('Logo', 'taw-theme'),
-                            'type'  => 'image',
-                            'width' => '33',
+                            'id'          => 'ally_logo',
+                            'label'       => __('Logo', 'taw-theme'),
+                            'type'        => 'text',
+                            'description' => __('A Media Library attachment ID (number), or a full/relative image URL for a logo that isn\'t uploaded here.', 'taw-theme'),
+                            'width'       => '33',
                         ],
                         [
                             'id'    => 'ally_name',
@@ -136,9 +137,14 @@ class StrategicAllies extends MetaBlock
                 'ally_url'  => 'https://www.algorithia.com/',
             ],
             [
-                'ally_logo' => 5867,
-                'ally_name' => 'Consultores Dirección del Crecimiento',
-                'ally_url'  => '',
+                'ally_logo' => 'https://chcapital.mx/wp-content/uploads/2026/09/CDC_logo.svg',
+                'ally_name' => 'Consultores en Dirección del Crecimiento',
+                'ally_url'  => 'https://cdc.mx/',
+            ],
+            [
+                'ally_logo' => 'https://chcapital.mx/wp-content/uploads/2026/09/kupfer_logo.webp',
+                'ally_name' => 'Kupfer Tax',
+                'ally_url'  => 'https://kupfertax.mx/',
             ],
             [
                 'ally_logo' => 5866,

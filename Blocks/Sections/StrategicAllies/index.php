@@ -34,13 +34,26 @@ $placeholder_names = ['Banamex', 'BBVA', 'Banorte', 'Santander', 'HSBC', 'Inburs
 
             <?php if ($has_logos) : ?>
                 <?php foreach ($logos as $item) :
-                    $logo_id = (int) ($item['ally_logo'] ?? 0);
-                    $name    = esc_attr($item['ally_name'] ?? '');
-                    $url     = esc_url($item['ally_url'] ?? '#');
-                    if (!$logo_id) continue;
+                    $logo_ref  = $item['ally_logo'] ?? '';
+                    $name      = esc_attr($item['ally_name'] ?? '');
+                    $url       = esc_url($item['ally_url'] ?? '#');
+                    // ally_logo is normally a Media Library attachment ID (int),
+                    // but some allies' logos are only available as a hotlinked
+                    // or theme-relative URL string — is_numeric() lets a literal
+                    // "0"/0 still fall through to the "no logo" skip below, same
+                    // as the old (int) cast did, while any other string (absolute
+                    // or relative — esc_url() passes both through unchanged) is
+                    // rendered as a plain <img> instead of going through
+                    // Image::render(), which only accepts attachment IDs.
+                    $is_attachment_id = is_numeric($logo_ref) && (int) $logo_ref > 0;
+                    if (empty($logo_ref)) continue;
                 ?>
                     <a href="<?php echo $url; ?>" class="strategic-allies__logo" target="_blank" rel="noopener noreferrer">
-                        <?php echo Image::render($logo_id, 'medium', $name, ['class' => 'strategic-allies__img']); ?>
+                        <?php if ($is_attachment_id) : ?>
+                            <?php echo Image::render((int) $logo_ref, 'medium', $name, ['class' => 'strategic-allies__img']); ?>
+                        <?php else : ?>
+                            <img src="<?php echo esc_url($logo_ref); ?>" alt="<?php echo $name; ?>" class="strategic-allies__img" loading="lazy" decoding="async">
+                        <?php endif; ?>
                     </a>
                 <?php endforeach; ?>
             <?php else : ?>

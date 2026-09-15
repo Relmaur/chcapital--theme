@@ -89,16 +89,6 @@ class Testimonials extends MetaBlock
                 'name'  => 'Karen Valenzuela',
                 'role'  => '',
             ],
-            [
-                'quote' => __('El servicio en préstamos ha sido muy eficiente y profesional. Definitivamente recomendaría a CH Capital con otras personas que busquen asesoría financiera.', 'taw-theme'),
-                'name'  => 'Karen Valenzuela',
-                'role'  => '',
-            ],
-            [
-                'quote' => __('El servicio en préstamos ha sido muy eficiente y profesional. Definitivamente recomendaría a CH Capital con otras personas que busquen asesoría financiera.', 'taw-theme'),
-                'name'  => 'Karen Valenzuela',
-                'role'  => '',
-            ],
         ];
 
         $items = $this->getRepeater($postId, 'testimonials_items');

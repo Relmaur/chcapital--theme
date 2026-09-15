@@ -103,7 +103,7 @@ class FAQs extends MetaBlock
             'heading'     => $this->getMeta($postId, 'faqs_heading'),
             'subheading'  => $this->getMeta($postId, 'faqs_subheading'),
             'layout'      => $this->getMeta($postId, 'faqs_layout') ?: 'single',
-            'items'       => $items ?: [],
+            'items'       => $items ?: $default_faqs,
         ];
     }
 }

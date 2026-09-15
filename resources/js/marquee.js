@@ -35,6 +35,14 @@ export function createMarquee(options) {
    let isNavigating = false;
    let lastFrameTime = performance.now();
    let resumeTimeout;
+   let autoplayPaused = false; // True from the moment a drag starts until resumeDelay after it ends
+   let dragDistance = 0; // Max |movement| seen during the current gesture — click-vs-drag detection
+
+   // Pointer movement below this (px) is treated as a tap, not a drag — the
+   // logo links stay clickable. Above it, the trailing click on whichever
+   // <a> ends up under the pointer at release gets suppressed, since a real
+   // drag has no business also triggering navigation.
+   const CLICK_DRAG_THRESHOLD = 6;
 
    // 2. DOM MANIPULATION (CLONING)
    const items = Array.from(wrapper.children);
@@ -62,7 +70,7 @@ export function createMarquee(options) {
             currentX = targetX;
             isNavigating = false;
          }
-      } else if (!isDragging) {
+      } else if (!isDragging && !autoplayPaused) {
          // Normal autoplay scroll
          const moveStep = config.speedFactor * deltaTime;
          currentX -= config.reverse ? -moveStep : moveStep;
@@ -107,10 +115,22 @@ export function createMarquee(options) {
    // 5. EVENT HANDLERS FOR INTERACTIVITY
    function dragStart(e) {
       isDragging = true;
+      autoplayPaused = true;
+      dragDistance = 0;
       clearTimeout(resumeTimeout); // Stop any pending resume
       containerEl.classList.add('is-dragging');
       startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
       scrollStart = currentX;
+
+      // Mouse only — touchstart is registered passive (needed so it doesn't
+      // block the page's own scroll), so calling preventDefault() there
+      // would just log a console warning and do nothing. Without this on
+      // mouse, the browser's native text-selection drag fights the
+      // transform-based drag every frame, which is what made this feel
+      // "janky" — the two were dragging against each other simultaneously.
+      if (!e.type.includes('touch')) {
+         e.preventDefault();
+      }
 
       // Add move/end listeners to the whole window for better drag experience
       window.addEventListener('mousemove', dragMove);
@@ -125,6 +145,7 @@ export function createMarquee(options) {
       e.preventDefault(); // Prevents scrolling on touch devices
       const mouseX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
       const walk = (mouseX - startX);
+      dragDistance = Math.max(dragDistance, Math.abs(walk));
       currentX = scrollStart + walk;
    }
 
@@ -144,7 +165,7 @@ export function createMarquee(options) {
 
       clearTimeout(resumeTimeout);
       resumeTimeout = setTimeout(() => {
-         // The animation loop will naturally take over again
+         autoplayPaused = false;
       }, config.resumeDelay);
 
       // Clean up global listeners
@@ -158,6 +179,18 @@ export function createMarquee(options) {
    // 6. INITIALIZE
    containerEl.addEventListener('mousedown', dragStart);
    containerEl.addEventListener('touchstart', dragStart, { passive: true });
+
+   // Suppress the click the browser fires on whichever <a> ends up under the
+   // pointer at release, when that release capped off a real drag rather
+   // than a tap — capture phase so this runs before the anchor's own
+   // navigation. dragDistance isn't reset until the *next* dragStart, so it
+   // still reflects the gesture that just ended.
+   containerEl.addEventListener('click', (e) => {
+      if (dragDistance > CLICK_DRAG_THRESHOLD) {
+         e.preventDefault();
+         e.stopPropagation();
+      }
+   }, true);
 
    // Prevent the browser's native image drag-and-drop behavior.
    containerEl.addEventListener('dragstart', (e) => e.preventDefault());

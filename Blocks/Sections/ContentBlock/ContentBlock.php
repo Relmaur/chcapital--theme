@@ -111,12 +111,12 @@ class ContentBlock extends MetaBlock
                     // 'subheading' => 'Una vez firmado el convenio con CH Capital, tus colaboradores tendrán acceso al siguiente <strong>plan de beneficios</strong>:',
                     'content'    => '<ul>
                                     <li><strong>Montos.</strong> De 1 millón hasta 5 millones.</li>
-                                    <li><strong>Comisión por apertura.</strong> Hasta 4%</li>
+                                    <li><strong>Comisión por apertura.</strong> 4%</li>
                                     <li><strong>Plazo.</strong> Hasta 48 meses.</li>
                                     <li><strong>Tasa.</strong> Del 28 al 36%</li>
                                     <li><strong>Garantía.</strong> Hipotecaria mínimo 2 a 1 por medio de un fideicomiso, excepto terrenos.</li>
                                     <li><strong>Obligado Solidario.</strong> Puede aplicar.</li>
-                                    <li><strong>Antigüedad.</strong> Mínimo 3 años.</li>
+                                    <li><strong>Antigüedad empresarial.</strong> Mínimo 3 años.</li>
                                     <li><strong>Sin penalización.</strong> Por liquidación anticipada del crédito.</li>
                                     <li><strong>Buró de Crédito.</strong> No determinante.</li>
                                     </ul>',
