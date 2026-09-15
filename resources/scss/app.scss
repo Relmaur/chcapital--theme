@@ -491,7 +491,10 @@ html {
     }
 }
 
-[data-taw-form] .taw-help-popup {
+// Anchored popover only — tag-qualified with span, same as taw-core's own
+// base rule, since it's the only variant ever rendered as a <span>; the
+// modal variant below is always a <dialog> and needs none of this.
+[data-taw-form] span.taw-help-popup {
     max-width: 320px;
     max-height: 260px;
     padding: 0.875rem 1rem;
@@ -505,6 +508,30 @@ html {
 
     &::after {
         border-top-color: var(--color-secondary);
+    }
+}
+
+// ── Help modal (help_modal => true) ─────────────────────────────────────────
+// A native <dialog> — see taw-core's Form.php/form.css for why. Its own
+// box is the visible card (opaque brand background); ::backdrop is the
+// separate, native full-viewport dimming layer behind it.
+[data-taw-form] dialog.taw-help-popup {
+    background-color: var(--color-secondary);
+    font-family: 'Montserrat', 'Montserrat Fallback', sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+}
+
+[data-taw-form] dialog.taw-help-popup::backdrop {
+    background-color: rgba(0, 20, 41, 0.6);
+}
+
+[data-taw-form] .taw-help-close {
+    background-color: rgba(255, 255, 255, 0.1);
+
+    &:hover,
+    &:focus-visible {
+        background-color: rgba(255, 255, 255, 0.22);
     }
 }
 

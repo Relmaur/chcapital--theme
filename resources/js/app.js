@@ -103,7 +103,57 @@ swup.hooks.before('content:replace', () => {
 
     const content = document.getElementById('content');
     if (content) Alpine.destroyTree(content);
+
+    // taw-core's Cloudflare Turnstile widgets (Form's 'turnstile' => true)
+    // need explicit teardown before their container is destroyed here, or
+    // Cloudflare's own background token-refresh later tries to touch a
+    // widget ID whose container no longer exists ("Cannot find Widget ...,
+    // consider using turnstile.remove()" in the console). TAWTurnstile is
+    // taw-core's own small JS helper (see Turnstile::enqueueScript()) —
+    // this is the theme-side half of that contract, same division as the
+    // reExecuteInlineScripts fix below: taw-core renders/tracks widgets
+    // without knowing Swup exists, the theme's Swup integration is what
+    // calls .remove() at the right point in its lifecycle.
+    if (content && window.TAWTurnstile) {
+        content.querySelectorAll('.cf-turnstile[data-taw-widget-id]').forEach(el => {
+            window.TAWTurnstile.remove(el);
+        });
+    }
 });
+
+// Per the same "Swup does NOT re-run scripts" fact above: this applies to
+// literal <script> tags too, not just Alpine — content:replace swaps
+// #content via innerHTML, and per the HTML spec a <script> inserted that
+// way never executes, full stop. taw-core's Form class relies on exactly
+// this: Form::render() emits an inline <script> right after its <form>
+// that attaches the submit handler via `document.currentScript.previous
+// ElementSibling`, assuming the browser's parser will run it normally.
+// That's true on a hard page load, but after a Swup transition the script
+// is simply inert — no submit handler ever gets attached, so submitting
+// the form falls through to the browser's native behavior: a real POST to
+// admin-ajax.php, landing the visitor on raw JSON instead of the form's
+// own inline success/error UI.
+//
+// Fix (the standard pjax/turbo-style trick): replace every inline <script>
+// inside the freshly swapped content with a newly created one. A cloned
+// element carries no "has executed" state, so the browser runs it for
+// real — document.currentScript resolves correctly inside it, since that
+// works for a script's own synchronous top-level execution regardless of
+// whether it was parser-inserted or created via the DOM API. Scoped to
+// script:not([src]) — external <script src> tags are already handled by
+// SwupHeadPlugin for anything queued into <head>, and blindly re-running
+// arbitrary external scripts here risks double-firing something (e.g. a
+// third-party embed) that already has its own execution path.
+function reExecuteInlineScripts(root) {
+    root.querySelectorAll('script:not([src])').forEach(oldScript => {
+        const newScript = document.createElement('script');
+        for (const { name, value } of oldScript.attributes) {
+            newScript.setAttribute(name, value);
+        }
+        newScript.textContent = oldScript.textContent;
+        oldScript.replaceWith(newScript);
+    });
+}
 
 swup.hooks.on('content:replace', () => {
     // Close any open overlays (search, mobile drawer) before the new content
@@ -113,7 +163,10 @@ swup.hooks.on('content:replace', () => {
     );
 
     const content = document.getElementById('content');
-    if (content) Alpine.initTree(content);
+    if (content) {
+        Alpine.initTree(content);
+        reExecuteInlineScripts(content);
+    }
 });
 
 // ── 7. Alpine components ──────────────────────────────────────────────────────
