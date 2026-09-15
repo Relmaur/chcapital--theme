@@ -32,6 +32,7 @@ import Swup             from 'swup';
 import SwupHeadPlugin   from '@swup/head-plugin';
 import SwupScrollPlugin from '@swup/scroll-plugin';
 import SwupPreloadPlugin from '@swup/preload-plugin';
+import { registerCleanup, flushCleanup } from './cleanup-registry.js';
 
 const swup = new Swup({
     // Only swap the main content area — header, footer, scripts stay untouched.
@@ -46,7 +47,11 @@ const swup = new Swup({
         // page. persistAssets keeps JS/CSS already loaded so they're not
         // removed when the new page doesn't explicitly list them — prevents
         // previously-registered Alpine components from disappearing.
-        new SwupHeadPlugin({ persistAssets: true }),
+        // awaitAssets delays the swap until any newly-added stylesheet
+        // <link> has actually loaded (bounded by its own 3s timeout) — a
+        // block that's genuinely new to this session can otherwise flash
+        // unstyled for one frame right as its markup appears.
+        new SwupHeadPlugin({ persistAssets: true, awaitAssets: true }),
 
         // Scrolls to the top of the page after every navigation. Cross-page
         // links that carry a hash (e.g. /escrow/#contact-cta from another
@@ -85,24 +90,24 @@ const swup = new Swup({
     },
 });
 
-// ── 6. Alpine lifecycle with Swup ─────────────────────────────────────────────
+// ── 6. Cleanup + Turnstile teardown before a swap ─────────────────────────────
 //
 // Swup does NOT re-run scripts that are already in the page — it only replaces
-// DOM inside #content.  We must:
-//   (a) destroy Alpine components in the OLD content before it is replaced
-//   (b) initialize Alpine components in the NEW content after it is replaced
-//
-// `Alpine.destroyTree(el)` and `Alpine.initTree(el)` are available in Alpine ≥ 3.2.
-
-// Block scripts register Embla/other teardown here; cleared after each navigation.
-window._tawCleanup = new Set();
+// DOM inside #content. No manual Alpine.destroyTree()/initTree() calls here:
+// Alpine ships its own global MutationObserver that already inits/destroys
+// x-data components for whatever a swap adds or removes, including a Swup
+// container's replaceWith(cloneNode()) — verified live (npm run dev and a
+// production build) with zero manual tree calls. Adding them back is
+// redundant, not just unnecessary (see taw-theme's README, "Using JavaScript
+// View Transition Libraries", for the full writeup this recipe comes from).
 
 swup.hooks.before('content:replace', () => {
-    window._tawCleanup.forEach(fn => fn());
-    window._tawCleanup.clear();
+    // Flush any registered instance teardowns (Embla carousels, etc. — see
+    // initGalleries()/initTestimonials() below) before their containers are
+    // destroyed.
+    flushCleanup();
 
     const content = document.getElementById('content');
-    if (content) Alpine.destroyTree(content);
 
     // taw-core's Cloudflare Turnstile widgets (Form's 'turnstile' => true)
     // need explicit teardown before their container is destroyed here, or
@@ -120,6 +125,26 @@ swup.hooks.before('content:replace', () => {
         });
     }
 });
+
+// A <script> cloned into <head> by a head-diffing plugin (@swup/head-plugin
+// above) doesn't reliably re-execute in a *production* build — a block not on
+// the landing page can render blank/broken on a genuinely first-ever visit to
+// its page, yet work fine on the very next visit, because by then the script
+// already executed once. Explicitly re-import() every current module
+// script's URL to guarantee its top-level code has actually run.
+// import() on an already-loaded URL is a safe no-op — same per-realm module
+// map a <script> tag uses, never re-executes — so this runs unconditionally,
+// not just for "new" scripts. Registered after SwupHeadPlugin's own before()
+// hook (same-timing hooks run in registration order, and the plugin's own
+// hook is registered during `new Swup(...)` above, before this call), so the
+// plugin's head-mount has already happened by the time this fires — and
+// before the DOM swap, so this always completes ahead of Alpine's own
+// auto-init observer reacting to that swap.
+function loadPageScripts() {
+    const urls = [...document.querySelectorAll('script[type="module"][src]')].map(s => s.src);
+    return Promise.all(urls.map(url => import(/* @vite-ignore */ url)));
+}
+swup.hooks.before('content:replace', loadPageScripts);
 
 // Per the same "Swup does NOT re-run scripts" fact above: this applies to
 // literal <script> tags too, not just Alpine — content:replace swaps
@@ -156,25 +181,24 @@ function reExecuteInlineScripts(root) {
 }
 
 swup.hooks.on('content:replace', () => {
-    // Close any open overlays (search, mobile drawer) before the new content
-    // Alpine tree is initialized — prevents stale state bleeding across pages.
+    // Close any open overlays (search, mobile drawer) before Alpine's own
+    // auto-init observer reacts to the new content — prevents stale state
+    // bleeding across pages.
     document.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })
     );
 
     const content = document.getElementById('content');
-    if (content) {
-        Alpine.initTree(content);
-        reExecuteInlineScripts(content);
-    }
+    if (content) reExecuteInlineScripts(content);
 });
 
 // ── 7. Alpine components ──────────────────────────────────────────────────────
 //
 // Register shared Alpine components here so they are always available,
-// regardless of which block scripts have loaded. This avoids a Swup race
-// condition where Alpine.initTree(content) fires on content:replace before
-// the block's script.js has been injected and executed by SwupHeadPlugin.
+// regardless of which block scripts have loaded. Registered once, at
+// module load — always before Alpine.start() (section 8), and the
+// factory function this defines is reused by Alpine's own auto-init
+// observer for every later navigation, not just the first page.
 
 Alpine.data('videoModal', () => ({
     isOpen:   false,
@@ -195,8 +219,9 @@ Alpine.data('videoModal', () => ({
 
 // ── 8. Alpine start ───────────────────────────────────────────────────────────
 //
-// Start Alpine ONCE on first page load.  On subsequent Swup navigations
-// the initTree / destroyTree calls above handle re-initialization.
+// Start Alpine ONCE on first page load. On subsequent Swup navigations,
+// Alpine's own global MutationObserver handles re-initialization — see
+// section 6.
 
 document.addEventListener('DOMContentLoaded', () => {
     Alpine.start();
@@ -317,7 +342,7 @@ function initGalleries() {
         }
 
         root.setAttribute('data-gallery-ready', '');
-        window._tawCleanup.add(() => embla.destroy());
+        registerCleanup(() => embla.destroy());
     });
 }
 
@@ -361,7 +386,7 @@ function initTestimonials() {
         }
 
         root.setAttribute('data-testimonials-ready', '');
-        window._tawCleanup.add(() => embla.destroy());
+        registerCleanup(() => embla.destroy());
     });
 }
 
