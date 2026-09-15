@@ -43,6 +43,14 @@ new OptionsPage([
             'width' => '100',
         ],
         [
+            'id' => 'brand_primary_color',
+            'label' => __('Brand Primary Color', 'taw-theme'),
+            'type' => 'color',
+            'width' => '33.33',
+            'default' => '#004a98',
+            'description' => __('Used as the accent color for generated reports (memo-report, ficha-tecnica).', 'taw-theme'),
+        ],
+        [
             'id' => 'company_address',
             'label' => __('Address', 'taw-theme'),
             'type' => 'wysiwyg',
@@ -121,7 +129,7 @@ new OptionsPage([
         [
             'id' => 'general',
             'label' => __('General', 'taw-theme'),
-            'fields' => ['company_name', 'company_address', 'general_contact', 'division_financiera', 'division_fiduciaria']
+            'fields' => ['company_name', 'brand_primary_color', 'company_address', 'general_contact', 'division_financiera', 'division_fiduciaria']
         ],
         [
             'id' => 'footer',

@@ -56,7 +56,17 @@ use TAW\CLI\SeoInjectCommand;
 use TAW\CLI\WpCliCommand;
 use TAW\CLI\IconsSyncCommand;
 use TAW\CLI\HubInstallCommand;
+use TAW\CLI\HubEnrollCommand;
 use TAW\CLI\LogTailCommand;
+use TAW\CLI\ContentExportCommand;
+use TAW\CLI\ContentImportCommand;
+use TAW\CLI\ContentDiffCommand;
+use TAW\CLI\ContentReindexCommand;
+use TAW\CLI\ContentReindexKbCommand;
+use TAW\CLI\CorpusInstallCommand;
+use TAW\CLI\CorpusExportCommand;
+use TAW\CLI\CatechismInstallCommand;
+use TAW\CLI\CatechismExportCommand;
 
 $app = new Application('TAW CLI', '1.0.0');
 
@@ -76,6 +86,16 @@ $app->add(new SeoInjectCommand($themeDir));
 $app->add(new WpCliCommand($themeDir));
 $app->add(new IconsSyncCommand());
 $app->add(new HubInstallCommand($themeDir));
+$app->add(new HubEnrollCommand($themeDir));
 $app->add(new LogTailCommand($themeDir));
+$app->add(new ContentExportCommand($themeDir));
+$app->add(new ContentImportCommand($themeDir));
+$app->add(new ContentDiffCommand($themeDir));
+$app->add(new ContentReindexCommand($themeDir));
+$app->add(new ContentReindexKbCommand($themeDir));
+$app->add(new CorpusInstallCommand($themeDir));
+$app->add(new CorpusExportCommand());
+$app->add(new CatechismInstallCommand($themeDir));
+$app->add(new CatechismExportCommand());
 
 $app->run();
