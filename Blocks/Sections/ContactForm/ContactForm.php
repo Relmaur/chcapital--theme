@@ -24,6 +24,10 @@ class ContactForm extends MetaBlock
                     'to_self' => [
                         'subject'  => __('Nueva consulta desde Contacto', 'taw-theme'),
                         'template' => 'form-notification',
+                        // Comercialización wants a copy of every internal
+                        // notification alongside the existing admin_email
+                        // recipient — not a replacement for it.
+                        'to'       => [get_option('admin_email'), 'comercializacion@chcapital.mx'],
                     ],
                     'to_client' => [
                         'subject'  => __('Hemos recibido tu mensaje — CH Capital', 'taw-theme'),

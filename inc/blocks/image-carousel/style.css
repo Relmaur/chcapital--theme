@@ -60,6 +60,12 @@
 	}
 }
 
+.entry-content .wp-block-chcapital-image-carousel__lightbox-link {
+	display: block;
+	height: 100%;
+	cursor: zoom-in;
+}
+
 .entry-content .wp-block-chcapital-image-carousel__slide img {
 	display: block;
 	width: 100%;

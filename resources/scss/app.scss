@@ -684,4 +684,87 @@ html {
 //     scroll-margin-top: 100px;
 // }
 
+// ── PhotoSwipe custom UI (caption + thumbnail strip) ──────────────────────────
+// Styles for the `.pswp__caption-text` / `.pswp__thumbs-strip` / `.pswp__thumb`
+// elements that `initPhotoSwipe()` (resources/js/app.js) creates via
+// `pswp.ui.registerElement()` for EVERY `[data-pswp-gallery]` on the site, not
+// just galleries built from the LightboxImage atom. This lives here (global,
+// always-loaded app.scss) rather than in a single block's own stylesheet,
+// since the JS that creates these elements is itself global and has no way to
+// know which block's markup triggered it — a block-scoped stylesheet only
+// loads when BlockRegistry queues that specific block, which native Gutenberg
+// blocks (e.g. the Image Carousel, inc/blocks/image-carousel/) never do,
+// leaving these elements completely unstyled (unpositioned, unclipped) on any
+// page that never happens to render a LightboxImage-based block too.
+.pswp__caption-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+    color: #fff;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: center;
+    pointer-events: none;
+    transition: bottom 0.2s ease;
+
+    &:empty {
+        display: none;
+    }
+}
+
+// Shift caption up when thumbnail strip is present
+.pswp--has-thumbs .pswp__caption-text {
+    bottom: 76px;
+}
+
+.pswp__thumbs-strip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.55);
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.pswp__thumb {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 0.5;
+    cursor: pointer;
+    background: none;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &--active,
+    &:hover {
+        opacity: 1;
+        border-color: #fff;
+    }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────

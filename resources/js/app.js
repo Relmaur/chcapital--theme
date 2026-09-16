@@ -234,6 +234,8 @@ Alpine.data('chImageCarousel', () => ({
     autoplayPaused: false,
     dragStartX: 0,
     dragStartScrollLeft: 0,
+    dragDistance: 0, // Max |movement| seen during the current gesture — click-vs-lightbox detection
+    autoplayTimer: null,
 
     init() {
         this.dragEnabled = this.$el.dataset.drag !== 'false';
@@ -249,10 +251,13 @@ Alpine.data('chImageCarousel', () => ({
 
     // Setinterval-based, not the app-wide cleanup-registry.js (that registry
     // is for imperative libraries like Embla that Alpine has no awareness
-    // of) — $cleanup is Alpine's own per-component teardown hook, and this
-    // timer lives and dies with this exact component instance.
+    // of). Alpine has no `$cleanup` magic (that was a mistake — checked the
+    // installed alpinejs source, its only magics are $nextTick/$dispatch/
+    // $watch/$store/$data/$root/$refs/$id/$el) — the real per-component
+    // teardown hook is a `destroy()` method, which Alpine calls automatically
+    // when this element is removed from the DOM.
     startAutoplay() {
-        const timer = setInterval(() => {
+        this.autoplayTimer = setInterval(() => {
             if (this.isDragging || this.autoplayPaused) {
                 return;
             }
@@ -263,8 +268,10 @@ Alpine.data('chImageCarousel', () => ({
                 this.next();
             }
         }, 4000);
+    },
 
-        this.$cleanup(() => clearInterval(timer));
+    destroy() {
+        clearInterval(this.autoplayTimer);
     },
 
     updateEdges() {
@@ -292,18 +299,31 @@ Alpine.data('chImageCarousel', () => ({
     },
 
     // Mouse-only click-and-drag scrolling. Touch/trackpad already get native
-    // scrolling for free from `overflow-x: auto` on the track — hijacking
-    // those with pointer capture would fight the browser's own touch-scroll
-    // gesture instead of improving on it.
+    // scrolling for free from `overflow-x: auto` on the track. Window-level
+    // move/up listeners (added/removed per gesture), not setPointerCapture —
+    // capturing the pointer on the track (an ancestor of the actual clicked
+    // slide link) retargets the browser's own click-event synthesis to the
+    // capturing element instead of the link, which silently broke the
+    // PhotoSwipe lightbox: no error, the click just never reached
+    // `a[data-pswp-src]`. Confirmed live via Chrome DevTools MCP — a real
+    // click opened the lightbox once setPointerCapture was removed. Same
+    // window-listener approach StrategicAllies' marquee already uses
+    // (resources/js/marquee.js).
     dragStart(event) {
         if (!this.dragEnabled || event.pointerType !== 'mouse') {
             return;
         }
 
         this.isDragging = true;
+        this.dragDistance = 0;
         this.dragStartX = event.clientX;
         this.dragStartScrollLeft = this.$refs.track.scrollLeft;
-        event.currentTarget.setPointerCapture(event.pointerId);
+
+        this._onDragMove ??= (e) => this.dragMove(e);
+        this._onDragEnd ??= () => this.dragEnd();
+        window.addEventListener('pointermove', this._onDragMove);
+        window.addEventListener('pointerup', this._onDragEnd);
+        window.addEventListener('pointercancel', this._onDragEnd);
     },
 
     dragMove(event) {
@@ -312,11 +332,35 @@ Alpine.data('chImageCarousel', () => ({
         }
 
         event.preventDefault();
-        this.$refs.track.scrollLeft = this.dragStartScrollLeft - (event.clientX - this.dragStartX);
+        const walk = event.clientX - this.dragStartX;
+        this.dragDistance = Math.max(this.dragDistance, Math.abs(walk));
+
+        // scrollTo({behavior:'instant'}), not a plain `.scrollLeft =` assign —
+        // this site sets a global `scroll-behavior: smooth` (for anchor-link
+        // scrolling), which the CSSOM spec says a direct scrollLeft/scrollTop
+        // property write now respects too. Without forcing 'instant' here,
+        // every drag-move update got silently smoothed/animated instead of
+        // applied immediately, so the track visibly lagged behind the
+        // cursor — confirmed live via Chrome DevTools MCP.
+        this.$refs.track.scrollTo({ left: this.dragStartScrollLeft - walk, behavior: 'instant' });
+    },
+
+    // A drag that starts on a slide's lightbox link still fires a trailing
+    // click on it at pointerup — same fix as StrategicAllies' marquee
+    // (resources/js/marquee.js): suppress the click once the gesture moved
+    // more than a few px, otherwise every drag would also pop the lightbox.
+    suppressDragClick(event) {
+        if (this.dragDistance > 6) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
     },
 
     dragEnd() {
         this.isDragging = false;
+        window.removeEventListener('pointermove', this._onDragMove);
+        window.removeEventListener('pointerup', this._onDragEnd);
+        window.removeEventListener('pointercancel', this._onDragEnd);
     },
 }));
 
