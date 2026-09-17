@@ -16,6 +16,15 @@ class ContactForm extends MetaBlock
     public static function boot(): void
     {
         add_action('init', static function () {
+            // Captured once here so the exact wording shown to the user and the
+            // wording snapshotted per submission by chcapital_record_consent_evidence()
+            // can never drift apart — both read from these same two variables.
+            $privacyConsentLabel   = __('He leído el Aviso de Privacidad de CH CAPITAL y consiento el tratamiento de mis datos para atender y dar seguimiento a mi solicitud.', 'taw-theme');
+            $marketingConsentLabel = __('Deseo recibir información sobre servicios, contenidos, webinars, eventos y novedades de CH CAPITAL. (Opcional)', 'taw-theme');
+            // Reused for both the 'interest' option and the 'message' field's
+            // 'conditions' rule below, so the two can never drift apart.
+            $otraInformacionLabel  = __('Otra Información', 'taw-theme');
+
             Form::register([
                 'id'           => 'contact_page_form',
                 'submit_label' => __('Enviar mensaje', 'taw-theme'),
@@ -48,7 +57,15 @@ class ContactForm extends MetaBlock
                 'fields' => [
                     ['id' => 'name',    'label' => __('Nombre completo', 'taw-theme'),    'type' => 'text',     'required' => true,  'width' => '50'],
                     ['id' => 'company', 'label' => __('Empresa', 'taw-theme'),            'type' => 'text',     'required' => false, 'width' => '50'],
-                    ['id' => 'phone',   'label' => __('Teléfono', 'taw-theme'),           'type' => 'tel',      'required' => true,  'width' => '50'],
+                    [
+                        'id'              => 'phone',
+                        'label'           => __('Teléfono', 'taw-theme'),
+                        'type'            => 'tel',
+                        'required'        => true,
+                        'width'           => '50',
+                        'pattern'         => '[0-9]{10,15}',
+                        'pattern_message' => __('Ingresa un número de teléfono válido (mínimo 10 dígitos, solo números).', 'taw-theme'),
+                    ],
                     ['id' => 'email',   'label' => __('Correo electrónico', 'taw-theme'), 'type' => 'email',    'required' => true,  'width' => '50'],
                     [
                         'id'       => 'interest',
@@ -61,12 +78,27 @@ class ContactForm extends MetaBlock
                             __('Escrow', 'taw-theme')             => __('Escrow', 'taw-theme'),
                             __('Crédito PYME', 'taw-theme')       => __('Crédito PYME', 'taw-theme'),
                             __('Crédito de Nómina', 'taw-theme')  => __('Crédito de Nómina', 'taw-theme'),
+                            $otraInformacionLabel                 => $otraInformacionLabel,
                         ],
                     ],
-                    ['id' => 'message', 'label' => __('¿En qué podemos ayudarte?', 'taw-theme'), 'type' => 'textarea', 'required' => false, 'width' => '100'],
+                    [
+                        'id'          => 'message',
+                        'label'       => __('¿En qué podemos ayudarte?', 'taw-theme'),
+                        'type'        => 'textarea',
+                        'required'    => false,
+                        'width'       => '100',
+                        // Always visible, but only mandatory when 'Otra Información' is
+                        // selected — with 'interest' narrowed to a specific product, the
+                        // fixed fields above already say enough; "Otra Información" is
+                        // open-ended, so the message becomes the only place to say what's
+                        // actually being asked.
+                        'required_if' => [
+                            ['field' => 'interest', 'operator' => '==', 'value' => $otraInformacionLabel],
+                        ],
+                    ],
                     [
                         'id'               => 'privacy_consent',
-                        'label'            => __('He leído el Aviso de Privacidad de CH CAPITAL y consiento el tratamiento de mis datos para atender y dar seguimiento a mi solicitud.', 'taw-theme'),
+                        'label'            => $privacyConsentLabel,
                         'type'             => 'checkbox',
                         'required'         => true,
                         'required_message' => __('Debes aceptar el Aviso de Privacidad para continuar.', 'taw-theme'),
@@ -79,14 +111,14 @@ class ContactForm extends MetaBlock
                     ],
                     [
                         'id'       => 'marketing_consent',
-                        'label'    => __('Deseo recibir información sobre servicios, contenidos, webinars, eventos y novedades de CH CAPITAL. (Opcional)', 'taw-theme'),
+                        'label'    => $marketingConsentLabel,
                         'type'     => 'checkbox',
                         'required' => false,
                         'width'    => '100',
                     ],
                 ],
-                'on_submit' => static function (array $data, int|false $postId = false): void {
-                    chcapital_record_consent_evidence($data, $postId);
+                'on_submit' => static function (array $data, int|false $postId = false) use ($privacyConsentLabel, $marketingConsentLabel): void {
+                    chcapital_record_consent_evidence($data, $postId, $privacyConsentLabel, $marketingConsentLabel);
                 },
             ]);
         });

@@ -27,9 +27,20 @@ const CHCAPITAL_SUBMISSION_CPT = 'taw_submission';
 /**
  * Attach consent-evidence meta to a just-saved form submission. Pass this
  * from a form's 'on_submit' callback: on_submit($data, $postId).
+ *
+ * $privacyConsentText/$marketingConsentText must be the exact, literal
+ * checkbox label strings the submitter saw on the page — not a reference to
+ * the current field config, which can change later. The caller (ContactForm's
+ * boot()) captures these into local variables and reuses them for both the
+ * rendered field label and this call, so the snapshot can never drift from
+ * what was actually shown at submit time.
  */
-function chcapital_record_consent_evidence(array $data, int|false $postId): void
-{
+function chcapital_record_consent_evidence(
+    array $data,
+    int|false $postId,
+    string $privacyConsentText,
+    string $marketingConsentText
+): void {
     if (!$postId) {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
@@ -52,6 +63,12 @@ function chcapital_record_consent_evidence(array $data, int|false $postId): void
     update_post_meta($postId, '_taw_consent_event_id', wp_generate_uuid4());
     update_post_meta($postId, '_taw_consent_primary', $consentValue($data, 'privacy_consent'));
     update_post_meta($postId, '_taw_consent_marketing', $consentValue($data, 'marketing_consent'));
+
+    // Literal wording of both checkboxes exactly as shown on the page at
+    // submit time — a read-only historical snapshot. A later edit to the
+    // checkbox copy in ContactForm.php never rewrites past submissions.
+    update_post_meta($postId, '_taw_consent_text_primary', $privacyConsentText);
+    update_post_meta($postId, '_taw_consent_text_marketing', $marketingConsentText);
 
     // Not yet distinguished from the general privacy checkbox above — the
     // current form only has one consent checkbox. Wiring these up to real,
@@ -146,6 +163,29 @@ function chcapital_render_consent_evidence_metabox(\WP_Post $post): void
         );
     }
     echo '</tbody></table>';
+
+    $textPrimary   = (string) get_post_meta($postId, '_taw_consent_text_primary', true);
+    $textMarketing = (string) get_post_meta($postId, '_taw_consent_text_marketing', true);
+
+    if ($textPrimary !== '' || $textMarketing !== '') {
+        echo '<div style="margin-top:15px;border-top:1px solid #ddd;padding-top:10px;">';
+        echo '<p style="font-weight:600;color:#444;margin-bottom:6px;">' . esc_html__('Texto exacto mostrado al momento del envío:', 'taw-theme') . '</p>';
+        if ($textPrimary !== '') {
+            printf(
+                '<p style="margin:0 0 8px;"><em>%s</em> %s</p>',
+                esc_html__('Privacidad:', 'taw-theme'),
+                esc_html($textPrimary)
+            );
+        }
+        if ($textMarketing !== '') {
+            printf(
+                '<p style="margin:0;"><em>%s</em> %s</p>',
+                esc_html__('Marketing:', 'taw-theme'),
+                esc_html($textMarketing)
+            );
+        }
+        echo '</div>';
+    }
 
     $status      = get_post_meta($postId, '_taw_consent_withdrawal_status', true) ?: 'vigente';
     $withdrawnAt = get_post_meta($postId, '_taw_consent_withdrawal_date', true);
