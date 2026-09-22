@@ -10,13 +10,29 @@
  * dense legal document.
  *
  * @var string $content HTML from wysiwyg
+ * @var string $pdf_url URL of the downloadable PDF version
  */
+
+use TAW\Blocks\Atoms\Button\Button;
 
 if (empty($content)) return;
 ?>
 
 <section class="legal-document ch-section">
     <div class="section-container--xs">
+        <?php if (!empty($pdf_url)) : ?>
+            <div class="legal-document__download flex justify-end">
+                <?php (new Button())->render([
+                    'text'     => __('Descargar PDF', 'taw-theme'),
+                    'url'      => $pdf_url,
+                    'variant'  => 'outline',
+                    'size'     => 'sm',
+                    'target'   => '_blank',
+                    'download' => true,
+                ]); ?>
+            </div>
+        <?php endif; ?>
+
         <div class="entry-content legal-document__content">
             <?php echo wp_kses_post($content); ?>
         </div>

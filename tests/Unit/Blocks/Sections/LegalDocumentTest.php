@@ -20,6 +20,7 @@ final class LegalDocumentTest extends TestCase
         parent::setUp();
         $this->stubBlockConstructor();
         \Brain\Monkey\Functions\when('__')->returnArg(1);
+        \Brain\Monkey\Functions\when('get_option')->justReturn('');
     }
 
     public function test_default_content_includes_every_required_section(): void
@@ -52,5 +53,26 @@ final class LegalDocumentTest extends TestCase
         $data  = $this->callMethod($block, 'getData', 42);
 
         $this->assertSame('<p>Texto editado por un administrador.</p>', $data['content']);
+    }
+
+    public function test_pdf_url_falls_back_to_the_hosted_pdf_when_no_option_is_set(): void
+    {
+        $block = new LegalDocument();
+        $data  = $this->callMethod($block, 'getData', false);
+
+        $this->assertSame(
+            'https://chcapital.mx/wp-content/uploads/2026/09/CH-CAPITAL-Aviso-de-Privacidad-SEPT-2026.pdf',
+            $data['pdf_url']
+        );
+    }
+
+    public function test_pdf_url_uses_the_footer_legal_privacy_option_when_set(): void
+    {
+        \Brain\Monkey\Functions\when('get_option')->justReturn('https://chcapital.mx/custom-aviso.pdf');
+
+        $block = new LegalDocument();
+        $data  = $this->callMethod($block, 'getData', false);
+
+        $this->assertSame('https://chcapital.mx/custom-aviso.pdf', $data['pdf_url']);
     }
 }

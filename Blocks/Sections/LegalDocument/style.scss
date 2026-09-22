@@ -7,6 +7,12 @@
  */
 
 .legal-document {
+    &__download {
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--color-gray-200, #e5e7eb);
+    }
+
     &__content {
         h2 {
             color: var(--color-primary, #004a98);

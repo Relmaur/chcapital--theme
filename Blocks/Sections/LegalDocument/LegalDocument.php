@@ -6,6 +6,7 @@ namespace TAW\Blocks\Sections\LegalDocument;
 
 use TAW\Core\Block\MetaBlock;
 use TAW\Core\Metabox\Metabox;
+use TAW\Core\OptionsPage\OptionsPage;
 
 class LegalDocument extends MetaBlock
 {
@@ -34,6 +35,10 @@ class LegalDocument extends MetaBlock
     {
         return [
             'content' => $this->getMeta($postId, 'legal_document_content') ?: self::defaultContent(),
+            // Same source as the footer's "Aviso de Privacidad" link and the
+            // ContactForm tooltip's linked document — one URL, set once in
+            // Theme Settings → Footer (inc/options.php: footer_legal_privacy).
+            'pdf_url' => OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapital.mx/wp-content/uploads/2026/09/CH-CAPITAL-Aviso-de-Privacidad-SEPT-2026.pdf',
         ];
     }
 
