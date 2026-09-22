@@ -103,10 +103,13 @@ class ContactForm extends MetaBlock
                         'required'         => true,
                         'required_message' => __('Debes aceptar el Aviso de Privacidad para continuar.', 'taw-theme'),
                         'width'            => '100',
-                        'help'             => __(
+                        // Sourced from OptionsPage (Theme Settings → Footer) so managers
+                        // can edit the tooltip copy without touching code; the __() call
+                        // is only the fallback used before that option is ever saved.
+                        'help'             => OptionsPage::get('contact_form_privacy_tooltip', default: __(
                             "Chumacero Capital, S.A.P.I. de C.V., SOFOM, E.N.R. (\"CH CAPITAL\"), con domicilio en Risco 209, colonia Jardines del Pedregal, Alcaldía Álvaro Obregón, C.P. 01900, Ciudad de México, es responsable del tratamiento de sus datos personales.\n\nLos datos que proporcione serán utilizados para identificarle, atender y dar seguimiento a su solicitud, contactarle, evaluar y, en su caso, formalizar y administrar los productos o servicios que solicite, cumplir obligaciones legales y regulatorias, y proteger los derechos e intereses de CH CAPITAL y de las partes relacionadas con la operación. Cuando el formulario recabe datos financieros o patrimoniales, éstos serán tratados conforme al régimen de consentimiento aplicable.\n\nDe manera adicional y sólo cuando usted lo autorice, podremos utilizar sus datos de contacto para enviarle información comercial, contenidos, invitaciones a webinars o eventos y novedades de CH CAPITAL. Negarse a esta finalidad no afecta la atención de su solicitud.\n\nPuede limitar el uso o divulgación de sus datos escribiendo a datospersonales@chcapital.mx. Consulte el Aviso de Privacidad Integral en el enlace junto a este formulario.",
                             'taw-theme'
-                        ),
+                        )),
                         'help_modal'       => true,
                     ],
                     [

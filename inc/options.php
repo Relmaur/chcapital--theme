@@ -120,6 +120,18 @@ new OptionsPage([
             ],
         ],
         [
+            'id' => 'contact_form_privacy_tooltip',
+            'label' => __('Contact Form — Privacy Consent Tooltip', 'taw-theme'),
+            'type' => 'textarea',
+            'rows' => 12,
+            'width' => '100',
+            'description' => __('Shown in the info popup next to the privacy consent checkbox on the Contact form. Plain text only — blank lines become paragraph breaks.', 'taw-theme'),
+            'default' => __(
+                "Chumacero Capital, S.A.P.I. de C.V., SOFOM, E.N.R. (\"CH CAPITAL\"), con domicilio en Risco 209, colonia Jardines del Pedregal, Alcaldía Álvaro Obregón, C.P. 01900, Ciudad de México, es responsable del tratamiento de sus datos personales.\n\nLos datos que proporcione serán utilizados para identificarle, atender y dar seguimiento a su solicitud, contactarle, evaluar y, en su caso, formalizar y administrar los productos o servicios que solicite, cumplir obligaciones legales y regulatorias, y proteger los derechos e intereses de CH CAPITAL y de las partes relacionadas con la operación. Cuando el formulario recabe datos financieros o patrimoniales, éstos serán tratados conforme al régimen de consentimiento aplicable.\n\nDe manera adicional y sólo cuando usted lo autorice, podremos utilizar sus datos de contacto para enviarle información comercial, contenidos, invitaciones a webinars o eventos y novedades de CH CAPITAL. Negarse a esta finalidad no afecta la atención de su solicitud.\n\nPuede limitar el uso o divulgación de sus datos escribiendo a datospersonales@chcapital.mx. Consulte el Aviso de Privacidad Integral en el enlace junto a este formulario.",
+                'taw-theme'
+            ),
+        ],
+        [
             'id' => 'css_studio_enabled',
             'label' => __('Enable CSS Studio', 'taw-theme'),
             'type' => 'checkbox'
@@ -134,7 +146,7 @@ new OptionsPage([
         [
             'id' => 'footer',
             'label' => __('Footer', 'taw-theme'),
-            'fields' => ['footer_text', 'footer_legal_une', 'footer_legal_privacy', 'privacy_notice']
+            'fields' => ['footer_text', 'footer_legal_une', 'footer_legal_privacy', 'privacy_notice', 'contact_form_privacy_tooltip']
         ],
         [
             'id' => 'social',
