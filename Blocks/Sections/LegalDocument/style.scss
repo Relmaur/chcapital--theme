@@ -1,0 +1,39 @@
+/**
+ * LegalDocument Block Styles
+ *
+ * Builds on the shared `.entry-content` typography (resources/scss/app.scss)
+ * with brand-colored headings/links so a long legal document still reads as
+ * part of the site, not a plain unstyled text dump.
+ */
+
+.legal-document {
+    &__content {
+        h2 {
+            color: var(--color-primary, #004a98);
+            margin-top: 3rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--color-gray-200, #e5e7eb);
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        h3 {
+            color: var(--color-secondary, #003d7d);
+            margin-top: 2rem;
+        }
+
+        a {
+            color: var(--color-primary, #004a98);
+
+            &:hover {
+                color: var(--color-secondary, #003d7d);
+            }
+        }
+
+        li {
+            margin-top: 0.5rem;
+        }
+    }
+}
