@@ -21,6 +21,13 @@ class LegalDocument extends MetaBlock
             'screens' => ['page-aviso-de-privacidad.php'],
             'fields'  => [
                 [
+                    'id'          => 'legal_document_pdf_url',
+                    'label'       => __('Downloadable PDF URL', 'taw-theme'),
+                    'type'        => 'url',
+                    'width'       => '100',
+                    'description' => __('Powers the "Descargar PDF" button above the document body. Leave blank to fall back to Theme Settings → Footer → Aviso de Privacidad Link.', 'taw-theme'),
+                ],
+                [
                     'id'          => 'legal_document_content',
                     'label'       => __('Document Body', 'taw-theme'),
                     'type'        => 'wysiwyg',
@@ -35,10 +42,14 @@ class LegalDocument extends MetaBlock
     {
         return [
             'content' => $this->getMeta($postId, 'legal_document_content') ?: self::defaultContent(),
-            // Same source as the footer's "Aviso de Privacidad" link and the
-            // ContactForm tooltip's linked document — one URL, set once in
-            // Theme Settings → Footer (inc/options.php: footer_legal_privacy).
-            'pdf_url' => OptionsPage::get('footer_legal_privacy_url') ?: 'https://chcapital.mx/wp-content/uploads/2026/09/CH-CAPITAL-Aviso-de-Privacidad-SEPT-2026.pdf',
+            // Metabox field takes priority; falls back to the same URL the
+            // footer's "Aviso de Privacidad" link and the ContactForm
+            // tooltip use — Theme Settings → Footer (inc/options.php:
+            // footer_legal_privacy) — so the button works before anyone
+            // fills the metabox in.
+            'pdf_url' => $this->getMeta($postId, 'legal_document_pdf_url')
+                ?: OptionsPage::get('footer_legal_privacy_url')
+                ?: 'https://chcapital.mx/wp-content/uploads/2026/09/CH-CAPITAL-Aviso-de-Privacidad-SEPT-2026.pdf',
         ];
     }
 
