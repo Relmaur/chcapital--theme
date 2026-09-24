@@ -42,7 +42,7 @@ class ContactForm extends MetaBlock
                         'subject'  => __('Hemos recibido tu mensaje — CH Capital', 'taw-theme'),
                         'template' => 'form-thankyou',
                     ],
-                ],
+                ], 
                 'messages' => [
                     'success'          => __('¡Gracias! Nos pondremos en contacto contigo pronto.', 'taw-theme'),
                     'turnstile_failed' => __('No pudimos verificar que eres humano. Por favor, inténtalo de nuevo.', 'taw-theme'),
@@ -75,7 +75,6 @@ class ContactForm extends MetaBlock
                         'width'    => '100',
                         'options'  => [
                             __('Fideicomiso', 'taw-theme')       => __('Fideicomiso', 'taw-theme'),
-                            __('Escrow', 'taw-theme')             => __('Escrow', 'taw-theme'),
                             __('Crédito PYME', 'taw-theme')       => __('Crédito PYME', 'taw-theme'),
                             __('Crédito de Nómina', 'taw-theme')  => __('Crédito de Nómina', 'taw-theme'),
                             $otraInformacionLabel                 => $otraInformacionLabel,
