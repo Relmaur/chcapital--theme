@@ -1528,21 +1528,20 @@
         },
         {
             "name": "taw/core",
-            "version": "v1.39.3",
+            "version": "v1.59.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Relmaur/taw-core.git",
-                "reference": "d91673553139922a7b09de78d2a31f862f343470"
+                "reference": "46e71f5b8f008e1665ef7bdb9c7be440b96cd127"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Relmaur/taw-core/zipball/d91673553139922a7b09de78d2a31f862f343470",
-                "reference": "d91673553139922a7b09de78d2a31f862f343470",
+                "url": "https://api.github.com/repos/Relmaur/taw-core/zipball/46e71f5b8f008e1665ef7bdb9c7be440b96cd127",
+                "reference": "46e71f5b8f008e1665ef7bdb9c7be440b96cd127",
                 "shasum": ""
             },
             "require": {
                 "enshrined/svg-sanitize": "^0.22.0",
-                "ext-pdo_sqlite": "*",
                 "php": ">=8.2",
                 "symfony/console": "^7.4",
                 "symfony/process": "^7.4"
@@ -1556,7 +1555,8 @@
                 "szepeviktor/phpstan-wordpress": "^2.0"
             },
             "suggest": {
-                "emailit/emailit-php": "Required for EmailConfig::useEmailit() — route all wp_mail() through the Emailit REST API"
+                "emailit/emailit-php": "Required for EmailConfig::useEmailit() — route all wp_mail() through the Emailit REST API",
+                "ext-pdo_sqlite": "Required for the SQLite-backed features only (RAG knowledge bases, the Bible/Catechism SQLite readers, corpus:export). Everything else — including the whole data layer — works without it; the corpus readers fall back to MySQL (ADR-0002)."
             },
             "type": "library",
             "autoload": {
@@ -1579,6 +1579,18 @@
                 ],
                 "test": [
                     "phpunit"
+                ],
+                "i18n:pot": [
+                    "php tools/i18n.php pot"
+                ],
+                "i18n:po": [
+                    "php tools/i18n.php po"
+                ],
+                "i18n:compile": [
+                    "php tools/i18n.php compile"
+                ],
+                "i18n:check": [
+                    "php tools/i18n.php check"
                 ]
             },
             "license": [
@@ -1590,12 +1602,12 @@
                     "email": "marck94zac1@gmail.com"
                 }
             ],
-            "description": "TAW Theme Framework — block system, metabox engine, Vite asset pipeline for WordPress",
+            "description": "TAW — data layer framework for WordPress (fields, options, REST-exposed meta, content interchange), plus an optional classic-theme toolkit (block system, Vite asset pipeline)",
             "support": {
-                "source": "https://github.com/Relmaur/taw-core/tree/v1.39.3",
+                "source": "https://github.com/Relmaur/taw-core/tree/v1.59.1",
                 "issues": "https://github.com/Relmaur/taw-core/issues"
             },
-            "time": "2026-09-17T19:46:21+00:00"
+            "time": "2026-09-25T22:24:42+00:00"
         }
     ],
     "packages-dev": [
