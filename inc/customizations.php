@@ -44,6 +44,21 @@ function taw_theme_the_date_es(): void
 }
 
 /**
+ * Spanish placeholder for TAW form <select> fields.
+ *
+ * Form::renderField() hardcodes "Select an option…" in the 'taw-core'
+ * textdomain (the field's 'placeholder' key is ignored for selects), and
+ * with the site locale on en_US — see taw_theme_the_date_es() above — no
+ * translation ever applies. Front end only, so wp-admin selects stay English.
+ */
+add_filter('gettext_taw-core', static function (string $translation, string $text): string {
+    if ($text === 'Select an option…' && !is_admin()) {
+        return __('Selecciona una opción…', 'taw-theme');
+    }
+    return $translation;
+}, 10, 2);
+
+/**
  * Route all wp_mail() through Emailit for deliverability (SPF/DKIM/DMARC
  * on chcapital.mx, configured in the Emailit dashboard — not here). A
  * true no-op unless EMAILIT_API_KEY is defined in wp-config.php, so this

@@ -365,6 +365,13 @@ html {
     letter-spacing: 0;
 }
 
+// The required "*" is a <span> too, so the rule above would bump it to
+// 0.875rem inside a 0.8125rem label — enough to make required labels ~3px
+// taller than optional ones and knock side-by-side inputs out of line.
+[data-taw-form] .taw-form-field label .taw-required {
+    font-size: inherit;
+}
+
 // ── Base input/textarea/select ────────────────────────────────────────────────
 [data-taw-form] input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="hidden"]),
 [data-taw-form] textarea,
