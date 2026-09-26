@@ -43,9 +43,9 @@ class ContactCta extends MetaBlock
                 'fields' => [
                     ['id' => 'name',    'label' => __('Nombre', 'taw-theme'),             'type' => 'text',     'required' => true, 'width' => 50],
                     ['id' => 'phone',   'label' => __('Teléfono', 'taw-theme'),           'type' => 'tel',      'required' => true, 'width' => 50],
-                    ['id' => 'email',   'label' => __('Correo electrónico', 'taw-theme'), 'type' => 'email',    'required' => true, 'width'],
-                    ['id' => 'company', 'label' => __('Empresa', 'taw-theme'),            'type' => 'text',     'required' => false, 'width'],
-                    ['id' => 'message', 'label' => __('Mensaje', 'taw-theme'),            'type' => 'textarea', 'required' => false, 'width'],
+                    ['id' => 'email',   'label' => __('Correo electrónico', 'taw-theme'), 'type' => 'email',    'required' => true],
+                    ['id' => 'company', 'label' => __('Empresa', 'taw-theme'),            'type' => 'text',     'required' => false],
+                    ['id' => 'message', 'label' => __('Mensaje', 'taw-theme'),            'type' => 'textarea', 'required' => false],
                 ],
             ]);
         });
