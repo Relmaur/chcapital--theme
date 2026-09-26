@@ -152,7 +152,13 @@ class OurTeam extends MetaBlock
         ];
 
         $members = Metabox::get_repeater($postId, 'team_members');
-        $featured_raw = $this->getMeta($postId, 'featured_member');
+        // Group sub-fields are stored as `_taw_featured_member_{sub}`, not in
+        // a single `_taw_featured_member` key.
+        $featured_raw = [];
+        foreach (['featured_image', 'featured_name', 'featured_position', 'featured_bio', 'featured_linkedin'] as $sub) {
+            $featured_raw[$sub] = $this->getMeta($postId, 'featured_member_' . $sub) ?: '';
+        }
+        $featured_raw['featured_image'] = (int) $featured_raw['featured_image'];
 
         $default_featured = [
             'featured_image'    => 5510,
@@ -162,7 +168,7 @@ class OurTeam extends MetaBlock
             'featured_linkedin' => '',
         ];
 
-        $featured = (!empty($featured_raw) && is_array($featured_raw)) ? $featured_raw : $default_featured;
+        $featured = array_filter($featured_raw) ? $featured_raw : $default_featured;
 
         return [
             'heading'    => $this->getMeta($postId, 'team_heading') ?: __('Nuestro Equipo', 'taw-theme'),
