@@ -33,16 +33,39 @@
 			var images = attributes.images || [];
 			var blockProps = useBlockProps({ className: 'chcapital-image-carousel-editor' });
 
+			var dragState = element.useState(null);
+			var dragIndex = dragState[0];
+			var setDragIndex = dragState[1];
+			var overState = element.useState(null);
+			var overIndex = overState[0];
+			var setOverIndex = overState[1];
+
+			// The media modal opens in gallery mode pre-loaded with the current
+			// images, so `media` is the complete list in the order (and with the
+			// removals) the editor chose there — take it as-is rather than only
+			// appending new ids, or any reordering done in the modal is lost.
 			function onSelectImages(media) {
-				var newImages = media.map(toImageAttribute);
-				var existingIds = images.map(function (image) {
-					return image.id;
-				});
-				var appended = newImages.filter(function (image) {
-					return existingIds.indexOf(image.id) === -1;
+				var seen = {};
+				var next = media.map(toImageAttribute).filter(function (image) {
+					if (seen[image.id]) {
+						return false;
+					}
+					seen[image.id] = true;
+					return true;
 				});
 
-				setAttributes({ images: images.concat(appended) });
+				setAttributes({ images: next });
+			}
+
+			function reorderImage(from, to) {
+				if (from === null || to === null || from === to) {
+					return;
+				}
+
+				var next = images.slice();
+				var moved = next.splice(from, 1)[0];
+				next.splice(to, 0, moved);
+				setAttributes({ images: next });
 			}
 
 			function removeImage(index) {
@@ -139,10 +162,56 @@
 			}
 
 			var thumbnails = images.map(function (image, index) {
+				var className = 'chcapital-image-carousel-editor__item';
+				if (dragIndex === index) {
+					className += ' is-dragging';
+				}
+				if (overIndex === index && dragIndex !== null && dragIndex !== index) {
+					className += ' is-drop-target';
+				}
+
+				// Native HTML5 drag-and-drop reordering. stopPropagation keeps
+				// the block editor's own block-dragging from reacting to it.
 				return el(
 					'div',
-					{ className: 'chcapital-image-carousel-editor__item', key: image.id + '-' + index },
-					el('img', { src: image.url, alt: image.alt }),
+					{
+						className: className,
+						key: image.id + '-' + index,
+						draggable: true,
+						title: __('Drag to reorder', 'taw-theme'),
+						onDragStart: function (event) {
+							event.stopPropagation();
+							event.dataTransfer.effectAllowed = 'move';
+							event.dataTransfer.setData('text/plain', String(index));
+							setDragIndex(index);
+						},
+						onDragOver: function (event) {
+							if (dragIndex === null) {
+								return;
+							}
+							event.preventDefault();
+							event.stopPropagation();
+							event.dataTransfer.dropEffect = 'move';
+							if (overIndex !== index) {
+								setOverIndex(index);
+							}
+						},
+						onDrop: function (event) {
+							if (dragIndex === null) {
+								return;
+							}
+							event.preventDefault();
+							event.stopPropagation();
+							reorderImage(dragIndex, index);
+							setDragIndex(null);
+							setOverIndex(null);
+						},
+						onDragEnd: function () {
+							setDragIndex(null);
+							setOverIndex(null);
+						},
+					},
+					el('img', { src: image.url, alt: image.alt, draggable: false }),
 					el(
 						'div',
 						{ className: 'chcapital-image-carousel-editor__item-controls' },
@@ -184,6 +253,11 @@
 				el(
 					'div',
 					blockProps,
+					el(
+						'p',
+						{ className: 'chcapital-image-carousel-editor__hint' },
+						__('Drag thumbnails (or use the arrows) to change the order.', 'taw-theme')
+					),
 					el('div', { className: 'chcapital-image-carousel-editor__grid' }, thumbnails),
 					pickerButton
 				)
